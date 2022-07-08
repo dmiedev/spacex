@@ -6,7 +6,8 @@ part 'page.g.dart';
 
 /// A page that contains documents of the type [T].
 ///
-/// Currently supports JSON conversion only for documents of the [Launch] type.
+/// Currently supports JSON conversion only for documents of the [Launch]
+/// generic type.
 @JsonSerializable(fieldRename: FieldRename.none)
 class Page<T> extends Equatable {
   /// Creates a page that contains documents of type [T].
@@ -78,11 +79,17 @@ class Page<T> extends Equatable {
       ];
 
   /// Converts a given JSON [Map] into a [Page] instance.
+  ///
+  /// This currently only supports [Page] instances of the [Launch] generic
+  /// type.
   static Page<T> fromJson<T>(Map<String, dynamic> json) {
     return _$PageFromJson<T>(json);
   }
 
   /// Converts this [Page] instance into a JSON [Map].
+  ///
+  /// This currently only supports [Page] instances of the [Launch] generic
+  /// type.
   Map<String, dynamic> toJson() => _$PageToJson(this);
 
   @override
