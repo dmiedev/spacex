@@ -4,6 +4,8 @@ import 'package:json_annotation/json_annotation.dart';
 part 'rocket.g.dart';
 
 /// A SpaceX rocket.
+///
+/// This data model is not yet fully implemented.
 @JsonSerializable()
 class Rocket extends Equatable {
   /// Creates a model that contains data about a SpaceX rocket.
