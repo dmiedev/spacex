@@ -6,8 +6,8 @@ import 'package:json_annotation/json_annotation.dart';
 class LaunchLinks extends Equatable {
   /// Creates a collection of links related to a rocket launch.
   const LaunchLinks({
-    required this.patch,
-    required this.reddit,
+    this.patch = const PatchLinks(),
+    this.reddit = const RedditLaunchLinks(),
     required this.flickr,
     this.pressKit,
     this.webcast,

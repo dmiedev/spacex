@@ -11,17 +11,17 @@ class Launch extends Equatable {
     this.fairings,
     required this.links,
     this.staticFireDate,
-    required this.net,
+    this.net = false,
     this.window,
-    required this.rocket,
+    this.rocket,
     this.success,
     required this.failures,
     this.details,
-    required this.crew,
-    required this.ships,
-    required this.capsules,
-    required this.payloads,
-    required this.launchpad,
+    this.crew = const [],
+    this.ships = const [],
+    this.capsules = const [],
+    this.payloads = const [],
+    this.launchpad,
     required this.flightNumber,
     required this.name,
     required this.dateUtc,
@@ -29,8 +29,8 @@ class Launch extends Equatable {
     required this.datePrecision,
     required this.upcoming,
     required this.cores,
-    required this.autoUpdate,
-    required this.tbd,
+    this.autoUpdate = true,
+    this.tbd = false,
     this.launchLibraryId,
     required this.id,
   });
@@ -53,7 +53,7 @@ class Launch extends Equatable {
   final int? window;
 
   /// The ID of the rocket involved in this launch.
-  final String rocket;
+  final String? rocket;
 
   /// Whether this launch was successful.
   final bool? success;
@@ -78,7 +78,7 @@ class Launch extends Equatable {
   final List<String> payloads;
 
   /// The ID of the launchpad that this launch happens on.
-  final String launchpad;
+  final String? launchpad;
 
   /// The serial number of the launch.
   final int flightNumber;
@@ -173,7 +173,7 @@ class LaunchFairingsRecovery extends Equatable {
     this.reused,
     this.recoveryAttempt,
     this.recovered,
-    required this.ships,
+    this.ships = const [],
   });
 
   /// Whether these fairings were reused.
@@ -221,16 +221,16 @@ class LaunchFailure extends Equatable {
 class LaunchCrewMember extends Equatable {
   /// Creates a model of a crew member involved in a rocket launch.
   const LaunchCrewMember({
-    required this.id,
-    required this.role,
+    this.id,
+    this.role,
   });
 
   /// The ID of this crew member.
   @JsonKey(name: 'crew')
-  final String id;
+  final String? id;
 
   /// The role name of this crew member.
-  final String role;
+  final String? role;
 
   @override
   List<Object?> get props => [id, role];
