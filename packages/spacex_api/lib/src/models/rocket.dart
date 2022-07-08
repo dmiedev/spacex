@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 /// A SpaceX rocket.
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class Rocket extends Equatable {
   /// Creates a model that contains data about a SpaceX rocket.
   const Rocket({
@@ -97,7 +97,7 @@ class Rocket extends Equatable {
 }
 
 /// A certain length in meters and feet.
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class Length extends Equatable {
   /// Creates a model that represents a certain length in meters and feet.
   const Length({
@@ -119,7 +119,7 @@ class Length extends Equatable {
 }
 
 /// A certain mass in kilograms and pounds.
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class Mass extends Equatable {
   /// Creates a model that represents a certain mass in kilograms and pounds.
   const Mass({

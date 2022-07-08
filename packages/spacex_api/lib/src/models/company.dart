@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 /// The SpaceX company.
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class Company extends Equatable {
   /// Creates a model containing data about the SpaceX company.
   const Company({
@@ -97,7 +97,7 @@ class Company extends Equatable {
 }
 
 /// A location of an entity that belongs to the SpaceX company.
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class CompanyEntityLocation extends Equatable {
   /// Creates a model with location data of an entity that belongs to the SpaceX
   /// company.
@@ -124,7 +124,7 @@ class CompanyEntityLocation extends Equatable {
 }
 
 /// A collection of the SpaceX company's links.
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class CompanyLinks extends Equatable {
   /// Creates a collection of the SpaceX company's links.
   const CompanyLinks({

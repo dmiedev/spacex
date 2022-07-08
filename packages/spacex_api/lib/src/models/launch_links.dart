@@ -2,7 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 /// A collection of links related to a rocket launch.
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class LaunchLinks extends Equatable {
   /// Creates a collection of links related to a rocket launch.
   const LaunchLinks({
@@ -55,7 +55,7 @@ class LaunchLinks extends Equatable {
 }
 
 /// A collection of links to a launch patch.
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class PatchLinks extends Equatable {
   /// Creates a collection of links to a launch patch.
   const PatchLinks({
@@ -74,7 +74,7 @@ class PatchLinks extends Equatable {
 }
 
 /// A collection of links to Reddit threads devoted to a rocket launch.
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class RedditLaunchLinks extends Equatable {
   /// Creates a collection of links to Reddit threads devoted to a rocket
   /// launch.
@@ -102,7 +102,7 @@ class RedditLaunchLinks extends Equatable {
 }
 
 /// A collection of links to launch-related images on Flickr.
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class FlickrLaunchLinks extends Equatable {
   /// Creates a collection of links to launch-related images on Flickr.
   const FlickrLaunchLinks({
