@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:spacex_api/src/models/launch_links.dart';
 
+part 'launch.g.dart';
+
 /// A launch of a rocket at SpaceX.
 @JsonSerializable()
 class Launch extends Equatable {
@@ -142,6 +144,12 @@ class Launch extends Equatable {
         autoUpdate,
       ];
 
+  /// Converts a given JSON [Map] into a [Launch] instance.
+  static Launch fromJson(Map<String, dynamic> json) => _$LaunchFromJson(json);
+
+  /// Converts this [Launch] instance into a JSON [Map].
+  Map<String, dynamic> toJson() => _$LaunchToJson(this);
+
   @override
   String toString() => 'Launch($id, $name)';
 }
@@ -194,6 +202,14 @@ class LaunchFairingsRecovery extends Equatable {
   @override
   List<Object?> get props => [reused, recoveryAttempt, recovered, ships];
 
+  /// Converts a given JSON [Map] into a [LaunchFairingsRecovery] instance.
+  static LaunchFairingsRecovery fromJson(Map<String, dynamic> json) {
+    return _$LaunchFairingsRecoveryFromJson(json);
+  }
+
+  /// Converts this [LaunchFairingsRecovery] instance into a JSON [Map].
+  Map<String, dynamic> toJson() => _$LaunchFairingsRecoveryToJson(this);
+
   @override
   String toString() => 'LaunchFairingsRecovery($recoveryAttempt, $recovered)';
 }
@@ -221,6 +237,14 @@ class LaunchFailure extends Equatable {
   @override
   List<Object?> get props => [time, altitude, reason];
 
+  /// Converts a given JSON [Map] into a [LaunchFailure] instance.
+  static LaunchFailure fromJson(Map<String, dynamic> json) {
+    return _$LaunchFailureFromJson(json);
+  }
+
+  /// Converts this [LaunchFailure] instance into a JSON [Map].
+  Map<String, dynamic> toJson() => _$LaunchFailureToJson(this);
+
   @override
   String toString() => 'LaunchFailure($time, $altitude, $reason)';
 }
@@ -243,6 +267,14 @@ class LaunchCrewMember extends Equatable {
 
   @override
   List<Object?> get props => [id, role];
+
+  /// Converts a given JSON [Map] into a [LaunchCrewMember] instance.
+  static LaunchCrewMember fromJson(Map<String, dynamic> json) {
+    return _$LaunchCrewMemberFromJson(json);
+  }
+
+  /// Converts this [LaunchCrewMember] instance into a JSON [Map].
+  Map<String, dynamic> toJson() => _$LaunchCrewMemberToJson(this);
 
   @override
   String toString() => 'LaunchCrewMember($id, $role)';
@@ -305,6 +337,14 @@ class LaunchCore extends Equatable {
         landingType,
         landpad,
       ];
+
+  /// Converts a given JSON [Map] into a [LaunchCore] instance.
+  static LaunchCore fromJson(Map<String, dynamic> json) {
+    return _$LaunchCoreFromJson(json);
+  }
+
+  /// Converts this [LaunchCore] instance into a JSON [Map].
+  Map<String, dynamic> toJson() => _$LaunchCoreToJson(this);
 
   @override
   String toString() => 'LaunchCore($id, $landingType)';

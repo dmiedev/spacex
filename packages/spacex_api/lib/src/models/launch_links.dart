@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+part 'launch_links.g.dart';
+
 /// A collection of links related to a rocket launch.
 @JsonSerializable()
 class LaunchLinks extends Equatable {
@@ -52,6 +54,14 @@ class LaunchLinks extends Equatable {
         article,
         wikipedia,
       ];
+
+  /// Converts a given JSON [Map] into a [LaunchLinks] instance.
+  static LaunchLinks fromJson(Map<String, dynamic> json) {
+    return _$LaunchLinksFromJson(json);
+  }
+
+  /// Converts this [LaunchLinks] instance into a JSON [Map].
+  Map<String, dynamic> toJson() => _$LaunchLinksToJson(this);
 }
 
 /// A collection of links to a launch patch.
@@ -71,6 +81,14 @@ class PatchLinks extends Equatable {
 
   @override
   List<Object?> get props => [small, large];
+
+  /// Converts a given JSON [Map] into a [PatchLinks] instance.
+  static PatchLinks fromJson(Map<String, dynamic> json) {
+    return _$PatchLinksFromJson(json);
+  }
+
+  /// Converts this [PatchLinks] instance into a JSON [Map].
+  Map<String, dynamic> toJson() => _$PatchLinksToJson(this);
 }
 
 /// A collection of links to Reddit threads devoted to a rocket launch.
@@ -99,6 +117,14 @@ class RedditLaunchLinks extends Equatable {
 
   @override
   List<Object?> get props => [campaign, launch, media, recovery];
+
+  /// Converts a given JSON [Map] into a [RedditLaunchLinks] instance.
+  static RedditLaunchLinks fromJson(Map<String, dynamic> json) {
+    return _$RedditLaunchLinksFromJson(json);
+  }
+
+  /// Converts this [RedditLaunchLinks] instance into a JSON [Map].
+  Map<String, dynamic> toJson() => _$RedditLaunchLinksToJson(this);
 }
 
 /// A collection of links to launch-related images on Flickr.
@@ -118,4 +144,12 @@ class FlickrLaunchLinks extends Equatable {
 
   @override
   List<Object?> get props => [small, original];
+
+  /// Converts a given JSON [Map] into a [FlickrLaunchLinks] instance.
+  static FlickrLaunchLinks fromJson(Map<String, dynamic> json) {
+    return _$FlickrLaunchLinksFromJson(json);
+  }
+
+  /// Converts this [FlickrLaunchLinks] instance into a JSON [Map].
+  Map<String, dynamic> toJson() => _$FlickrLaunchLinksToJson(this);
 }

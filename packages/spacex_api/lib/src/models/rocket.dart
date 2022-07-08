@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+part 'rocket.g.dart';
+
 /// A SpaceX rocket.
 @JsonSerializable()
 class Rocket extends Equatable {
@@ -92,6 +94,12 @@ class Rocket extends Equatable {
         description,
       ];
 
+  /// Converts a given JSON [Map] into a [Rocket] instance.
+  static Rocket fromJson(Map<String, dynamic> json) => _$RocketFromJson(json);
+
+  /// Converts this [Rocket] instance into a JSON [Map].
+  Map<String, dynamic> toJson() => _$RocketToJson(this);
+
   @override
   String toString() => 'Rocket($id, $name)';
 }
@@ -114,6 +122,12 @@ class Length extends Equatable {
   @override
   List<Object?> get props => [meters, feet];
 
+  /// Converts a given JSON [Map] into a [Length] instance.
+  static Length fromJson(Map<String, dynamic> json) => _$LengthFromJson(json);
+
+  /// Converts this [Length] instance into a JSON [Map].
+  Map<String, dynamic> toJson() => _$LengthToJson(this);
+
   @override
   String toString() => 'Length($meters m, $feet ft)';
 }
@@ -135,6 +149,12 @@ class Mass extends Equatable {
 
   @override
   List<Object?> get props => [kg, lb];
+
+  /// Converts a given JSON [Map] into a [Mass] instance.
+  static Mass fromJson(Map<String, dynamic> json) => _$MassFromJson(json);
+
+  /// Converts this [Mass] instance into a JSON [Map].
+  Map<String, dynamic> toJson() => _$MassToJson(this);
 
   @override
   String toString() => 'Mass($kg kg, $lb lb)';

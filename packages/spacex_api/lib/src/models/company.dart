@@ -1,6 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 
+part 'company.g.dart';
+
 /// The SpaceX company.
 @JsonSerializable()
 class Company extends Equatable {
@@ -92,6 +94,12 @@ class Company extends Equatable {
         summary,
       ];
 
+  /// Converts a given JSON [Map] into a [Company] instance.
+  static Company fromJson(Map<String, dynamic> json) => _$CompanyFromJson(json);
+
+  /// Converts this [Company] instance into a JSON [Map].
+  Map<String, dynamic> toJson() => _$CompanyToJson(this);
+
   @override
   String toString() => 'Company($id, $name)';
 }
@@ -118,6 +126,14 @@ class CompanyEntityLocation extends Equatable {
 
   @override
   List<Object?> get props => [address, city, state];
+
+  /// Converts a given JSON [Map] into a [CompanyEntityLocation] instance.
+  static CompanyEntityLocation fromJson(Map<String, dynamic> json) {
+    return _$CompanyEntityLocationFromJson(json);
+  }
+
+  /// Converts this [CompanyEntityLocation] instance into a JSON [Map].
+  Map<String, dynamic> toJson() => _$CompanyEntityLocationToJson(this);
 
   @override
   String toString() => 'CompanyEntityLocation($address, $city, $state)';
@@ -148,4 +164,12 @@ class CompanyLinks extends Equatable {
 
   @override
   List<Object?> get props => [website, flickr, twitter, elonTwitter];
+
+  /// Converts a given JSON [Map] into a [CompanyLinks] instance.
+  static CompanyLinks fromJson(Map<String, dynamic> json) {
+    return _$CompanyLinksFromJson(json);
+  }
+
+  /// Converts this [CompanyLinks] instance into a JSON [Map].
+  Map<String, dynamic> toJson() => _$CompanyLinksToJson(this);
 }
