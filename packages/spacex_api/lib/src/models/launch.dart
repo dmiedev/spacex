@@ -141,6 +141,9 @@ class Launch extends Equatable {
         links,
         autoUpdate,
       ];
+
+  @override
+  String toString() => 'Launch($id, $name)';
 }
 
 /// The precision of a [DateTime] object.
@@ -190,6 +193,9 @@ class LaunchFairingsRecovery extends Equatable {
 
   @override
   List<Object?> get props => [reused, recoveryAttempt, recovered, ships];
+
+  @override
+  String toString() => 'LaunchFairingsRecovery($recoveryAttempt, $recovered)';
 }
 
 /// A failure that occurred during a launch of a rocket.
@@ -214,6 +220,9 @@ class LaunchFailure extends Equatable {
 
   @override
   List<Object?> get props => [time, altitude, reason];
+
+  @override
+  String toString() => 'LaunchFailure($time, $altitude, $reason)';
 }
 
 /// A crew member involved in a rocket launch.
@@ -234,6 +243,9 @@ class LaunchCrewMember extends Equatable {
 
   @override
   List<Object?> get props => [id, role];
+
+  @override
+  String toString() => 'LaunchCrewMember($id, $role)';
 }
 
 /// A core that is being used in a rocket launch.
@@ -293,4 +305,7 @@ class LaunchCore extends Equatable {
         landingType,
         landpad,
       ];
+
+  @override
+  String toString() => 'LaunchCore($id, $landingType)';
 }

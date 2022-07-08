@@ -91,6 +91,9 @@ class Company extends Equatable {
         links,
         summary,
       ];
+
+  @override
+  String toString() => 'Company($id, $name)';
 }
 
 /// A location of an entity that belongs to the SpaceX company.
@@ -115,6 +118,9 @@ class CompanyEntityLocation extends Equatable {
 
   @override
   List<Object?> get props => [address, city, state];
+
+  @override
+  String toString() => 'CompanyEntityLocation($address, $city, $state)';
 }
 
 /// A collection of the SpaceX company's links.
