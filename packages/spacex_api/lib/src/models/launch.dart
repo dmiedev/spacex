@@ -8,42 +8,60 @@ class Launch extends Equatable {
   /// Creates a model containing information about a launch of a rocket at
   /// SpaceX.
   const Launch({
-    this.fairings,
-    required this.links,
-    this.staticFireDate,
-    this.net = false,
-    this.window,
-    this.rocket,
-    this.success,
-    required this.failures,
-    this.details,
-    this.crew = const [],
-    this.ships = const [],
-    this.capsules = const [],
-    this.payloads = const [],
-    this.launchpad,
+    required this.id,
+    this.launchLibraryId,
     required this.flightNumber,
     required this.name,
     required this.dateUtc,
     required this.dateLocal,
     required this.datePrecision,
-    required this.upcoming,
-    required this.cores,
-    this.autoUpdate = true,
+    this.staticFireDate,
     this.tbd = false,
-    this.launchLibraryId,
-    required this.id,
+    this.net = false,
+    this.window,
+    this.rocket,
+    this.success,
+    this.failures = const [],
+    required this.upcoming,
+    this.details,
+    this.fairings,
+    this.crew = const [],
+    this.ships = const [],
+    this.capsules = const [],
+    this.payloads = const [],
+    this.launchpad,
+    this.cores = const [],
+    required this.links,
+    this.autoUpdate = true,
   });
 
-  /// Data on the recovery of fairings used on the rocket during this launch.
-  final LaunchFairingsRecovery? fairings;
+  /// The ID of this launch.
+  final String id;
 
-  /// A collection of links to various content.
-  final LaunchLinks links;
+  /// The ID of this launch in the launch library.
+  final String? launchLibraryId;
+
+  /// The serial number of the launch.
+  final int flightNumber;
+
+  /// The name of this launch.
+  final String name;
+
+  /// The UTC date and time of this launch.
+  final DateTime dateUtc;
+
+  /// The local date and time of this launch.
+  final DateTime dateLocal;
+
+  /// The precision of the date of this launch.
+  final DateTimePrecision datePrecision;
 
   /// The date of a static fire test.
   @JsonKey(name: 'static_fire_date_utc')
   final DateTime? staticFireDate;
+
+  /// Whether the date of this launch is yet to be determined.
+  final bool tbd;
 
   /// Whether the date of this launch should be interpreted as "Not earlier
   /// than".
@@ -61,8 +79,14 @@ class Launch extends Equatable {
   /// A list of failures that occurred during this launch.
   final List<LaunchFailure> failures;
 
+  /// Whether this launch is upcoming.
+  final bool upcoming;
+
   /// Detailed information about this launch.
   final String? details;
+
+  /// Data on the recovery of fairings used on the rocket during this launch.
+  final LaunchFairingsRecovery? fairings;
 
   /// The crew that participates in this launch.
   final List<LaunchCrewMember> crew;
@@ -80,76 +104,52 @@ class Launch extends Equatable {
   /// The ID of the launchpad that this launch happens on.
   final String? launchpad;
 
-  /// The serial number of the launch.
-  final int flightNumber;
-
-  /// The name of this launch.
-  final String name;
-
-  /// The UTC date and time of this launch.
-  final DateTime dateUtc;
-
-  /// The local date and time of this launch.
-  final DateTime dateLocal;
-
-  /// The precision of the date of this launch.
-  final DateTimePrecision datePrecision;
-
-  /// Whether this launch is upcoming.
-  final bool upcoming;
-
   /// A list of cores used for the rocket of this launch.
   final List<LaunchCore> cores;
+
+  /// A collection of links to various content.
+  final LaunchLinks links;
 
   /// Whether this launch provides automatic updates on its course.
   final bool autoUpdate;
 
-  /// Whether the date of this launch is yet to be determined.
-  final bool tbd;
-
-  /// The ID of this launch in the launch library.
-  final String? launchLibraryId;
-
-  /// The ID of this launch.
-  final String id;
-
   @override
   List<Object?> get props => [
-        fairings,
-        links,
-        staticFireDate,
-        net,
-        window,
-        rocket,
-        success,
-        failures,
-        details,
-        crew,
-        ships,
-        capsules,
-        payloads,
-        launchpad,
+        id,
+        launchLibraryId,
         flightNumber,
         name,
         dateUtc,
         dateLocal,
         datePrecision,
-        upcoming,
-        cores,
-        autoUpdate,
+        staticFireDate,
         tbd,
-        launchLibraryId,
-        id,
+        net,
+        window,
+        rocket,
+        success,
+        failures,
+        upcoming,
+        details,
+        fairings,
+        crew,
+        ships,
+        capsules,
+        payloads,
+        launchpad,
+        cores,
+        links,
+        autoUpdate,
       ];
 }
 
 /// The precision of a [DateTime] object.
 enum DateTimePrecision {
-  /// Quarter [DateTime] precision.
-  quarter,
-
   /// Half-year [DateTime] precision.
   half,
+
+  /// Quarter [DateTime] precision.
+  quarter,
 
   /// Year [DateTime] precision.
   year,
