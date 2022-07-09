@@ -6,7 +6,7 @@ part 'rocket.g.dart';
 /// A SpaceX rocket.
 ///
 /// This data model is not yet fully implemented.
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class Rocket extends Equatable {
   /// Creates a model that contains data about a SpaceX rocket.
   const Rocket({
@@ -107,7 +107,7 @@ class Rocket extends Equatable {
 }
 
 /// A certain length in meters and feet.
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class Length extends Equatable {
   /// Creates a model that represents a certain length in meters and feet.
   const Length({
@@ -135,7 +135,7 @@ class Length extends Equatable {
 }
 
 /// A certain mass in kilograms and pounds.
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class Mass extends Equatable {
   /// Creates a model that represents a certain mass in kilograms and pounds.
   const Mass({

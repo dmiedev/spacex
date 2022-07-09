@@ -5,7 +5,7 @@ import 'package:spacex_api/src/models/launch_links.dart';
 part 'launch.g.dart';
 
 /// A launch of a rocket at SpaceX.
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class Launch extends Equatable {
   /// Creates a model containing information about a launch of a rocket at
   /// SpaceX.
@@ -155,6 +155,7 @@ class Launch extends Equatable {
 }
 
 /// The precision of a [DateTime] object.
+@JsonEnum(fieldRename: FieldRename.snake)
 enum DateTimePrecision {
   /// Half-year [DateTime] precision.
   half,
@@ -176,7 +177,7 @@ enum DateTimePrecision {
 }
 
 /// Information on the recovery of fairings used on a rocket during its launch.
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class LaunchFairingsRecovery extends Equatable {
   /// Creates a model that contains data about the recovery of fairings used on
   /// a rocket during its launch.
@@ -215,7 +216,7 @@ class LaunchFairingsRecovery extends Equatable {
 }
 
 /// A failure that occurred during a launch of a rocket.
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class LaunchFailure extends Equatable {
   /// Creates a model that contains data about a failure that occurred during
   /// a launch of a rocket.
@@ -250,7 +251,7 @@ class LaunchFailure extends Equatable {
 }
 
 /// A crew member involved in a rocket launch.
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class LaunchCrewMember extends Equatable {
   /// Creates a model of a crew member involved in a rocket launch.
   const LaunchCrewMember({
@@ -281,7 +282,7 @@ class LaunchCrewMember extends Equatable {
 }
 
 /// A core that is being used in a rocket launch.
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class LaunchCore extends Equatable {
   /// Creates a model that holds data about a core used in a rocket launch.
   const LaunchCore({
