@@ -6,8 +6,8 @@ part 'page.g.dart';
 
 /// A page that contains documents of the type [T].
 ///
-/// Currently supports JSON conversion only for documents of the [Launch]
-/// generic type.
+/// Currently supports JSON conversion only for documents of [Launch] and
+/// [Rocket] generic types.
 @JsonSerializable(fieldRename: FieldRename.none)
 class Page<T> extends Equatable {
   /// Creates a page that contains documents of type [T].
@@ -80,16 +80,16 @@ class Page<T> extends Equatable {
 
   /// Converts a given JSON [Map] into a [Page] instance.
   ///
-  /// This currently only supports [Page] instances of the [Launch] generic
-  /// type.
+  /// This currently only supports [Page] instances of [Launch] and [Rocket]
+  /// generic types.
   static Page<T> fromJson<T>(Map<String, dynamic> json) {
     return _$PageFromJson<T>(json);
   }
 
   /// Converts this [Page] instance into a JSON [Map].
   ///
-  /// This currently only supports [Page] instances of the [Launch] generic
-  /// type.
+  /// This currently only supports [Page] instances of [Launch] and [Rocket]
+  /// generic types.
   Map<String, dynamic> toJson() => _$PageToJson(this);
 
   @override
@@ -104,6 +104,8 @@ class _PageDocsJsonConverter<T> implements JsonConverter<T, Object?> {
     if (json is Map<String, dynamic>) {
       if (json.containsKey('flightNumber')) {
         return Launch.fromJson(json) as T;
+      } else if (json.containsKey('successRatePct')) {
+        return Rocket.fromJson(json) as T;
       }
       throw UnsupportedError('Conversion of this type is not supported.');
     }
@@ -117,6 +119,8 @@ class _PageDocsJsonConverter<T> implements JsonConverter<T, Object?> {
   @override
   Object? toJson(T object) {
     if (object is Launch) {
+      return object.toJson();
+    } else if (object is Rocket) {
       return object.toJson();
     }
     throw UnsupportedError(
