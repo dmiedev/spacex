@@ -102,6 +102,12 @@ class Filter extends Equatable {
     required this.value,
   }) : operator = '$operator';
 
+  /// Creates an empty filter.
+  const Filter.empty()
+      : operator = null,
+        field = null,
+        value = const <String, dynamic>{};
+
   /// Matches values that are equal to a specified value.
   factory Filter.equal(String field, Object value) {
     return Filter._(FilterOperator.equal, field: field, value: value);
