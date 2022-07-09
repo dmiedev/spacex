@@ -11,8 +11,8 @@ TextFilterParameters _$TextFilterParametersFromJson(
     TextFilterParameters(
       search: json[r'$search'] as String,
       language: json[r'$language'] as String?,
-      caseSensitive: json[r'$caseSensitive'] as bool?,
-      diacriticSensitive: json[r'$diacriticSensitive'] as bool?,
+      caseSensitive: json[r'$caseSensitive'] as bool? ?? false,
+      diacriticSensitive: json[r'$diacriticSensitive'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$TextFilterParametersToJson(
@@ -28,7 +28,7 @@ Map<String, dynamic> _$TextFilterParametersToJson(
   }
 
   writeNotNull(r'$language', instance.language);
-  writeNotNull(r'$caseSensitive', instance.caseSensitive);
-  writeNotNull(r'$diacriticSensitive', instance.diacriticSensitive);
+  val[r'$caseSensitive'] = instance.caseSensitive;
+  val[r'$diacriticSensitive'] = instance.diacriticSensitive;
   return val;
 }
