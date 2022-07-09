@@ -5,7 +5,7 @@ import 'package:test/test.dart';
 void main() {
   group('SpacexApi', () {
     test('can be instantiated', () {
-      expect(SpacexApi(), isNotNull);
+      expect(SpacexApiClient(), isNotNull);
     });
   });
 }
