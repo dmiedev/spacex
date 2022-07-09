@@ -1,3 +1,5 @@
+// ignore_for_file: inference_failure_on_instance_creation
+
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:spacex_api/src/models/models.dart';
@@ -26,7 +28,7 @@ class Page<T> extends Equatable {
   });
 
   /// A list of documents on this page.
-  @_PageDocsJsonConverter<T>()
+  @_PageDocsJsonConverter()
   final List<T> docs;
 
   /// The amount of all documents.
