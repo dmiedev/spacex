@@ -40,8 +40,8 @@ Map<String, dynamic> _$CompanyToJson(Company instance) => <String, dynamic>{
       'coo': instance.coo,
       'cto_propulsion': instance.ctoPropulsion,
       'valuation': instance.valuation,
-      'headquarters': instance.headquarters,
-      'links': instance.links,
+      'headquarters': instance.headquarters.toJson(),
+      'links': instance.links.toJson(),
       'summary': instance.summary,
     };
 

@@ -24,9 +24,9 @@ LaunchLinks _$LaunchLinksFromJson(Map<String, dynamic> json) => LaunchLinks(
 
 Map<String, dynamic> _$LaunchLinksToJson(LaunchLinks instance) =>
     <String, dynamic>{
-      'patch': instance.patch,
-      'reddit': instance.reddit,
-      'flickr': instance.flickr,
+      'patch': instance.patch.toJson(),
+      'reddit': instance.reddit.toJson(),
+      'flickr': instance.flickr.toJson(),
       'presskit': instance.pressKit,
       'webcast': instance.webcast,
       'youtube_id': instance.youtubeId,
