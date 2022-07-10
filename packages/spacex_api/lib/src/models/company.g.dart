@@ -7,7 +7,7 @@ part of 'company.dart';
 // **************************************************************************
 
 Company _$CompanyFromJson(Map<String, dynamic> json) => Company(
-      id: json['id'] as int,
+      id: json['id'] as String,
       name: json['name'] as String,
       founder: json['founder'] as String,
       founded: json['founded'] as int,

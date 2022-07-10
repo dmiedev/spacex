@@ -27,7 +27,7 @@ class Company extends Equatable {
   });
 
   /// The ID of this company.
-  final int id;
+  final String id;
 
   /// The name of this company.
   final String name;
