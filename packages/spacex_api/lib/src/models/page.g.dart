@@ -8,7 +8,8 @@ part of 'page.dart';
 
 Page<T> _$PageFromJson<T>(Map<String, dynamic> json) => Page<T>(
       docs: (json['docs'] as List<dynamic>)
-          .map(_PageDocsJsonConverter<T>().fromJson)
+          .map((e) =>
+              _PageDocsJsonConverter<T>().fromJson(e as Map<String, dynamic>))
           .toList(),
       totalDocs: json['totalDocs'] as int,
       offset: json['offset'] as int,

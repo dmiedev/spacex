@@ -98,28 +98,22 @@ class Page<T> extends Equatable {
   String toString() => 'Page<${T.runtimeType}>(#$page, $limit documents)';
 }
 
-class _PageDocsJsonConverter<T> implements JsonConverter<T, Object?> {
+class _PageDocsJsonConverter<T>
+    implements JsonConverter<T, Map<String, dynamic>> {
   const _PageDocsJsonConverter();
 
   @override
-  T fromJson(Object? json) {
-    if (json is Map<String, dynamic>) {
-      if (json.containsKey('flightNumber')) {
-        return Launch.fromJson(json) as T;
-      } else if (json.containsKey('successRatePct')) {
-        return Rocket.fromJson(json) as T;
-      }
-      throw UnsupportedError('Conversion of this type is not supported.');
+  T fromJson(Map<String, dynamic> json) {
+    if (json.containsKey('flightNumber')) {
+      return Launch.fromJson(json) as T;
+    } else if (json.containsKey('successRatePct')) {
+      return Rocket.fromJson(json) as T;
     }
-    throw ArgumentError.value(
-      json,
-      'json',
-      'Cannot convert the provided data.',
-    );
+    throw UnsupportedError('Conversion of this type is not supported.');
   }
 
   @override
-  Object? toJson(T object) {
+  Map<String, dynamic> toJson(T object) {
     if (object is Launch) {
       return object.toJson();
     } else if (object is Rocket) {
