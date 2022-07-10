@@ -104,9 +104,9 @@ class _PageDocsJsonConverter<T>
 
   @override
   T fromJson(Map<String, dynamic> json) {
-    if (json.containsKey('flightNumber')) {
+    if (json.containsKey('flight_number')) {
       return Launch.fromJson(json) as T;
-    } else if (json.containsKey('successRatePct')) {
+    } else if (json.containsKey('success_rate_pct')) {
       return Rocket.fromJson(json) as T;
     }
     throw UnsupportedError('Conversion of this type is not supported.');
