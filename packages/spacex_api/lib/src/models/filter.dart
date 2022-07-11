@@ -32,9 +32,6 @@ enum FilterOperator {
   /// Joins filters with a logical `AND`.
   and,
 
-  /// Inverts the effect of a filter.
-  not,
-
   /// Joins filters with a logical `NOR`.
   nor,
 
@@ -68,8 +65,6 @@ enum FilterOperator {
         return r'$nin';
       case FilterOperator.and:
         return r'$and';
-      case FilterOperator.not:
-        return r'$not';
       case FilterOperator.nor:
         return r'$nor';
       case FilterOperator.or:
@@ -155,11 +150,6 @@ class Filter extends Equatable {
   /// Joins [filters] with a logical `AND`.
   factory Filter.and(List<Filter> filters) {
     return Filter._(FilterOperator.and, value: filters);
-  }
-
-  /// Inverts the effect of a [filter].
-  factory Filter.not(String field, Filter filter) {
-    return Filter._(FilterOperator.not, field: field, value: filter);
   }
 
   /// Joins [filters] with a logical `NOR`.
