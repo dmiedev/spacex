@@ -51,7 +51,7 @@ void main() {
       );
     });
 
-    test('.fromJson() returns normally', () {
+    test('.fromJson() returns correct result', () {
       expect(
         Rocket.fromJson(
           {
@@ -144,7 +144,7 @@ void main() {
       );
     });
 
-    test('.toJson() returns normally', () {
+    test('.toJson() returns correct result', () {
       expect(
         rocket.toJson(),
         isA<Map<String, dynamic>>()

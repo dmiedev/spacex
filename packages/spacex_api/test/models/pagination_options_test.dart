@@ -33,7 +33,7 @@ void main() {
       );
     });
 
-    test('.fromJson() returns normally', () {
+    test('.fromJson() returns correct result', () {
       expect(
         PaginationOptions.fromJson(
           {
@@ -50,7 +50,7 @@ void main() {
       );
     });
 
-    test('.toJson() returns normally', () {
+    test('.toJson() returns correct result', () {
       expect(
         options.toJson(),
         isA<Map<String, dynamic>>()

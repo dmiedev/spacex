@@ -77,7 +77,7 @@ void main() {
       );
     });
 
-    test('.fromJson() returns normally', () {
+    test('.fromJson() returns correct result', () {
       expect(
         Launch.fromJson(
           {
@@ -213,7 +213,7 @@ void main() {
       );
     });
 
-    test('.toJson returns normally', () {
+    test('.toJson returns correct result', () {
       expect(
         launch.toJson(),
         isA<Map<String, dynamic>>()

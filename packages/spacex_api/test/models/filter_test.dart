@@ -157,7 +157,7 @@ void main() {
       });
     });
 
-    group('.toJson() returns normally - ', () {
+    group('.toJson() returns correct result - ', () {
       test('simple operator', () {
         final filter = Filter.equal('test_field', 'test_value');
         expect(

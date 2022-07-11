@@ -68,7 +68,7 @@ void main() {
       );
     });
 
-    test('.fromJson() returns normally', () {
+    test('.fromJson() returns correct result', () {
       expect(
         Company.fromJson({
           'headquarters': {
@@ -109,7 +109,7 @@ void main() {
       );
     });
 
-    test('.toJson() returns normally', () {
+    test('.toJson() returns correct result', () {
       expect(
         company.toJson(),
         isA<Map<String, dynamic>>()

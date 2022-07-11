@@ -164,7 +164,7 @@ void main() {
     });
 
     test(
-      '.toJson() returns normally for Launch and Rocket generic types',
+      '.toJson() returns correct result for Launch and Rocket generic types',
       () {
         expect(
           rocketPage.toJson(),
@@ -190,7 +190,7 @@ void main() {
     );
 
     test(
-      '.fromJson() returns normally for Launch and Rocket generic types',
+      '.fromJson() returns correct result for Launch and Rocket generic types',
       () {
         expect(
           Page.fromJson<Launch>(
