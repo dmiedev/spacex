@@ -175,6 +175,9 @@ class Filter extends Equatable {
   /// Creates a custom filter.
   ///
   /// The [operator] argument, if provided, must start with the `$`.
+  ///
+  /// If [value] is provided as the only argument, it must be a subtype of
+  /// `Map<String, dynamic>`.
   const factory Filter.custom({
     String? operator,
     String? field,
