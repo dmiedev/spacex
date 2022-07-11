@@ -164,7 +164,7 @@ class Filter extends Equatable {
 
   /// Matches documents that have the specified field.
   factory Filter.exists(String field, {bool exists = true}) {
-    return Filter._(FilterOperator.or, field: field, value: exists);
+    return Filter._(FilterOperator.exists, field: field, value: exists);
   }
 
   /// Performs text search with the given [parameters].
