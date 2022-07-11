@@ -212,8 +212,13 @@ class Filter extends Equatable {
       json[field!] = {operator: value};
     } else if (field != null) {
       json[field!] = value;
-    } else {
+    } else if (value is Map<String, dynamic>) {
       return value as Map<String, dynamic>;
+    } else {
+      throw UnsupportedError(
+        'Cannot convert "value" as the only non-null field to '
+        'Map<String, dynamic> as it is not a subtype of Map<String, dynamic>.',
+      );
     }
     return json;
   }
