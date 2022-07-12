@@ -103,17 +103,28 @@ class Filter extends Equatable {
         field = null,
         value = const <String, dynamic>{};
 
-  /// Matches values that are equal to a specified value.
+  /// Creates a filter that matches values that are equal to a specified value.
+  ///
+  /// The [field] parameter must be the name of a field in `snake_case`.
+  /// The [value] parameter must be a value that this filter should match.
   factory Filter.equal(String field, Object value) {
     return Filter._(FilterOperator.equal, field: field, value: value);
   }
 
-  /// Matches values that are greater than a specified value.
+  /// Creates a filter that matches values that are greater than a specified
+  /// value.
+  ///
+  /// The [field] parameter must be the name of a field in `snake_case`.
+  /// The [value] parameter must be a value that this filter should match.
   factory Filter.greaterThan(String field, Object value) {
     return Filter._(FilterOperator.greaterThan, field: field, value: value);
   }
 
-  /// Matches values that are greater than or equal to a specified value.
+  /// Creates a filter that matches values that are greater than or equal to a
+  /// specified value.
+  ///
+  /// The [field] parameter must be the name of a field in `snake_case`.
+  /// The [value] parameter must be a value that this filter should match.
   factory Filter.greaterThanOrEqual(String field, Object value) {
     return Filter._(
       FilterOperator.greaterThanOrEqual,
@@ -122,52 +133,72 @@ class Filter extends Equatable {
     );
   }
 
-  /// Matches any of the values specified in an array.
+  /// Creates a filter that matches any of the values specified in an array.
+  ///
+  /// The [field] parameter must be the name of a field in `snake_case`.
+  /// The [value] parameter must be a value that this filter should match.
   factory Filter.in_(String field, List<Object> values) {
     return Filter._(FilterOperator.in_, field: field, value: values);
   }
 
-  /// Matches values that are less than a specified value.
+  /// Creates a filter that matches values that are less than a specified value.
+  ///
+  /// The [field] parameter must be the name of a field in `snake_case`.
+  /// The [value] parameter must be a value that this filter should match.
   factory Filter.lessThan(String field, Object value) {
     return Filter._(FilterOperator.lessThan, field: field, value: value);
   }
 
-  /// Matches values that are less than or equal to a specified value.
+  /// Creates a filter that matches values that are less than or equal to a
+  /// specified value.
+  ///
+  /// The [field] parameter must be the name of a field in `snake_case`.
+  /// The [value] parameter must be a value that this filter should match.
   factory Filter.lessThanOrEqual(String field, Object value) {
     return Filter._(FilterOperator.lessThanOrEqual, field: field, value: value);
   }
 
-  /// Matches all values that are not equal to a specified value.
+  /// Creates a filter that matches all values that are not equal to a specified
+  /// value.
+  ///
+  /// The [field] parameter must be the name of a field in `snake_case`.
+  /// The [value] parameter must be a value that this filter should match.
   factory Filter.notEqual(String field, Object value) {
     return Filter._(FilterOperator.notEqual, field: field, value: value);
   }
 
-  /// Matches none of the values specified in an array.
+  /// Creates a filter that matches none of the values specified in an array.
+  ///
+  /// The [field] parameter must be the name of a field in `snake_case`.
+  /// The [values] parameter must be values that this filter should match.
   factory Filter.notIn(String field, List<Object> values) {
     return Filter._(FilterOperator.notIn, field: field, value: values);
   }
 
-  /// Joins [filters] with a logical `AND`.
+  /// Creates a filter that joins [filters] with a logical `AND`.
   factory Filter.and(List<Filter> filters) {
     return Filter._(FilterOperator.and, value: filters);
   }
 
-  /// Joins [filters] with a logical `NOR`.
+  /// Creates a filter that joins [filters] with a logical `NOR`.
   factory Filter.nor(List<Filter> filters) {
     return Filter._(FilterOperator.nor, value: filters);
   }
 
-  /// Joins [filters] with a logical `OR`.
+  /// Creates a filter that joins [filters] with a logical `OR`.
   factory Filter.or(List<Filter> filters) {
     return Filter._(FilterOperator.or, value: filters);
   }
 
-  /// Matches documents that have the specified field.
+  /// Creates a filter that matches documents that have (or don't have) the
+  /// specified field.
+  ///
+  /// The [field] parameter must be the name of a field in `snake_case`.
   factory Filter.exists(String field, {bool exists = true}) {
     return Filter._(FilterOperator.exists, field: field, value: exists);
   }
 
-  /// Performs text search with the given [parameters].
+  /// Creates a filter that performs text search with the given [parameters].
   factory Filter.text(TextFilterParameters parameters) {
     return Filter._(FilterOperator.text, value: parameters);
   }
@@ -189,7 +220,7 @@ class Filter extends Equatable {
   /// Must start with the `$`.
   final String? operator;
 
-  /// The name of a field to apply this filter on.
+  /// The name of a field in `snake_case` to apply this filter on.
   ///
   /// Group operators, such as [FilterOperator.and], [FilterOperator.or] and
   /// [FilterOperator.nor], don't require the field name to be present.

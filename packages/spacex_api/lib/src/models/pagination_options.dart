@@ -30,6 +30,8 @@ class PaginationOptions extends Equatable {
   final List<String>? select;
 
   /// A map with field names that defines pagination sort order.
+  ///
+  /// Field names must be specified in `snake_case`.
   final Map<String, SortOrder>? sort;
 
   /// The number of documents to offset the specified page.
@@ -47,6 +49,8 @@ class PaginationOptions extends Equatable {
   final bool? pagination;
 
   /// A list of field names to populate with other documents.
+  ///
+  /// Field names must be specified in `snake_case`.
   final List<String>? populate;
 
   /// Converts a given JSON [Map] into a [PaginationOptions] instance.
