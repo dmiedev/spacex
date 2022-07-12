@@ -22,7 +22,7 @@ Launch _$LaunchFromJson(Map<String, dynamic> json) => $checkedCreate(
               $checkedConvert('date_local', (v) => DateTime.parse(v as String)),
           datePrecision: $checkedConvert('date_precision',
               (v) => $enumDecode(_$DateTimePrecisionEnumMap, v)),
-          staticFireDate: $checkedConvert('static_fire_date_utc',
+          staticFireDateUtc: $checkedConvert('static_fire_date_utc',
               (v) => v == null ? null : DateTime.parse(v as String)),
           tbd: $checkedConvert('tbd', (v) => v as bool? ?? false),
           net: $checkedConvert('net', (v) => v as bool? ?? false),
@@ -88,7 +88,7 @@ Launch _$LaunchFromJson(Map<String, dynamic> json) => $checkedCreate(
         'dateUtc': 'date_utc',
         'dateLocal': 'date_local',
         'datePrecision': 'date_precision',
-        'staticFireDate': 'static_fire_date_utc',
+        'staticFireDateUtc': 'static_fire_date_utc',
         'autoUpdate': 'auto_update'
       },
     );
@@ -101,7 +101,7 @@ Map<String, dynamic> _$LaunchToJson(Launch instance) => <String, dynamic>{
       'date_utc': instance.dateUtc.toIso8601String(),
       'date_local': instance.dateLocal.toIso8601String(),
       'date_precision': _$DateTimePrecisionEnumMap[instance.datePrecision],
-      'static_fire_date_utc': instance.staticFireDate?.toIso8601String(),
+      'static_fire_date_utc': instance.staticFireDateUtc?.toIso8601String(),
       'tbd': instance.tbd,
       'net': instance.net,
       'window': instance.window,
@@ -188,17 +188,16 @@ LaunchCrewMember _$LaunchCrewMemberFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = LaunchCrewMember(
-          id: $checkedConvert('crew', (v) => v as String?),
+          crew: $checkedConvert('crew', (v) => v as String?),
           role: $checkedConvert('role', (v) => v as String?),
         );
         return val;
       },
-      fieldKeyMap: const {'id': 'crew'},
     );
 
 Map<String, dynamic> _$LaunchCrewMemberToJson(LaunchCrewMember instance) =>
     <String, dynamic>{
-      'crew': instance.id,
+      'crew': instance.crew,
       'role': instance.role,
     };
 
@@ -207,9 +206,9 @@ LaunchCore _$LaunchCoreFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = LaunchCore(
-          id: $checkedConvert('core', (v) => v as String?),
+          core: $checkedConvert('core', (v) => v as String?),
           flight: $checkedConvert('flight', (v) => v as int?),
-          gridFins: $checkedConvert('gridfins', (v) => v as bool?),
+          gridfins: $checkedConvert('gridfins', (v) => v as bool?),
           legs: $checkedConvert('legs', (v) => v as bool?),
           reused: $checkedConvert('reused', (v) => v as bool?),
           landingAttempt: $checkedConvert('landing_attempt', (v) => v as bool?),
@@ -220,8 +219,6 @@ LaunchCore _$LaunchCoreFromJson(Map<String, dynamic> json) => $checkedCreate(
         return val;
       },
       fieldKeyMap: const {
-        'id': 'core',
-        'gridFins': 'gridfins',
         'landingAttempt': 'landing_attempt',
         'landingSuccess': 'landing_success',
         'landingType': 'landing_type'
@@ -230,9 +227,9 @@ LaunchCore _$LaunchCoreFromJson(Map<String, dynamic> json) => $checkedCreate(
 
 Map<String, dynamic> _$LaunchCoreToJson(LaunchCore instance) =>
     <String, dynamic>{
-      'core': instance.id,
+      'core': instance.core,
       'flight': instance.flight,
-      'gridfins': instance.gridFins,
+      'gridfins': instance.gridfins,
       'legs': instance.legs,
       'reused': instance.reused,
       'landing_attempt': instance.landingAttempt,
@@ -258,7 +255,7 @@ LaunchLinks _$LaunchLinksFromJson(Map<String, dynamic> json) => $checkedCreate(
                   : RedditLaunchLinks.fromJson(v as Map<String, dynamic>)),
           flickr: $checkedConvert('flickr',
               (v) => FlickrLaunchLinks.fromJson(v as Map<String, dynamic>)),
-          pressKit: $checkedConvert('presskit', (v) => v as String?),
+          presskit: $checkedConvert('presskit', (v) => v as String?),
           webcast: $checkedConvert('webcast', (v) => v as String?),
           youtubeId: $checkedConvert('youtube_id', (v) => v as String?),
           article: $checkedConvert('article', (v) => v as String?),
@@ -266,7 +263,7 @@ LaunchLinks _$LaunchLinksFromJson(Map<String, dynamic> json) => $checkedCreate(
         );
         return val;
       },
-      fieldKeyMap: const {'pressKit': 'presskit', 'youtubeId': 'youtube_id'},
+      fieldKeyMap: const {'youtubeId': 'youtube_id'},
     );
 
 Map<String, dynamic> _$LaunchLinksToJson(LaunchLinks instance) =>
@@ -274,7 +271,7 @@ Map<String, dynamic> _$LaunchLinksToJson(LaunchLinks instance) =>
       'patch': instance.patch.toJson(),
       'reddit': instance.reddit.toJson(),
       'flickr': instance.flickr.toJson(),
-      'presskit': instance.pressKit,
+      'presskit': instance.presskit,
       'webcast': instance.webcast,
       'youtube_id': instance.youtubeId,
       'article': instance.article,
