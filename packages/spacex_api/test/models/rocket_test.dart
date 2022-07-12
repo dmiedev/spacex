@@ -5,6 +5,10 @@ import 'package:spacex_api/spacex_api.dart';
 import 'package:test/test.dart';
 
 void main() {
+  final length = Length(feet: 120, meters: 36.576);
+
+  final mass = Mass(kg: 100, lb: 220);
+
   final rocket = Rocket(
     id: '123',
     name: 'Rocky',
@@ -16,9 +20,9 @@ void main() {
     firstFlight: DateTime(2012, 3, 5),
     country: 'USA',
     company: 'SpaceX',
-    height: Length(feet: 120, meters: 36.576),
+    height: length,
     diameter: Length(feet: 9.84251969, meters: 3),
-    mass: Mass(kg: 100, lb: 220),
+    mass: mass,
     flickrImages: ['image_link1', 'image_link2'],
     wikipedia: 'https://wikipedia.org/url',
     description: 'Powerful rocket.',
@@ -164,6 +168,38 @@ void main() {
               isA<Map<String, dynamic>>(),
             ),
       );
+    });
+  });
+
+  group('Length', () {
+    final json = {'feet': 120, 'meters': 36.576};
+
+    test('supports value comparisons', () {
+      expect(length, Length(feet: 120, meters: 36.576));
+    });
+
+    test('.fromJson() return correct result', () {
+      expect(Length.fromJson(json), length);
+    });
+
+    test('.toJson() returns correct result', () {
+      expect(length.toJson(), json);
+    });
+  });
+
+  group('Mass', () {
+    final json = {'kg': 100, 'lb': 220};
+
+    test('supports value comparisons', () {
+      expect(mass, Mass(kg: 100, lb: 220));
+    });
+
+    test('.fromJson() return correct result', () {
+      expect(Mass.fromJson(json), mass);
+    });
+
+    test('.toJson() returns correct result', () {
+      expect(mass.toJson(), json);
     });
   });
 }
