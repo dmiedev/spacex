@@ -6,6 +6,58 @@ import 'package:spacex_api/spacex_api.dart';
 import 'package:test/test.dart';
 
 void main() {
+  final crewMember = LaunchCrewMember(id: '1', role: 'Captain');
+
+  final patchLinks = PatchLinks(small: 'small_patch', large: 'large_patch');
+
+  final flickrLaunchLinks = FlickrLaunchLinks(
+    original: ['link 1', 'link 2'],
+    small: ['link 3', 'link 4'],
+  );
+
+  final redditLaunchLinks = RedditLaunchLinks(
+    campaign: 'campaign',
+    launch: 'launch',
+    media: 'media',
+    recovery: 'recovery',
+  );
+
+  final links = LaunchLinks(
+    flickr: flickrLaunchLinks,
+    patch: patchLinks,
+    reddit: redditLaunchLinks,
+    pressKit: 'presskit',
+    webcast: 'webcast',
+    youtubeId: 'id',
+    wikipedia: 'wiki',
+    article: 'article',
+  );
+
+  final failure = LaunchFailure(
+    time: 123,
+    reason: 'failure reason',
+    altitude: 321,
+  );
+
+  final fairingsRecovery = LaunchFairingsRecovery(
+    recoveryAttempt: true,
+    recovered: true,
+    reused: false,
+    ships: ['ship_1', 'ship_2'],
+  );
+
+  final core = LaunchCore(
+    id: '654321',
+    flight: 1,
+    gridFins: true,
+    legs: true,
+    landingAttempt: false,
+    landingSuccess: true,
+    landpad: 'landpad',
+    reused: true,
+    landingType: 'ABC',
+  );
+
   final launch = Launch(
     id: '123',
     flightNumber: 111,
@@ -18,61 +70,86 @@ void main() {
     window: 1,
     rocket: '1222',
     success: false,
+    tbd: true,
+    net: true,
     details: 'launch',
-    crew: [LaunchCrewMember(id: '1', role: 'Captain')],
+    crew: [crewMember],
     ships: ['1010101010'],
     payloads: ['asdf2', 'asdf1'],
     capsules: ['123', '321'],
     launchpad: '654321',
     launchLibraryId: '123321',
-    links: LaunchLinks(
-      flickr: FlickrLaunchLinks(original: ['link 1'], small: ['link 2']),
-    ),
-    failures: [
-      LaunchFailure(time: 123, reason: 'failure reason'),
-    ],
-    fairings: LaunchFairingsRecovery(recoveryAttempt: true),
-    cores: [
-      LaunchCore(reused: true, landingType: 'ABC'),
-    ],
+    links: links,
+    failures: [failure],
+    fairings: fairingsRecovery,
+    cores: [core],
   );
 
   group('Launch', () {
     test('supports value comparisons', () {
       expect(
         launch,
-        equals(
-          Launch(
-            id: '123',
-            flightNumber: 111,
-            name: 'CR-123',
-            dateUtc: DateTime(2017, 9, 7),
-            dateLocal: DateTime(2017, 9, 6),
-            datePrecision: DateTimePrecision.day,
-            upcoming: false,
-            staticFireDate: DateTime(2017, 3, 4),
-            window: 1,
-            rocket: '1222',
-            success: false,
-            details: 'launch',
-            crew: [LaunchCrewMember(id: '1', role: 'Captain')],
-            ships: ['1010101010'],
-            payloads: ['asdf2', 'asdf1'],
-            capsules: ['123', '321'],
-            launchpad: '654321',
-            launchLibraryId: '123321',
-            links: LaunchLinks(
-              flickr:
-                  FlickrLaunchLinks(original: ['link 1'], small: ['link 2']),
+        Launch(
+          id: '123',
+          flightNumber: 111,
+          name: 'CR-123',
+          dateUtc: DateTime(2017, 9, 7),
+          dateLocal: DateTime(2017, 9, 6),
+          datePrecision: DateTimePrecision.day,
+          upcoming: false,
+          staticFireDate: DateTime(2017, 3, 4),
+          window: 1,
+          rocket: '1222',
+          success: false,
+          tbd: true,
+          net: true,
+          details: 'launch',
+          crew: [LaunchCrewMember(id: '1', role: 'Captain')],
+          ships: ['1010101010'],
+          payloads: ['asdf2', 'asdf1'],
+          capsules: ['123', '321'],
+          launchpad: '654321',
+          launchLibraryId: '123321',
+          links: LaunchLinks(
+            flickr: FlickrLaunchLinks(
+              original: ['link 1', 'link 2'],
+              small: ['link 3', 'link 4'],
             ),
-            failures: [
-              LaunchFailure(time: 123, reason: 'failure reason'),
-            ],
-            fairings: LaunchFairingsRecovery(recoveryAttempt: true),
-            cores: [
-              LaunchCore(reused: true, landingType: 'ABC'),
-            ],
+            patch: PatchLinks(small: 'small_patch', large: 'large_patch'),
+            reddit: RedditLaunchLinks(
+              campaign: 'campaign',
+              launch: 'launch',
+              media: 'media',
+              recovery: 'recovery',
+            ),
+            pressKit: 'presskit',
+            webcast: 'webcast',
+            youtubeId: 'id',
+            wikipedia: 'wiki',
+            article: 'article',
           ),
+          failures: [
+            LaunchFailure(time: 123, reason: 'failure reason', altitude: 321),
+          ],
+          fairings: LaunchFairingsRecovery(
+            recoveryAttempt: true,
+            recovered: true,
+            reused: false,
+            ships: ['ship_1', 'ship_2'],
+          ),
+          cores: [
+            LaunchCore(
+              id: '654321',
+              flight: 1,
+              gridFins: true,
+              legs: true,
+              landingAttempt: false,
+              landingSuccess: true,
+              landpad: 'landpad',
+              reused: true,
+              landingType: 'ABC',
+            ),
+          ],
         ),
       );
     });
@@ -129,7 +206,7 @@ void main() {
                 "supplies to the International Space Station using SpaceX's "
                 'reusable Dragon spacecraft.',
             'crew': [
-              {'id': '6243bc5baf52800c6e919276', 'role': 'Commander'}
+              {'crew': '6243bc5baf52800c6e919276', 'role': 'Commander'}
             ],
             'ships': ['43bc5baf5243bc5baf52'],
             'capsules': ['5e9e2c5cf359185d753b266f'],
@@ -268,6 +345,182 @@ void main() {
               isA<Map<String, dynamic>>(),
             ),
       );
+    });
+  });
+
+  group('LaunchFairingsRecovery', () {
+    final json = {
+      'recovery_attempt': true,
+      'recovered': true,
+      'reused': false,
+      'ships': ['ship_1', 'ship_2'],
+    };
+
+    test('supports value comparisons', () {
+      expect(
+        fairingsRecovery,
+        LaunchFairingsRecovery(
+          recoveryAttempt: true,
+          recovered: true,
+          reused: false,
+          ships: ['ship_1', 'ship_2'],
+        ),
+      );
+    });
+
+    test('.fromJson() return correct result', () {
+      expect(LaunchFairingsRecovery.fromJson(json), fairingsRecovery);
+    });
+
+    test('.toJson() returns correct result', () {
+      expect(fairingsRecovery.toJson(), json);
+    });
+  });
+
+  group('LaunchFailure', () {
+    final json = {'time': 123, 'altitude': 321, 'reason': 'failure reason'};
+
+    test('supports value comparisons', () {
+      expect(
+        failure,
+        LaunchFailure(time: 123, reason: 'failure reason', altitude: 321),
+      );
+    });
+
+    test('.fromJson() return correct result', () {
+      expect(LaunchFailure.fromJson(json), failure);
+    });
+
+    test('.toJson() returns correct result', () {
+      expect(failure.toJson(), json);
+    });
+  });
+
+  group('LaunchCrewMember', () {
+    final json = {'crew': '1', 'role': 'Captain'};
+
+    test('supports value comparisons', () {
+      expect(crewMember, LaunchCrewMember(id: '1', role: 'Captain'));
+    });
+
+    test('.fromJson() return correct result', () {
+      expect(LaunchCrewMember.fromJson(json), crewMember);
+    });
+
+    test('.toJson() returns correct result', () {
+      expect(crewMember.toJson(), json);
+    });
+  });
+
+  group('LaunchCore', () {
+    final json = {
+      'core': '654321',
+      'flight': 1,
+      'gridfins': true,
+      'legs': true,
+      'landing_attempt': false,
+      'landing_success': true,
+      'landpad': 'landpad',
+      'reused': true,
+      'landing_type': 'ABC',
+    };
+
+    test('supports value comparisons', () {
+      expect(
+        core,
+        LaunchCore(
+          id: '654321',
+          flight: 1,
+          gridFins: true,
+          legs: true,
+          landingAttempt: false,
+          landingSuccess: true,
+          landpad: 'landpad',
+          reused: true,
+          landingType: 'ABC',
+        ),
+      );
+    });
+
+    test('.fromJson() return correct result', () {
+      expect(LaunchCore.fromJson(json), core);
+    });
+
+    test('.toJson() returns correct result', () {
+      expect(core.toJson(), json);
+    });
+  });
+
+  group('PatchLinks', () {
+    final json = {'small': 'small_patch', 'large': 'large_patch'};
+
+    test('supports value comparisons', () {
+      expect(
+        patchLinks,
+        PatchLinks(small: 'small_patch', large: 'large_patch'),
+      );
+    });
+
+    test('.fromJson() return correct result', () {
+      expect(PatchLinks.fromJson(json), patchLinks);
+    });
+
+    test('.toJson() returns correct result', () {
+      expect(patchLinks.toJson(), json);
+    });
+  });
+
+  group('RedditLaunchLinks', () {
+    final json = {
+      'campaign': 'campaign',
+      'launch': 'launch',
+      'media': 'media',
+      'recovery': 'recovery',
+    };
+
+    test('supports value comparisons', () {
+      expect(
+        redditLaunchLinks,
+        RedditLaunchLinks(
+          campaign: 'campaign',
+          launch: 'launch',
+          media: 'media',
+          recovery: 'recovery',
+        ),
+      );
+    });
+
+    test('.fromJson() return correct result', () {
+      expect(RedditLaunchLinks.fromJson(json), redditLaunchLinks);
+    });
+
+    test('.toJson() returns correct result', () {
+      expect(redditLaunchLinks.toJson(), json);
+    });
+  });
+
+  group('FlickrLaunchLinks', () {
+    final json = {
+      'original': ['link 1', 'link 2'],
+      'small': ['link 3', 'link 4'],
+    };
+
+    test('supports value comparisons', () {
+      expect(
+        flickrLaunchLinks,
+        FlickrLaunchLinks(
+          original: ['link 1', 'link 2'],
+          small: ['link 3', 'link 4'],
+        ),
+      );
+    });
+
+    test('.fromJson() return correct result', () {
+      expect(FlickrLaunchLinks.fromJson(json), flickrLaunchLinks);
+    });
+
+    test('.toJson() returns correct result', () {
+      expect(flickrLaunchLinks.toJson(), json);
     });
   });
 }
