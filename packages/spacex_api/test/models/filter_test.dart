@@ -228,4 +228,42 @@ void main() {
       });
     });
   });
+
+  group('TextFilterParameters', () {
+    final parameters = TextFilterParameters(
+      search: 'abc',
+      language: 'eng',
+      diacriticSensitive: true,
+      caseSensitive: true,
+    );
+
+    final json = {
+      r'$search': 'abc',
+      r'$language': 'eng',
+      r'$caseSensitive': true,
+      r'$diacriticSensitive': true,
+    };
+
+    test('supports value comparisons', () {
+      expect(
+        parameters,
+        equals(
+          TextFilterParameters(
+            search: 'abc',
+            language: 'eng',
+            diacriticSensitive: true,
+            caseSensitive: true,
+          ),
+        ),
+      );
+    });
+
+    test('.toJson() returns correct result', () {
+      expect(parameters.toJson(), equals(json));
+    });
+
+    test('.fromJson() returns correct result', () {
+      expect(TextFilterParameters.fromJson(json), equals(parameters));
+    });
+  });
 }
