@@ -87,7 +87,7 @@ void main() {
       dateLocal: DateTime(2017, 9, 6),
       datePrecision: DateTimePrecision.day,
       upcoming: false,
-      staticFireDate: DateTime(2017, 3, 4),
+      staticFireDateUtc: DateTime(2017, 3, 4),
       window: 1,
       rocket: '1222',
       success: false,

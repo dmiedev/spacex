@@ -6,7 +6,7 @@ import 'package:spacex_api/spacex_api.dart';
 import 'package:test/test.dart';
 
 void main() {
-  final crewMember = LaunchCrewMember(id: '1', role: 'Captain');
+  final crewMember = LaunchCrewMember(crew: '1', role: 'Captain');
 
   final patchLinks = PatchLinks(small: 'small_patch', large: 'large_patch');
 
@@ -26,7 +26,7 @@ void main() {
     flickr: flickrLaunchLinks,
     patch: patchLinks,
     reddit: redditLaunchLinks,
-    pressKit: 'presskit',
+    presskit: 'presskit',
     webcast: 'webcast',
     youtubeId: 'id',
     wikipedia: 'wiki',
@@ -47,9 +47,9 @@ void main() {
   );
 
   final core = LaunchCore(
-    id: '654321',
+    core: '654321',
     flight: 1,
-    gridFins: true,
+    gridfins: true,
     legs: true,
     landingAttempt: false,
     landingSuccess: true,
@@ -66,7 +66,7 @@ void main() {
     dateLocal: DateTime(2017, 9, 6),
     datePrecision: DateTimePrecision.day,
     upcoming: false,
-    staticFireDate: DateTime(2017, 3, 4),
+    staticFireDateUtc: DateTime(2017, 3, 4),
     window: 1,
     rocket: '1222',
     success: false,
@@ -97,14 +97,14 @@ void main() {
           dateLocal: DateTime(2017, 9, 6),
           datePrecision: DateTimePrecision.day,
           upcoming: false,
-          staticFireDate: DateTime(2017, 3, 4),
+          staticFireDateUtc: DateTime(2017, 3, 4),
           window: 1,
           rocket: '1222',
           success: false,
           tbd: true,
           net: true,
           details: 'launch',
-          crew: [LaunchCrewMember(id: '1', role: 'Captain')],
+          crew: [LaunchCrewMember(crew: '1', role: 'Captain')],
           ships: ['1010101010'],
           payloads: ['asdf2', 'asdf1'],
           capsules: ['123', '321'],
@@ -122,7 +122,7 @@ void main() {
               media: 'media',
               recovery: 'recovery',
             ),
-            pressKit: 'presskit',
+            presskit: 'presskit',
             webcast: 'webcast',
             youtubeId: 'id',
             wikipedia: 'wiki',
@@ -139,9 +139,9 @@ void main() {
           ),
           cores: [
             LaunchCore(
-              id: '654321',
+              core: '654321',
               flight: 1,
-              gridFins: true,
+              gridfins: true,
               legs: true,
               landingAttempt: false,
               landingSuccess: true,
@@ -243,7 +243,7 @@ void main() {
               isA<DateTimePrecision>(),
             )
             .having(
-              (launch) => launch.staticFireDate,
+              (launch) => launch.staticFireDateUtc,
               'staticFireDate',
               isA<DateTime>(),
             )
@@ -400,7 +400,7 @@ void main() {
     final json = {'crew': '1', 'role': 'Captain'};
 
     test('supports value comparisons', () {
-      expect(crewMember, LaunchCrewMember(id: '1', role: 'Captain'));
+      expect(crewMember, LaunchCrewMember(crew: '1', role: 'Captain'));
     });
 
     test('.fromJson() return correct result', () {
@@ -429,9 +429,9 @@ void main() {
       expect(
         core,
         LaunchCore(
-          id: '654321',
+          core: '654321',
           flight: 1,
-          gridFins: true,
+          gridfins: true,
           legs: true,
           landingAttempt: false,
           landingSuccess: true,

@@ -16,7 +16,7 @@ class Launch extends Equatable {
     required this.dateUtc,
     required this.dateLocal,
     required this.datePrecision,
-    this.staticFireDate,
+    this.staticFireDateUtc,
     this.tbd = false,
     this.net = false,
     this.window,
@@ -58,8 +58,7 @@ class Launch extends Equatable {
   final DateTimePrecision datePrecision;
 
   /// The date of a static fire test.
-  @JsonKey(name: 'static_fire_date_utc')
-  final DateTime? staticFireDate;
+  final DateTime? staticFireDateUtc;
 
   /// Whether the date of this launch is yet to be determined.
   final bool tbd;
@@ -123,7 +122,7 @@ class Launch extends Equatable {
         dateUtc,
         dateLocal,
         datePrecision,
-        staticFireDate,
+        staticFireDateUtc,
         tbd,
         net,
         window,
@@ -254,19 +253,18 @@ class LaunchFailure extends Equatable {
 class LaunchCrewMember extends Equatable {
   /// Creates a model of a crew member involved in a rocket launch.
   const LaunchCrewMember({
-    this.id,
+    this.crew,
     this.role,
   });
 
   /// The ID of this crew member.
-  @JsonKey(name: 'crew')
-  final String? id;
+  final String? crew;
 
   /// The role name of this crew member.
   final String? role;
 
   @override
-  List<Object?> get props => [id, role];
+  List<Object?> get props => [crew, role];
 
   /// Converts a given JSON [Map] into a [LaunchCrewMember] instance.
   static LaunchCrewMember fromJson(Map<String, dynamic> json) {
@@ -277,7 +275,7 @@ class LaunchCrewMember extends Equatable {
   Map<String, dynamic> toJson() => _$LaunchCrewMemberToJson(this);
 
   @override
-  String toString() => 'LaunchCrewMember($id, $role)';
+  String toString() => 'LaunchCrewMember($crew, $role)';
 }
 
 /// A core that is being used in a rocket launch.
@@ -285,9 +283,9 @@ class LaunchCrewMember extends Equatable {
 class LaunchCore extends Equatable {
   /// Creates a model that holds data about a core used in a rocket launch.
   const LaunchCore({
-    this.id,
+    this.core,
     this.flight,
-    this.gridFins,
+    this.gridfins,
     this.legs,
     this.reused,
     this.landingAttempt,
@@ -297,15 +295,13 @@ class LaunchCore extends Equatable {
   });
 
   /// The ID of this core.
-  @JsonKey(name: 'core')
-  final String? id;
+  final String? core;
 
   /// The number of this core's flight.
   final int? flight;
 
   /// Whether this core has grid fins.
-  @JsonKey(name: 'gridfins')
-  final bool? gridFins;
+  final bool? gridfins;
 
   /// Whether this core has legs.
   final bool? legs;
@@ -327,9 +323,9 @@ class LaunchCore extends Equatable {
 
   @override
   List<Object?> get props => [
-        id,
+        core,
         flight,
-        gridFins,
+        gridfins,
         legs,
         reused,
         landingAttempt,
@@ -347,7 +343,7 @@ class LaunchCore extends Equatable {
   Map<String, dynamic> toJson() => _$LaunchCoreToJson(this);
 
   @override
-  String toString() => 'LaunchCore($id, $landingType)';
+  String toString() => 'LaunchCore($core, $landingType)';
 }
 
 /// A collection of links related to a rocket launch.
@@ -358,7 +354,7 @@ class LaunchLinks extends Equatable {
     this.patch = const PatchLinks(),
     this.reddit = const RedditLaunchLinks(),
     required this.flickr,
-    this.pressKit,
+    this.presskit,
     this.webcast,
     this.youtubeId,
     this.article,
@@ -375,8 +371,7 @@ class LaunchLinks extends Equatable {
   final FlickrLaunchLinks flickr;
 
   /// A URL to a press kit.
-  @JsonKey(name: 'presskit')
-  final String? pressKit;
+  final String? presskit;
 
   /// A URL to a webcast.
   final String? webcast;
@@ -395,7 +390,7 @@ class LaunchLinks extends Equatable {
         patch,
         reddit,
         flickr,
-        pressKit,
+        presskit,
         webcast,
         youtubeId,
         article,
