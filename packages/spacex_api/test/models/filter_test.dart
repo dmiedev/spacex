@@ -260,6 +260,12 @@ void main() {
 
     test('.toJson() returns correct result', () {
       expect(parameters.toJson(), equals(json));
+
+      final parametersWithoutLanguage = TextFilterParameters(search: 'abc');
+      expect(
+        parametersWithoutLanguage.toJson().containsKey(r'$language'),
+        false,
+      );
     });
 
     test('.fromJson() returns correct result', () {

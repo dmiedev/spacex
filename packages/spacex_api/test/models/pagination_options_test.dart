@@ -51,8 +51,17 @@ void main() {
     });
 
     test('.toJson() returns correct result', () {
+      final optionsWithoutPagination = PaginationOptions(
+        select: ['a'],
+        sort: {'id': SortOrder.ascending, 'name': SortOrder.descending},
+        offset: 1,
+        page: 2,
+        limit: 15,
+        populate: ['capsules'],
+      );
+      final json = optionsWithoutPagination.toJson();
       expect(
-        options.toJson(),
+        json,
         isA<Map<String, dynamic>>()
             .having(
               (json) => (json['sort'] as Map<String, dynamic>)['id'],
@@ -65,6 +74,7 @@ void main() {
               equals('descending'),
             ),
       );
+      expect(json.containsKey(['pagination']), false);
     });
   });
 }
