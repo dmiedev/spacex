@@ -4,6 +4,19 @@ import 'package:spacex_api/spacex_api.dart';
 import 'package:test/test.dart';
 
 void main() {
+  final location = CompanyEntityLocation(
+    address: '123 Street Street',
+    city: 'Quebec',
+    state: 'Canada',
+  );
+
+  final links = CompanyLinks(
+    elonTwitter: 'twitter',
+    flickr: 'flickr',
+    website: 'website',
+    twitter: 'twitter 2',
+  );
+
   final company = Company(
     id: '32031-039123-102',
     name: 'SpaceY',
@@ -18,17 +31,8 @@ void main() {
     coo: 'COO',
     ctoPropulsion: 'CTO of Propulsion',
     valuation: 99999999,
-    headquarters: CompanyEntityLocation(
-      address: '123 Street Street',
-      city: 'Quebec',
-      state: 'Canada',
-    ),
-    links: CompanyLinks(
-      elonTwitter: 'twitter',
-      flickr: 'flickr',
-      website: 'website',
-      twitter: 'twitter 2',
-    ),
+    headquarters: location,
+    links: links,
     summary: 'Not So Boring Company',
   );
 
@@ -128,6 +132,75 @@ void main() {
               'headquarters',
               isA<Map<String, dynamic>>(),
             ),
+      );
+    });
+  });
+
+  group('CompanyEntityLocation', () {
+    test('supports value comparisons', () {
+      expect(
+        location,
+        CompanyEntityLocation(
+          address: '123 Street Street',
+          city: 'Quebec',
+          state: 'Canada',
+        ),
+      );
+    });
+
+    test('.fromJson() returns correct result', () {
+      expect(
+        CompanyEntityLocation.fromJson({
+          'address': 'Rocket Road',
+          'city': 'Hawthorne',
+          'state': 'California'
+        }),
+        isA<CompanyEntityLocation>(),
+      );
+    });
+
+    test('.toJson() returns correct result', () {
+      expect(
+        location.toJson(),
+        {'address': '123 Street Street', 'city': 'Quebec', 'state': 'Canada'},
+      );
+    });
+  });
+
+  group('CompanyLinks', () {
+    test('supports value comparisons', () {
+      expect(
+        links,
+        CompanyLinks(
+          elonTwitter: 'twitter',
+          flickr: 'flickr',
+          website: 'website',
+          twitter: 'twitter 2',
+        ),
+      );
+    });
+
+    test('.fromJson() returns correct result', () {
+      expect(
+        CompanyLinks.fromJson({
+          'website': 'https://www.spacex.com/',
+          'flickr': 'https://www.flickr.com/photos/spacex/',
+          'twitter': 'https://twitter.com/SpaceX',
+          'elon_twitter': 'https://twitter.com/elonmusk'
+        }),
+        isA<CompanyLinks>(),
+      );
+    });
+
+    test('.toJson() returns correct result', () {
+      expect(
+        links.toJson(),
+        {
+          'elon_twitter': 'twitter',
+          'twitter': 'twitter 2',
+          'website': 'website',
+          'flickr': 'flickr',
+        },
       );
     });
   });
