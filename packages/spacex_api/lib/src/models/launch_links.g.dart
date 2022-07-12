@@ -6,20 +6,32 @@ part of 'launch_links.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-LaunchLinks _$LaunchLinksFromJson(Map<String, dynamic> json) => LaunchLinks(
-      patch: json['patch'] == null
-          ? const PatchLinks()
-          : PatchLinks.fromJson(json['patch'] as Map<String, dynamic>),
-      reddit: json['reddit'] == null
-          ? const RedditLaunchLinks()
-          : RedditLaunchLinks.fromJson(json['reddit'] as Map<String, dynamic>),
-      flickr:
-          FlickrLaunchLinks.fromJson(json['flickr'] as Map<String, dynamic>),
-      pressKit: json['presskit'] as String?,
-      webcast: json['webcast'] as String?,
-      youtubeId: json['youtube_id'] as String?,
-      article: json['article'] as String?,
-      wikipedia: json['wikipedia'] as String?,
+LaunchLinks _$LaunchLinksFromJson(Map<String, dynamic> json) => $checkedCreate(
+      'LaunchLinks',
+      json,
+      ($checkedConvert) {
+        final val = LaunchLinks(
+          patch: $checkedConvert(
+              'patch',
+              (v) => v == null
+                  ? const PatchLinks()
+                  : PatchLinks.fromJson(v as Map<String, dynamic>)),
+          reddit: $checkedConvert(
+              'reddit',
+              (v) => v == null
+                  ? const RedditLaunchLinks()
+                  : RedditLaunchLinks.fromJson(v as Map<String, dynamic>)),
+          flickr: $checkedConvert('flickr',
+              (v) => FlickrLaunchLinks.fromJson(v as Map<String, dynamic>)),
+          pressKit: $checkedConvert('presskit', (v) => v as String?),
+          webcast: $checkedConvert('webcast', (v) => v as String?),
+          youtubeId: $checkedConvert('youtube_id', (v) => v as String?),
+          article: $checkedConvert('article', (v) => v as String?),
+          wikipedia: $checkedConvert('wikipedia', (v) => v as String?),
+        );
+        return val;
+      },
+      fieldKeyMap: const {'pressKit': 'presskit', 'youtubeId': 'youtube_id'},
     );
 
 Map<String, dynamic> _$LaunchLinksToJson(LaunchLinks instance) =>
@@ -34,9 +46,16 @@ Map<String, dynamic> _$LaunchLinksToJson(LaunchLinks instance) =>
       'wikipedia': instance.wikipedia,
     };
 
-PatchLinks _$PatchLinksFromJson(Map<String, dynamic> json) => PatchLinks(
-      small: json['small'] as String?,
-      large: json['large'] as String?,
+PatchLinks _$PatchLinksFromJson(Map<String, dynamic> json) => $checkedCreate(
+      'PatchLinks',
+      json,
+      ($checkedConvert) {
+        final val = PatchLinks(
+          small: $checkedConvert('small', (v) => v as String?),
+          large: $checkedConvert('large', (v) => v as String?),
+        );
+        return val;
+      },
     );
 
 Map<String, dynamic> _$PatchLinksToJson(PatchLinks instance) =>
@@ -46,11 +65,18 @@ Map<String, dynamic> _$PatchLinksToJson(PatchLinks instance) =>
     };
 
 RedditLaunchLinks _$RedditLaunchLinksFromJson(Map<String, dynamic> json) =>
-    RedditLaunchLinks(
-      campaign: json['campaign'] as String?,
-      launch: json['launch'] as String?,
-      media: json['media'] as String?,
-      recovery: json['recovery'] as String?,
+    $checkedCreate(
+      'RedditLaunchLinks',
+      json,
+      ($checkedConvert) {
+        final val = RedditLaunchLinks(
+          campaign: $checkedConvert('campaign', (v) => v as String?),
+          launch: $checkedConvert('launch', (v) => v as String?),
+          media: $checkedConvert('media', (v) => v as String?),
+          recovery: $checkedConvert('recovery', (v) => v as String?),
+        );
+        return val;
+      },
     );
 
 Map<String, dynamic> _$RedditLaunchLinksToJson(RedditLaunchLinks instance) =>
@@ -62,10 +88,18 @@ Map<String, dynamic> _$RedditLaunchLinksToJson(RedditLaunchLinks instance) =>
     };
 
 FlickrLaunchLinks _$FlickrLaunchLinksFromJson(Map<String, dynamic> json) =>
-    FlickrLaunchLinks(
-      small: (json['small'] as List<dynamic>).map((e) => e as String).toList(),
-      original:
-          (json['original'] as List<dynamic>).map((e) => e as String).toList(),
+    $checkedCreate(
+      'FlickrLaunchLinks',
+      json,
+      ($checkedConvert) {
+        final val = FlickrLaunchLinks(
+          small: $checkedConvert('small',
+              (v) => (v as List<dynamic>).map((e) => e as String).toList()),
+          original: $checkedConvert('original',
+              (v) => (v as List<dynamic>).map((e) => e as String).toList()),
+        );
+        return val;
+      },
     );
 
 Map<String, dynamic> _$FlickrLaunchLinksToJson(FlickrLaunchLinks instance) =>

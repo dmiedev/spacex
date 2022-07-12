@@ -2,6 +2,7 @@
 // ignore_for_file: inference_failure_on_collection_literal
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
+import 'package:json_annotation/json_annotation.dart';
 import 'package:spacex_api/spacex_api.dart';
 import 'package:test/test.dart';
 
@@ -414,7 +415,7 @@ void main() {
               'nextPage': null
             },
           ),
-          throwsA(isA<UnsupportedError>()),
+          throwsA(isA<CheckedFromJsonException>()),
         );
       },
     );

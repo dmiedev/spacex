@@ -6,55 +6,91 @@ part of 'launch.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Launch _$LaunchFromJson(Map<String, dynamic> json) => Launch(
-      id: json['id'] as String,
-      launchLibraryId: json['launch_library_id'] as String?,
-      flightNumber: json['flight_number'] as int,
-      name: json['name'] as String,
-      dateUtc: DateTime.parse(json['date_utc'] as String),
-      dateLocal: DateTime.parse(json['date_local'] as String),
-      datePrecision:
-          $enumDecode(_$DateTimePrecisionEnumMap, json['date_precision']),
-      staticFireDate: json['static_fire_date_utc'] == null
-          ? null
-          : DateTime.parse(json['static_fire_date_utc'] as String),
-      tbd: json['tbd'] as bool? ?? false,
-      net: json['net'] as bool? ?? false,
-      window: json['window'] as int?,
-      rocket: json['rocket'] as String?,
-      success: json['success'] as bool?,
-      failures: (json['failures'] as List<dynamic>?)
-              ?.map((e) => LaunchFailure.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
-      upcoming: json['upcoming'] as bool,
-      details: json['details'] as String?,
-      fairings: json['fairings'] == null
-          ? null
-          : LaunchFairingsRecovery.fromJson(
-              json['fairings'] as Map<String, dynamic>),
-      crew: (json['crew'] as List<dynamic>?)
-              ?.map((e) => LaunchCrewMember.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
-      ships:
-          (json['ships'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-              const [],
-      capsules: (json['capsules'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
-      payloads: (json['payloads'] as List<dynamic>?)
-              ?.map((e) => e as String)
-              .toList() ??
-          const [],
-      launchpad: json['launchpad'] as String?,
-      cores: (json['cores'] as List<dynamic>?)
-              ?.map((e) => LaunchCore.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          const [],
-      links: LaunchLinks.fromJson(json['links'] as Map<String, dynamic>),
-      autoUpdate: json['auto_update'] as bool? ?? true,
+Launch _$LaunchFromJson(Map<String, dynamic> json) => $checkedCreate(
+      'Launch',
+      json,
+      ($checkedConvert) {
+        final val = Launch(
+          id: $checkedConvert('id', (v) => v as String),
+          launchLibraryId:
+              $checkedConvert('launch_library_id', (v) => v as String?),
+          flightNumber: $checkedConvert('flight_number', (v) => v as int),
+          name: $checkedConvert('name', (v) => v as String),
+          dateUtc:
+              $checkedConvert('date_utc', (v) => DateTime.parse(v as String)),
+          dateLocal:
+              $checkedConvert('date_local', (v) => DateTime.parse(v as String)),
+          datePrecision: $checkedConvert('date_precision',
+              (v) => $enumDecode(_$DateTimePrecisionEnumMap, v)),
+          staticFireDate: $checkedConvert('static_fire_date_utc',
+              (v) => v == null ? null : DateTime.parse(v as String)),
+          tbd: $checkedConvert('tbd', (v) => v as bool? ?? false),
+          net: $checkedConvert('net', (v) => v as bool? ?? false),
+          window: $checkedConvert('window', (v) => v as int?),
+          rocket: $checkedConvert('rocket', (v) => v as String?),
+          success: $checkedConvert('success', (v) => v as bool?),
+          failures: $checkedConvert(
+              'failures',
+              (v) =>
+                  (v as List<dynamic>?)
+                      ?.map((e) =>
+                          LaunchFailure.fromJson(e as Map<String, dynamic>))
+                      .toList() ??
+                  const []),
+          upcoming: $checkedConvert('upcoming', (v) => v as bool),
+          details: $checkedConvert('details', (v) => v as String?),
+          fairings: $checkedConvert(
+              'fairings',
+              (v) => v == null
+                  ? null
+                  : LaunchFairingsRecovery.fromJson(v as Map<String, dynamic>)),
+          crew: $checkedConvert(
+              'crew',
+              (v) =>
+                  (v as List<dynamic>?)
+                      ?.map((e) =>
+                          LaunchCrewMember.fromJson(e as Map<String, dynamic>))
+                      .toList() ??
+                  const []),
+          ships: $checkedConvert(
+              'ships',
+              (v) =>
+                  (v as List<dynamic>?)?.map((e) => e as String).toList() ??
+                  const []),
+          capsules: $checkedConvert(
+              'capsules',
+              (v) =>
+                  (v as List<dynamic>?)?.map((e) => e as String).toList() ??
+                  const []),
+          payloads: $checkedConvert(
+              'payloads',
+              (v) =>
+                  (v as List<dynamic>?)?.map((e) => e as String).toList() ??
+                  const []),
+          launchpad: $checkedConvert('launchpad', (v) => v as String?),
+          cores: $checkedConvert(
+              'cores',
+              (v) =>
+                  (v as List<dynamic>?)
+                      ?.map(
+                          (e) => LaunchCore.fromJson(e as Map<String, dynamic>))
+                      .toList() ??
+                  const []),
+          links: $checkedConvert(
+              'links', (v) => LaunchLinks.fromJson(v as Map<String, dynamic>)),
+          autoUpdate: $checkedConvert('auto_update', (v) => v as bool? ?? true),
+        );
+        return val;
+      },
+      fieldKeyMap: const {
+        'launchLibraryId': 'launch_library_id',
+        'flightNumber': 'flight_number',
+        'dateUtc': 'date_utc',
+        'dateLocal': 'date_local',
+        'datePrecision': 'date_precision',
+        'staticFireDate': 'static_fire_date_utc',
+        'autoUpdate': 'auto_update'
+      },
     );
 
 Map<String, dynamic> _$LaunchToJson(Launch instance) => <String, dynamic>{
@@ -96,13 +132,24 @@ const _$DateTimePrecisionEnumMap = {
 
 LaunchFairingsRecovery _$LaunchFairingsRecoveryFromJson(
         Map<String, dynamic> json) =>
-    LaunchFairingsRecovery(
-      reused: json['reused'] as bool?,
-      recoveryAttempt: json['recovery_attempt'] as bool?,
-      recovered: json['recovered'] as bool?,
-      ships:
-          (json['ships'] as List<dynamic>?)?.map((e) => e as String).toList() ??
-              const [],
+    $checkedCreate(
+      'LaunchFairingsRecovery',
+      json,
+      ($checkedConvert) {
+        final val = LaunchFairingsRecovery(
+          reused: $checkedConvert('reused', (v) => v as bool?),
+          recoveryAttempt:
+              $checkedConvert('recovery_attempt', (v) => v as bool?),
+          recovered: $checkedConvert('recovered', (v) => v as bool?),
+          ships: $checkedConvert(
+              'ships',
+              (v) =>
+                  (v as List<dynamic>?)?.map((e) => e as String).toList() ??
+                  const []),
+        );
+        return val;
+      },
+      fieldKeyMap: const {'recoveryAttempt': 'recovery_attempt'},
     );
 
 Map<String, dynamic> _$LaunchFairingsRecoveryToJson(
@@ -115,10 +162,17 @@ Map<String, dynamic> _$LaunchFairingsRecoveryToJson(
     };
 
 LaunchFailure _$LaunchFailureFromJson(Map<String, dynamic> json) =>
-    LaunchFailure(
-      time: json['time'] as int?,
-      altitude: json['altitude'] as int?,
-      reason: json['reason'] as String?,
+    $checkedCreate(
+      'LaunchFailure',
+      json,
+      ($checkedConvert) {
+        final val = LaunchFailure(
+          time: $checkedConvert('time', (v) => v as int?),
+          altitude: $checkedConvert('altitude', (v) => v as int?),
+          reason: $checkedConvert('reason', (v) => v as String?),
+        );
+        return val;
+      },
     );
 
 Map<String, dynamic> _$LaunchFailureToJson(LaunchFailure instance) =>
@@ -129,9 +183,17 @@ Map<String, dynamic> _$LaunchFailureToJson(LaunchFailure instance) =>
     };
 
 LaunchCrewMember _$LaunchCrewMemberFromJson(Map<String, dynamic> json) =>
-    LaunchCrewMember(
-      id: json['crew'] as String?,
-      role: json['role'] as String?,
+    $checkedCreate(
+      'LaunchCrewMember',
+      json,
+      ($checkedConvert) {
+        final val = LaunchCrewMember(
+          id: $checkedConvert('crew', (v) => v as String?),
+          role: $checkedConvert('role', (v) => v as String?),
+        );
+        return val;
+      },
+      fieldKeyMap: const {'id': 'crew'},
     );
 
 Map<String, dynamic> _$LaunchCrewMemberToJson(LaunchCrewMember instance) =>
@@ -140,16 +202,30 @@ Map<String, dynamic> _$LaunchCrewMemberToJson(LaunchCrewMember instance) =>
       'role': instance.role,
     };
 
-LaunchCore _$LaunchCoreFromJson(Map<String, dynamic> json) => LaunchCore(
-      id: json['core'] as String?,
-      flight: json['flight'] as int?,
-      gridFins: json['gridfins'] as bool?,
-      legs: json['legs'] as bool?,
-      reused: json['reused'] as bool?,
-      landingAttempt: json['landing_attempt'] as bool?,
-      landingSuccess: json['landing_success'] as bool?,
-      landingType: json['landing_type'] as String?,
-      landpad: json['landpad'] as String?,
+LaunchCore _$LaunchCoreFromJson(Map<String, dynamic> json) => $checkedCreate(
+      'LaunchCore',
+      json,
+      ($checkedConvert) {
+        final val = LaunchCore(
+          id: $checkedConvert('core', (v) => v as String?),
+          flight: $checkedConvert('flight', (v) => v as int?),
+          gridFins: $checkedConvert('gridfins', (v) => v as bool?),
+          legs: $checkedConvert('legs', (v) => v as bool?),
+          reused: $checkedConvert('reused', (v) => v as bool?),
+          landingAttempt: $checkedConvert('landing_attempt', (v) => v as bool?),
+          landingSuccess: $checkedConvert('landing_success', (v) => v as bool?),
+          landingType: $checkedConvert('landing_type', (v) => v as String?),
+          landpad: $checkedConvert('landpad', (v) => v as String?),
+        );
+        return val;
+      },
+      fieldKeyMap: const {
+        'id': 'core',
+        'gridFins': 'gridfins',
+        'landingAttempt': 'landing_attempt',
+        'landingSuccess': 'landing_success',
+        'landingType': 'landing_type'
+      },
     );
 
 Map<String, dynamic> _$LaunchCoreToJson(LaunchCore instance) =>

@@ -6,21 +6,30 @@ part of 'page.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Page<T> _$PageFromJson<T>(Map<String, dynamic> json) => Page<T>(
-      docs: (json['docs'] as List<dynamic>)
-          .map((e) =>
-              _PageDocsJsonConverter<T>().fromJson(e as Map<String, dynamic>))
-          .toList(),
-      totalDocs: json['totalDocs'] as int,
-      offset: json['offset'] as int,
-      limit: json['limit'] as int,
-      totalPages: json['totalPages'] as int,
-      page: json['page'] as int,
-      pagingCounter: json['pagingCounter'] as int,
-      hasPrevPage: json['hasPrevPage'] as bool,
-      hasNextPage: json['hasNextPage'] as bool,
-      prevPage: json['prevPage'] as int?,
-      nextPage: json['nextPage'] as int?,
+Page<T> _$PageFromJson<T>(Map<String, dynamic> json) => $checkedCreate(
+      'Page',
+      json,
+      ($checkedConvert) {
+        final val = Page<T>(
+          docs: $checkedConvert(
+              'docs',
+              (v) => (v as List<dynamic>)
+                  .map((e) => _PageDocsJsonConverter<T>()
+                      .fromJson(e as Map<String, dynamic>))
+                  .toList()),
+          totalDocs: $checkedConvert('totalDocs', (v) => v as int),
+          offset: $checkedConvert('offset', (v) => v as int),
+          limit: $checkedConvert('limit', (v) => v as int),
+          totalPages: $checkedConvert('totalPages', (v) => v as int),
+          page: $checkedConvert('page', (v) => v as int),
+          pagingCounter: $checkedConvert('pagingCounter', (v) => v as int),
+          hasPrevPage: $checkedConvert('hasPrevPage', (v) => v as bool),
+          hasNextPage: $checkedConvert('hasNextPage', (v) => v as bool),
+          prevPage: $checkedConvert('prevPage', (v) => v as int?),
+          nextPage: $checkedConvert('nextPage', (v) => v as int?),
+        );
+        return val;
+      },
     );
 
 Map<String, dynamic> _$PageToJson<T>(Page<T> instance) => <String, dynamic>{

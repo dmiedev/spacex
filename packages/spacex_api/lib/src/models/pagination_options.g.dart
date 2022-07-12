@@ -7,19 +7,27 @@ part of 'pagination_options.dart';
 // **************************************************************************
 
 PaginationOptions _$PaginationOptionsFromJson(Map<String, dynamic> json) =>
-    PaginationOptions(
-      select:
-          (json['select'] as List<dynamic>?)?.map((e) => e as String).toList(),
-      sort: (json['sort'] as Map<String, dynamic>?)?.map(
-        (k, e) => MapEntry(k, $enumDecode(_$SortOrderEnumMap, e)),
-      ),
-      offset: json['offset'] as int?,
-      page: json['page'] as int?,
-      limit: json['limit'] as int?,
-      pagination: json['pagination'] as bool?,
-      populate: (json['populate'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
+    $checkedCreate(
+      'PaginationOptions',
+      json,
+      ($checkedConvert) {
+        final val = PaginationOptions(
+          select: $checkedConvert('select',
+              (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
+          sort: $checkedConvert(
+              'sort',
+              (v) => (v as Map<String, dynamic>?)?.map(
+                    (k, e) => MapEntry(k, $enumDecode(_$SortOrderEnumMap, e)),
+                  )),
+          offset: $checkedConvert('offset', (v) => v as int?),
+          page: $checkedConvert('page', (v) => v as int?),
+          limit: $checkedConvert('limit', (v) => v as int?),
+          pagination: $checkedConvert('pagination', (v) => v as bool?),
+          populate: $checkedConvert('populate',
+              (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
+        );
+        return val;
+      },
     );
 
 Map<String, dynamic> _$PaginationOptionsToJson(PaginationOptions instance) {

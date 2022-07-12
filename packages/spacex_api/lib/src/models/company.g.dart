@@ -6,24 +6,37 @@ part of 'company.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Company _$CompanyFromJson(Map<String, dynamic> json) => Company(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      founder: json['founder'] as String,
-      founded: json['founded'] as int,
-      employees: json['employees'] as int,
-      vehicles: json['vehicles'] as int,
-      launchSites: json['launch_sites'] as int,
-      testSites: json['test_sites'] as int,
-      ceo: json['ceo'] as String,
-      cto: json['cto'] as String,
-      coo: json['coo'] as String,
-      ctoPropulsion: json['cto_propulsion'] as String,
-      valuation: json['valuation'] as int,
-      headquarters: CompanyEntityLocation.fromJson(
-          json['headquarters'] as Map<String, dynamic>),
-      links: CompanyLinks.fromJson(json['links'] as Map<String, dynamic>),
-      summary: json['summary'] as String,
+Company _$CompanyFromJson(Map<String, dynamic> json) => $checkedCreate(
+      'Company',
+      json,
+      ($checkedConvert) {
+        final val = Company(
+          id: $checkedConvert('id', (v) => v as String),
+          name: $checkedConvert('name', (v) => v as String),
+          founder: $checkedConvert('founder', (v) => v as String),
+          founded: $checkedConvert('founded', (v) => v as int),
+          employees: $checkedConvert('employees', (v) => v as int),
+          vehicles: $checkedConvert('vehicles', (v) => v as int),
+          launchSites: $checkedConvert('launch_sites', (v) => v as int),
+          testSites: $checkedConvert('test_sites', (v) => v as int),
+          ceo: $checkedConvert('ceo', (v) => v as String),
+          cto: $checkedConvert('cto', (v) => v as String),
+          coo: $checkedConvert('coo', (v) => v as String),
+          ctoPropulsion: $checkedConvert('cto_propulsion', (v) => v as String),
+          valuation: $checkedConvert('valuation', (v) => v as int),
+          headquarters: $checkedConvert('headquarters',
+              (v) => CompanyEntityLocation.fromJson(v as Map<String, dynamic>)),
+          links: $checkedConvert(
+              'links', (v) => CompanyLinks.fromJson(v as Map<String, dynamic>)),
+          summary: $checkedConvert('summary', (v) => v as String),
+        );
+        return val;
+      },
+      fieldKeyMap: const {
+        'launchSites': 'launch_sites',
+        'testSites': 'test_sites',
+        'ctoPropulsion': 'cto_propulsion'
+      },
     );
 
 Map<String, dynamic> _$CompanyToJson(Company instance) => <String, dynamic>{
@@ -47,10 +60,17 @@ Map<String, dynamic> _$CompanyToJson(Company instance) => <String, dynamic>{
 
 CompanyEntityLocation _$CompanyEntityLocationFromJson(
         Map<String, dynamic> json) =>
-    CompanyEntityLocation(
-      address: json['address'] as String,
-      city: json['city'] as String,
-      state: json['state'] as String,
+    $checkedCreate(
+      'CompanyEntityLocation',
+      json,
+      ($checkedConvert) {
+        final val = CompanyEntityLocation(
+          address: $checkedConvert('address', (v) => v as String),
+          city: $checkedConvert('city', (v) => v as String),
+          state: $checkedConvert('state', (v) => v as String),
+        );
+        return val;
+      },
     );
 
 Map<String, dynamic> _$CompanyEntityLocationToJson(
@@ -61,11 +81,20 @@ Map<String, dynamic> _$CompanyEntityLocationToJson(
       'state': instance.state,
     };
 
-CompanyLinks _$CompanyLinksFromJson(Map<String, dynamic> json) => CompanyLinks(
-      website: json['website'] as String,
-      flickr: json['flickr'] as String,
-      twitter: json['twitter'] as String,
-      elonTwitter: json['elon_twitter'] as String,
+CompanyLinks _$CompanyLinksFromJson(Map<String, dynamic> json) =>
+    $checkedCreate(
+      'CompanyLinks',
+      json,
+      ($checkedConvert) {
+        final val = CompanyLinks(
+          website: $checkedConvert('website', (v) => v as String),
+          flickr: $checkedConvert('flickr', (v) => v as String),
+          twitter: $checkedConvert('twitter', (v) => v as String),
+          elonTwitter: $checkedConvert('elon_twitter', (v) => v as String),
+        );
+        return val;
+      },
+      fieldKeyMap: const {'elonTwitter': 'elon_twitter'},
     );
 
 Map<String, dynamic> _$CompanyLinksToJson(CompanyLinks instance) =>

@@ -8,11 +8,26 @@ part of 'filter.dart';
 
 TextFilterParameters _$TextFilterParametersFromJson(
         Map<String, dynamic> json) =>
-    TextFilterParameters(
-      search: json[r'$search'] as String,
-      language: json[r'$language'] as String?,
-      caseSensitive: json[r'$caseSensitive'] as bool? ?? false,
-      diacriticSensitive: json[r'$diacriticSensitive'] as bool? ?? false,
+    $checkedCreate(
+      'TextFilterParameters',
+      json,
+      ($checkedConvert) {
+        final val = TextFilterParameters(
+          search: $checkedConvert(r'$search', (v) => v as String),
+          language: $checkedConvert(r'$language', (v) => v as String?),
+          caseSensitive:
+              $checkedConvert(r'$caseSensitive', (v) => v as bool? ?? false),
+          diacriticSensitive: $checkedConvert(
+              r'$diacriticSensitive', (v) => v as bool? ?? false),
+        );
+        return val;
+      },
+      fieldKeyMap: const {
+        'search': r'$search',
+        'language': r'$language',
+        'caseSensitive': r'$caseSensitive',
+        'diacriticSensitive': r'$diacriticSensitive'
+      },
     );
 
 Map<String, dynamic> _$TextFilterParametersToJson(

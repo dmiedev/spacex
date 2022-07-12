@@ -6,25 +6,41 @@ part of 'rocket.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Rocket _$RocketFromJson(Map<String, dynamic> json) => Rocket(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      active: json['active'] as bool,
-      stages: json['stages'] as int,
-      boosters: json['boosters'] as int,
-      costPerLaunch: json['cost_per_launch'] as int,
-      successRatePct: json['success_rate_pct'] as int,
-      firstFlight: DateTime.parse(json['first_flight'] as String),
-      country: json['country'] as String,
-      company: json['company'] as String,
-      height: Length.fromJson(json['height'] as Map<String, dynamic>),
-      diameter: Length.fromJson(json['diameter'] as Map<String, dynamic>),
-      mass: Mass.fromJson(json['mass'] as Map<String, dynamic>),
-      flickrImages: (json['flickr_images'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      wikipedia: json['wikipedia'] as String,
-      description: json['description'] as String,
+Rocket _$RocketFromJson(Map<String, dynamic> json) => $checkedCreate(
+      'Rocket',
+      json,
+      ($checkedConvert) {
+        final val = Rocket(
+          id: $checkedConvert('id', (v) => v as String),
+          name: $checkedConvert('name', (v) => v as String),
+          active: $checkedConvert('active', (v) => v as bool),
+          stages: $checkedConvert('stages', (v) => v as int),
+          boosters: $checkedConvert('boosters', (v) => v as int),
+          costPerLaunch: $checkedConvert('cost_per_launch', (v) => v as int),
+          successRatePct: $checkedConvert('success_rate_pct', (v) => v as int),
+          firstFlight: $checkedConvert(
+              'first_flight', (v) => DateTime.parse(v as String)),
+          country: $checkedConvert('country', (v) => v as String),
+          company: $checkedConvert('company', (v) => v as String),
+          height: $checkedConvert(
+              'height', (v) => Length.fromJson(v as Map<String, dynamic>)),
+          diameter: $checkedConvert(
+              'diameter', (v) => Length.fromJson(v as Map<String, dynamic>)),
+          mass: $checkedConvert(
+              'mass', (v) => Mass.fromJson(v as Map<String, dynamic>)),
+          flickrImages: $checkedConvert('flickr_images',
+              (v) => (v as List<dynamic>).map((e) => e as String).toList()),
+          wikipedia: $checkedConvert('wikipedia', (v) => v as String),
+          description: $checkedConvert('description', (v) => v as String),
+        );
+        return val;
+      },
+      fieldKeyMap: const {
+        'costPerLaunch': 'cost_per_launch',
+        'successRatePct': 'success_rate_pct',
+        'firstFlight': 'first_flight',
+        'flickrImages': 'flickr_images'
+      },
     );
 
 Map<String, dynamic> _$RocketToJson(Rocket instance) => <String, dynamic>{
@@ -46,9 +62,16 @@ Map<String, dynamic> _$RocketToJson(Rocket instance) => <String, dynamic>{
       'description': instance.description,
     };
 
-Length _$LengthFromJson(Map<String, dynamic> json) => Length(
-      meters: (json['meters'] as num).toDouble(),
-      feet: (json['feet'] as num).toDouble(),
+Length _$LengthFromJson(Map<String, dynamic> json) => $checkedCreate(
+      'Length',
+      json,
+      ($checkedConvert) {
+        final val = Length(
+          meters: $checkedConvert('meters', (v) => (v as num).toDouble()),
+          feet: $checkedConvert('feet', (v) => (v as num).toDouble()),
+        );
+        return val;
+      },
     );
 
 Map<String, dynamic> _$LengthToJson(Length instance) => <String, dynamic>{
@@ -56,9 +79,16 @@ Map<String, dynamic> _$LengthToJson(Length instance) => <String, dynamic>{
       'feet': instance.feet,
     };
 
-Mass _$MassFromJson(Map<String, dynamic> json) => Mass(
-      kg: json['kg'] as int,
-      lb: json['lb'] as int,
+Mass _$MassFromJson(Map<String, dynamic> json) => $checkedCreate(
+      'Mass',
+      json,
+      ($checkedConvert) {
+        final val = Mass(
+          kg: $checkedConvert('kg', (v) => v as int),
+          lb: $checkedConvert('lb', (v) => v as int),
+        );
+        return val;
+      },
     );
 
 Map<String, dynamic> _$MassToJson(Mass instance) => <String, dynamic>{
