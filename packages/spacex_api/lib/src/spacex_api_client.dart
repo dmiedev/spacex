@@ -38,9 +38,11 @@ class SpacexApiClient {
   /// Fetches all SpaceX rockets.
   Future<List<Rocket>> fetchAllRockets() async {
     final url = Uri.https(_authority, '/v4/rockets');
-    final jsonList = await _get<List<Map<String, dynamic>>>(url);
+    final jsonList = await _get<List<dynamic>>(url);
     try {
-      return jsonList.map(Rocket.fromJson).toList();
+      return jsonList
+          .map((item) => Rocket.fromJson(item as Map<String, dynamic>))
+          .toList();
     } on Exception {
       throw JsonDeserializationException();
     }
