@@ -16,6 +16,10 @@ void main() {
   );
 
   group('PaginationOptions', () {
+    test('has no required parameters', () {
+      expect(PaginationOptions.new, returnsNormally);
+    });
+
     test('supports value comparisons', () {
       expect(
         options,
