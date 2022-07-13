@@ -18,7 +18,4 @@ class SortingOption extends Equatable {
 
   @override
   List<Object?> get props => [feature, order];
-
-  @override
-  String toString() => 'SortingOption($feature, $order)';
 }
