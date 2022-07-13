@@ -1,3 +1,5 @@
+import 'package:launch_repository/src/exceptions.dart';
+import 'package:launch_repository/src/models/models.dart';
 import 'package:spacex_api/spacex_api.dart';
 
 /// A repository that manages the rocket launch domain.
@@ -10,21 +12,33 @@ class LaunchRepository {
   final SpacexApiClient _spacexApiClient;
 
   /// Fetches SpaceX rocket launches that meet the specified parameters.
-  List<Launch> fetchLaunches({
+  ///
+  /// Throws a [RocketsFetchException] if fetching fails.
+  Future<List<Launch>> fetchLaunches({
     required int amount,
-    List<FilteringOption>? filters,
+    required int listNumber,
+    List<FilteringOption> filtering = const [],
     SortingOption? sorting,
     String? searchedText,
-    required int listNumber,
-  }) {
-    return [];
+  }) async {
+    final filters = filtering.map((option) => option.toFilter()).toList();
+    if (searchedText != null) {
+      filters.add(Filter.text(TextFilterParameters(search: searchedText)));
+    }
+    try {
+      final page = await _spacexApiClient.queryLaunches(
+        filter: filters.isNotEmpty ? Filter.and(filters) : const Filter.empty(),
+        options: PaginationOptions(
+          limit: amount,
+          page: listNumber,
+          sort: sorting != null
+              ? {sorting.feature.toFieldName(): sorting.order}
+              : {},
+        ),
+      );
+      return page.docs;
+    } on Exception {
+      throw RocketsFetchException();
+    }
   }
-}
-
-class FilteringOption {}
-
-class SortingOption {}
-
-enum LaunchFeature {
-  flightNumber,
 }
