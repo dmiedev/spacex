@@ -13,7 +13,7 @@ class LaunchRepository {
 
   /// Fetches SpaceX rocket launches that meet the specified parameters.
   ///
-  /// Throws a [RocketsFetchException] if fetching fails.
+  /// Throws a [LaunchFetchingException] if fetching fails.
   Future<List<Launch>> fetchLaunches({
     required int amount,
     required int listNumber,
@@ -38,7 +38,7 @@ class LaunchRepository {
       );
       return page.docs;
     } on Exception {
-      throw RocketsFetchException();
+      throw LaunchFetchingException();
     }
   }
 }
