@@ -136,8 +136,10 @@ class Filter extends Equatable {
   /// Creates a filter that matches any of the values specified in an array.
   ///
   /// The [field] parameter must be the name of a field in `snake_case`.
-  /// The [value] parameter must be a value that this filter should match.
+  /// The [values] parameter must be a nonempty array of values that this filter
+  /// should match.
   factory Filter.in_(String field, List<Object> values) {
+    assert(values.isNotEmpty, '"values" must be a nonempty array!');
     return Filter._(FilterOperator.in_, field: field, value: values);
   }
 
@@ -170,23 +172,34 @@ class Filter extends Equatable {
   /// Creates a filter that matches none of the values specified in an array.
   ///
   /// The [field] parameter must be the name of a field in `snake_case`.
-  /// The [values] parameter must be values that this filter should match.
+  /// The [values] parameter must be a nonempty array of values that this filter
+  /// should match.
   factory Filter.notIn(String field, List<Object> values) {
+    assert(values.isNotEmpty, '"values" must be a nonempty array!');
     return Filter._(FilterOperator.notIn, field: field, value: values);
   }
 
   /// Creates a filter that joins [filters] with a logical `AND`.
+  ///
+  /// The [filters] parameter must be a nonempty array.
   factory Filter.and(List<Filter> filters) {
+    assert(filters.isNotEmpty, '"filters" must be a nonempty array!');
     return Filter._(FilterOperator.and, value: filters);
   }
 
   /// Creates a filter that joins [filters] with a logical `NOR`.
+  ///
+  /// The [filters] parameter must be a nonempty array.
   factory Filter.nor(List<Filter> filters) {
+    assert(filters.isNotEmpty, '"filters" must be a nonempty array!');
     return Filter._(FilterOperator.nor, value: filters);
   }
 
   /// Creates a filter that joins [filters] with a logical `OR`.
+  ///
+  /// The [filters] parameter must be a nonempty array.
   factory Filter.or(List<Filter> filters) {
+    assert(filters.isNotEmpty, '"filters" must be a nonempty array!');
     return Filter._(FilterOperator.or, value: filters);
   }
 
