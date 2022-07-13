@@ -11,29 +11,29 @@ class Launch extends Equatable {
   const Launch({
     required this.id,
     this.launchLibraryId,
-    required this.flightNumber,
-    required this.name,
-    required this.dateUtc,
-    required this.dateLocal,
-    required this.datePrecision,
+    this.flightNumber,
+    this.name,
+    this.dateUtc,
+    this.dateLocal,
+    this.datePrecision,
     this.staticFireDateUtc,
-    this.tbd = false,
-    this.net = false,
+    this.tbd,
+    this.net,
     this.window,
     this.rocket,
     this.success,
-    this.failures = const [],
-    required this.upcoming,
+    this.failures,
+    this.upcoming,
     this.details,
     this.fairings,
-    this.crew = const [],
-    this.ships = const [],
-    this.capsules = const [],
-    this.payloads = const [],
+    this.crew,
+    this.ships,
+    this.capsules,
+    this.payloads,
     this.launchpad,
-    this.cores = const [],
-    required this.links,
-    this.autoUpdate = true,
+    this.cores,
+    this.links,
+    this.autoUpdate,
   });
 
   /// The ID of this launch.
@@ -43,29 +43,29 @@ class Launch extends Equatable {
   final String? launchLibraryId;
 
   /// The serial number of the launch.
-  final int flightNumber;
+  final int? flightNumber;
 
   /// The name of this launch.
-  final String name;
+  final String? name;
 
   /// The UTC date and time of this launch.
-  final DateTime dateUtc;
+  final DateTime? dateUtc;
 
   /// The local date and time of this launch.
-  final DateTime dateLocal;
+  final DateTime? dateLocal;
 
   /// The precision of the date of this launch.
-  final DateTimePrecision datePrecision;
+  final DateTimePrecision? datePrecision;
 
   /// The date of a static fire test.
   final DateTime? staticFireDateUtc;
 
   /// Whether the date of this launch is yet to be determined.
-  final bool tbd;
+  final bool? tbd;
 
   /// Whether the date of this launch should be interpreted as "Not earlier
   /// than".
-  final bool net;
+  final bool? net;
 
   /// The duration of the launch window in seconds.
   final int? window;
@@ -77,10 +77,10 @@ class Launch extends Equatable {
   final bool? success;
 
   /// A list of failures that occurred during this launch.
-  final List<LaunchFailure> failures;
+  final List<LaunchFailure>? failures;
 
   /// Whether this launch is upcoming.
-  final bool upcoming;
+  final bool? upcoming;
 
   /// Detailed information about this launch.
   final String? details;
@@ -89,29 +89,29 @@ class Launch extends Equatable {
   final LaunchFairingsRecovery? fairings;
 
   /// The crew that participates in this launch.
-  final List<LaunchCrewMember> crew;
+  final List<LaunchCrewMember>? crew;
 
   /// The IDs of the ships that caught the rocket first-stages after this
   /// launch.
-  final List<String> ships;
+  final List<String>? ships;
 
   /// The IDs of the Dragon capsules that the rocket of this launch holds.
-  final List<String> capsules;
+  final List<String>? capsules;
 
   /// The IDs of the payloads that the rocket of this launch holds.
-  final List<String> payloads;
+  final List<String>? payloads;
 
   /// The ID of the launchpad that this launch happens on.
   final String? launchpad;
 
   /// A list of cores used for the rocket of this launch.
-  final List<LaunchCore> cores;
+  final List<LaunchCore>? cores;
 
   /// A collection of links to various content.
-  final LaunchLinks links;
+  final LaunchLinks? links;
 
   /// Whether this launch provides automatic updates on its course.
-  final bool autoUpdate;
+  final bool? autoUpdate;
 
   @override
   List<Object?> get props => [
@@ -253,12 +253,12 @@ class LaunchFailure extends Equatable {
 class LaunchCrewMember extends Equatable {
   /// Creates a model of a crew member involved in a rocket launch.
   const LaunchCrewMember({
-    this.crew,
+    required this.crew,
     this.role,
   });
 
   /// The ID of this crew member.
-  final String? crew;
+  final String crew;
 
   /// The role name of this crew member.
   final String? role;
@@ -283,7 +283,7 @@ class LaunchCrewMember extends Equatable {
 class LaunchCore extends Equatable {
   /// Creates a model that holds data about a core used in a rocket launch.
   const LaunchCore({
-    this.core,
+    required this.core,
     this.flight,
     this.gridfins,
     this.legs,
@@ -295,7 +295,7 @@ class LaunchCore extends Equatable {
   });
 
   /// The ID of this core.
-  final String? core;
+  final String core;
 
   /// The number of this core's flight.
   final int? flight;
@@ -351,9 +351,9 @@ class LaunchCore extends Equatable {
 class LaunchLinks extends Equatable {
   /// Creates a collection of links related to a rocket launch.
   const LaunchLinks({
-    this.patch = const PatchLinks(),
-    this.reddit = const RedditLaunchLinks(),
-    required this.flickr,
+    this.patch,
+    this.reddit,
+    this.flickr,
     this.presskit,
     this.webcast,
     this.youtubeId,
@@ -362,13 +362,13 @@ class LaunchLinks extends Equatable {
   });
 
   /// Links to the patch.
-  final PatchLinks patch;
+  final PatchLinks? patch;
 
   /// Links to Reddit threads.
-  final RedditLaunchLinks reddit;
+  final RedditLaunchLinks? reddit;
 
   /// Links to Flickr images.
-  final FlickrLaunchLinks flickr;
+  final FlickrLaunchLinks? flickr;
 
   /// A URL to a press kit.
   final String? presskit;
@@ -474,15 +474,15 @@ class RedditLaunchLinks extends Equatable {
 class FlickrLaunchLinks extends Equatable {
   /// Creates a collection of links to launch-related images on Flickr.
   const FlickrLaunchLinks({
-    required this.small,
-    required this.original,
+    this.small,
+    this.original,
   });
 
   /// A list of URLs to small-sized images.
-  final List<String> small;
+  final List<String>? small;
 
   /// A list of URLs to images of original size.
-  final List<String> original;
+  final List<String>? original;
 
   @override
   List<Object?> get props => [small, original];

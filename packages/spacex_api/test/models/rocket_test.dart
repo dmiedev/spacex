@@ -55,6 +55,10 @@ void main() {
       );
     });
 
+    test('has no required parameters except ID to support field selecting', () {
+      expect(() => Rocket(id: 'id'), returnsNormally);
+    });
+
     test('.fromJson() returns correct result', () {
       expect(
         Rocket.fromJson(
@@ -178,6 +182,10 @@ void main() {
       expect(length, Length(feet: 120, meters: 36.576));
     });
 
+    test('has no required parameters to support field selecting', () {
+      expect(Length.new, returnsNormally);
+    });
+
     test('.fromJson() return correct result', () {
       expect(Length.fromJson(json), length);
     });
@@ -192,6 +200,10 @@ void main() {
 
     test('supports value comparisons', () {
       expect(mass, Mass(kg: 100, lb: 220));
+    });
+
+    test('has no required parameters to support field selecting', () {
+      expect(Mass.new, returnsNormally);
     });
 
     test('.fromJson() return correct result', () {
