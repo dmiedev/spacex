@@ -75,7 +75,7 @@ void main() {
       ).thenThrow(Exception());
       expect(
         repository.fetchLaunches(amount: 10, listNumber: 1),
-        throwsA(isA<RocketsFetchException>()),
+        throwsA(isA<LaunchFetchingException>()),
       );
     });
 

@@ -1,6 +1,6 @@
-abstract class _RocketRepositoryException implements Exception {
-  const _RocketRepositoryException();
+abstract class _LaunchRepositoryException implements Exception {
+  const _LaunchRepositoryException();
 }
 
 /// An exception that occurs while fetching rocket launches.
-class RocketsFetchException extends _RocketRepositoryException {}
+class LaunchFetchingException extends _LaunchRepositoryException {}

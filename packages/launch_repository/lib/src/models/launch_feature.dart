@@ -8,7 +8,7 @@ enum LaunchFeature {
   /// The name of the launch.
   name,
 
-  /// The date and time of this launch.
+  /// The date and time of the launch.
   date,
 
   /// Whether the launch is successful.
