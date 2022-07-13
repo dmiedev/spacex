@@ -33,7 +33,7 @@ class LaunchRepository {
           page: listNumber,
           sort: sorting != null
               ? {sorting.feature.toFieldName(): sorting.order}
-              : {},
+              : null,
         ),
       );
       return page.docs;
