@@ -1,4 +1,5 @@
 import 'package:rocket_repository/exceptions.dart';
+import 'package:rocket_repository/src/models/models.dart';
 import 'package:spacex_api/spacex_api.dart';
 
 /// A repository that manages the rocket domain.
@@ -12,12 +13,28 @@ class RocketRepository {
 
   /// Fetches SpaceX rockets.
   ///
-  /// Throws [RocketsFetchException] if fetching fails.
+  /// Throws [RocketFetchingException] if fetching fails.
   Future<List<Rocket>> fetchAllRockets() {
     try {
       return _spacexApiClient.fetchAllRockets();
     } on Exception {
-      throw RocketsFetchException();
+      throw RocketFetchingException();
+    }
+  }
+
+  /// Fetches brief information about SpaceX rockets.
+  ///
+  /// Throws [RocketFetchingException] if fetching fails.
+  Future<List<RocketInfo>> fetchRocketInfos() async {
+    try {
+      final page = await _spacexApiClient.queryRockets(
+        options: const PaginationOptions(select: ['name'], pagination: false),
+      );
+      return page.docs
+          .map((rocket) => RocketInfo(id: rocket.id, name: rocket.name!))
+          .toList();
+    } on Exception {
+      throw RocketFetchingException();
     }
   }
 }
