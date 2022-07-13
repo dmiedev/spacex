@@ -154,6 +154,10 @@ void main() {
       );
     });
 
+    test('has no required parameters except ID to support field selecting', () {
+      expect(() => Launch(id: 'abc'), returnsNormally);
+    });
+
     test('.fromJson() returns correct result', () {
       expect(
         Launch.fromJson(
@@ -263,17 +267,17 @@ void main() {
               isA<LaunchLinks>(),
             )
             .having(
-              (launch) => launch.links.patch,
+              (launch) => launch.links!.patch,
               'links.patch',
               isA<PatchLinks>(),
             )
             .having(
-              (launch) => launch.links.reddit,
+              (launch) => launch.links!.reddit,
               'links.reddit',
               isA<RedditLaunchLinks>(),
             )
             .having(
-              (launch) => launch.links.flickr,
+              (launch) => launch.links!.flickr,
               'links.flickr',
               isA<FlickrLaunchLinks>(),
             )
@@ -368,6 +372,10 @@ void main() {
       );
     });
 
+    test('has no required parameters to support field selecting', () {
+      expect(LaunchFairingsRecovery.new, returnsNormally);
+    });
+
     test('.fromJson() return correct result', () {
       expect(LaunchFairingsRecovery.fromJson(json), fairingsRecovery);
     });
@@ -387,6 +395,10 @@ void main() {
       );
     });
 
+    test('has no required parameters to support field selecting', () {
+      expect(LaunchFailure.new, returnsNormally);
+    });
+
     test('.fromJson() return correct result', () {
       expect(LaunchFailure.fromJson(json), failure);
     });
@@ -401,6 +413,10 @@ void main() {
 
     test('supports value comparisons', () {
       expect(crewMember, LaunchCrewMember(crew: '1', role: 'Captain'));
+    });
+
+    test('has no required parameters except ID to support field selecting', () {
+      expect(() => LaunchCrewMember(crew: 'id'), returnsNormally);
     });
 
     test('.fromJson() return correct result', () {
@@ -442,6 +458,10 @@ void main() {
       );
     });
 
+    test('has no required parameters except ID to support field selecting', () {
+      expect(() => LaunchCore(core: 'id'), returnsNormally);
+    });
+
     test('.fromJson() return correct result', () {
       expect(LaunchCore.fromJson(json), core);
     });
@@ -459,6 +479,10 @@ void main() {
         patchLinks,
         PatchLinks(small: 'small_patch', large: 'large_patch'),
       );
+    });
+
+    test('has no required parameters to support field selecting', () {
+      expect(PatchLinks.new, returnsNormally);
     });
 
     test('.fromJson() return correct result', () {
@@ -490,6 +514,10 @@ void main() {
       );
     });
 
+    test('has no required parameters to support field selecting', () {
+      expect(RedditLaunchLinks.new, returnsNormally);
+    });
+
     test('.fromJson() return correct result', () {
       expect(RedditLaunchLinks.fromJson(json), redditLaunchLinks);
     });
@@ -513,6 +541,10 @@ void main() {
           small: ['link 3', 'link 4'],
         ),
       );
+    });
+
+    test('has no required parameters to support field selecting', () {
+      expect(FlickrLaunchLinks.new, returnsNormally);
     });
 
     test('.fromJson() return correct result', () {

@@ -14,30 +14,28 @@ Launch _$LaunchFromJson(Map<String, dynamic> json) => $checkedCreate(
           id: $checkedConvert('id', (v) => v as String),
           launchLibraryId:
               $checkedConvert('launch_library_id', (v) => v as String?),
-          flightNumber: $checkedConvert('flight_number', (v) => v as int),
-          name: $checkedConvert('name', (v) => v as String),
-          dateUtc:
-              $checkedConvert('date_utc', (v) => DateTime.parse(v as String)),
-          dateLocal:
-              $checkedConvert('date_local', (v) => DateTime.parse(v as String)),
+          flightNumber: $checkedConvert('flight_number', (v) => v as int?),
+          name: $checkedConvert('name', (v) => v as String?),
+          dateUtc: $checkedConvert('date_utc',
+              (v) => v == null ? null : DateTime.parse(v as String)),
+          dateLocal: $checkedConvert('date_local',
+              (v) => v == null ? null : DateTime.parse(v as String)),
           datePrecision: $checkedConvert('date_precision',
-              (v) => $enumDecode(_$DateTimePrecisionEnumMap, v)),
+              (v) => $enumDecodeNullable(_$DateTimePrecisionEnumMap, v)),
           staticFireDateUtc: $checkedConvert('static_fire_date_utc',
               (v) => v == null ? null : DateTime.parse(v as String)),
-          tbd: $checkedConvert('tbd', (v) => v as bool? ?? false),
-          net: $checkedConvert('net', (v) => v as bool? ?? false),
+          tbd: $checkedConvert('tbd', (v) => v as bool?),
+          net: $checkedConvert('net', (v) => v as bool?),
           window: $checkedConvert('window', (v) => v as int?),
           rocket: $checkedConvert('rocket', (v) => v as String?),
           success: $checkedConvert('success', (v) => v as bool?),
           failures: $checkedConvert(
               'failures',
-              (v) =>
-                  (v as List<dynamic>?)
-                      ?.map((e) =>
-                          LaunchFailure.fromJson(e as Map<String, dynamic>))
-                      .toList() ??
-                  const []),
-          upcoming: $checkedConvert('upcoming', (v) => v as bool),
+              (v) => (v as List<dynamic>?)
+                  ?.map(
+                      (e) => LaunchFailure.fromJson(e as Map<String, dynamic>))
+                  .toList()),
+          upcoming: $checkedConvert('upcoming', (v) => v as bool?),
           details: $checkedConvert('details', (v) => v as String?),
           fairings: $checkedConvert(
               'fairings',
@@ -46,39 +44,28 @@ Launch _$LaunchFromJson(Map<String, dynamic> json) => $checkedCreate(
                   : LaunchFairingsRecovery.fromJson(v as Map<String, dynamic>)),
           crew: $checkedConvert(
               'crew',
-              (v) =>
-                  (v as List<dynamic>?)
-                      ?.map((e) =>
-                          LaunchCrewMember.fromJson(e as Map<String, dynamic>))
-                      .toList() ??
-                  const []),
-          ships: $checkedConvert(
-              'ships',
-              (v) =>
-                  (v as List<dynamic>?)?.map((e) => e as String).toList() ??
-                  const []),
-          capsules: $checkedConvert(
-              'capsules',
-              (v) =>
-                  (v as List<dynamic>?)?.map((e) => e as String).toList() ??
-                  const []),
-          payloads: $checkedConvert(
-              'payloads',
-              (v) =>
-                  (v as List<dynamic>?)?.map((e) => e as String).toList() ??
-                  const []),
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) =>
+                      LaunchCrewMember.fromJson(e as Map<String, dynamic>))
+                  .toList()),
+          ships: $checkedConvert('ships',
+              (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
+          capsules: $checkedConvert('capsules',
+              (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
+          payloads: $checkedConvert('payloads',
+              (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
           launchpad: $checkedConvert('launchpad', (v) => v as String?),
           cores: $checkedConvert(
               'cores',
-              (v) =>
-                  (v as List<dynamic>?)
-                      ?.map(
-                          (e) => LaunchCore.fromJson(e as Map<String, dynamic>))
-                      .toList() ??
-                  const []),
+              (v) => (v as List<dynamic>?)
+                  ?.map((e) => LaunchCore.fromJson(e as Map<String, dynamic>))
+                  .toList()),
           links: $checkedConvert(
-              'links', (v) => LaunchLinks.fromJson(v as Map<String, dynamic>)),
-          autoUpdate: $checkedConvert('auto_update', (v) => v as bool? ?? true),
+              'links',
+              (v) => v == null
+                  ? null
+                  : LaunchLinks.fromJson(v as Map<String, dynamic>)),
+          autoUpdate: $checkedConvert('auto_update', (v) => v as bool?),
         );
         return val;
       },
@@ -98,8 +85,8 @@ Map<String, dynamic> _$LaunchToJson(Launch instance) => <String, dynamic>{
       'launch_library_id': instance.launchLibraryId,
       'flight_number': instance.flightNumber,
       'name': instance.name,
-      'date_utc': instance.dateUtc.toIso8601String(),
-      'date_local': instance.dateLocal.toIso8601String(),
+      'date_utc': instance.dateUtc?.toIso8601String(),
+      'date_local': instance.dateLocal?.toIso8601String(),
       'date_precision': _$DateTimePrecisionEnumMap[instance.datePrecision],
       'static_fire_date_utc': instance.staticFireDateUtc?.toIso8601String(),
       'tbd': instance.tbd,
@@ -107,17 +94,17 @@ Map<String, dynamic> _$LaunchToJson(Launch instance) => <String, dynamic>{
       'window': instance.window,
       'rocket': instance.rocket,
       'success': instance.success,
-      'failures': instance.failures.map((e) => e.toJson()).toList(),
+      'failures': instance.failures?.map((e) => e.toJson()).toList(),
       'upcoming': instance.upcoming,
       'details': instance.details,
       'fairings': instance.fairings?.toJson(),
-      'crew': instance.crew.map((e) => e.toJson()).toList(),
+      'crew': instance.crew?.map((e) => e.toJson()).toList(),
       'ships': instance.ships,
       'capsules': instance.capsules,
       'payloads': instance.payloads,
       'launchpad': instance.launchpad,
-      'cores': instance.cores.map((e) => e.toJson()).toList(),
-      'links': instance.links.toJson(),
+      'cores': instance.cores?.map((e) => e.toJson()).toList(),
+      'links': instance.links?.toJson(),
       'auto_update': instance.autoUpdate,
     };
 
@@ -188,7 +175,7 @@ LaunchCrewMember _$LaunchCrewMemberFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = LaunchCrewMember(
-          crew: $checkedConvert('crew', (v) => v as String?),
+          crew: $checkedConvert('crew', (v) => v as String),
           role: $checkedConvert('role', (v) => v as String?),
         );
         return val;
@@ -206,7 +193,7 @@ LaunchCore _$LaunchCoreFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = LaunchCore(
-          core: $checkedConvert('core', (v) => v as String?),
+          core: $checkedConvert('core', (v) => v as String),
           flight: $checkedConvert('flight', (v) => v as int?),
           gridfins: $checkedConvert('gridfins', (v) => v as bool?),
           legs: $checkedConvert('legs', (v) => v as bool?),
@@ -246,15 +233,18 @@ LaunchLinks _$LaunchLinksFromJson(Map<String, dynamic> json) => $checkedCreate(
           patch: $checkedConvert(
               'patch',
               (v) => v == null
-                  ? const PatchLinks()
+                  ? null
                   : PatchLinks.fromJson(v as Map<String, dynamic>)),
           reddit: $checkedConvert(
               'reddit',
               (v) => v == null
-                  ? const RedditLaunchLinks()
+                  ? null
                   : RedditLaunchLinks.fromJson(v as Map<String, dynamic>)),
-          flickr: $checkedConvert('flickr',
-              (v) => FlickrLaunchLinks.fromJson(v as Map<String, dynamic>)),
+          flickr: $checkedConvert(
+              'flickr',
+              (v) => v == null
+                  ? null
+                  : FlickrLaunchLinks.fromJson(v as Map<String, dynamic>)),
           presskit: $checkedConvert('presskit', (v) => v as String?),
           webcast: $checkedConvert('webcast', (v) => v as String?),
           youtubeId: $checkedConvert('youtube_id', (v) => v as String?),
@@ -268,9 +258,9 @@ LaunchLinks _$LaunchLinksFromJson(Map<String, dynamic> json) => $checkedCreate(
 
 Map<String, dynamic> _$LaunchLinksToJson(LaunchLinks instance) =>
     <String, dynamic>{
-      'patch': instance.patch.toJson(),
-      'reddit': instance.reddit.toJson(),
-      'flickr': instance.flickr.toJson(),
+      'patch': instance.patch?.toJson(),
+      'reddit': instance.reddit?.toJson(),
+      'flickr': instance.flickr?.toJson(),
       'presskit': instance.presskit,
       'webcast': instance.webcast,
       'youtube_id': instance.youtubeId,
@@ -326,9 +316,9 @@ FlickrLaunchLinks _$FlickrLaunchLinksFromJson(Map<String, dynamic> json) =>
       ($checkedConvert) {
         final val = FlickrLaunchLinks(
           small: $checkedConvert('small',
-              (v) => (v as List<dynamic>).map((e) => e as String).toList()),
+              (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
           original: $checkedConvert('original',
-              (v) => (v as List<dynamic>).map((e) => e as String).toList()),
+              (v) => (v as List<dynamic>?)?.map((e) => e as String).toList()),
         );
         return val;
       },

@@ -68,7 +68,7 @@ void main() {
         ],
         fairings: LaunchFairingsRecovery(recoveryAttempt: true),
         cores: [
-          LaunchCore(reused: true, landingType: 'ABC'),
+          LaunchCore(core: 'abc', reused: true, landingType: 'ABC'),
         ],
       ),
     ],
