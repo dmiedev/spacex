@@ -1,5 +1,5 @@
 name: spacex
-description: A SpaceX app
+description: A SpaceX app.
 version: 0.1.0+1
 publish_to: none
 
@@ -13,7 +13,13 @@ dependencies:
   flutter_bloc: ^8.0.1
   flutter_localizations:
     sdk: flutter
+  google_fonts: ^3.0.1
+  hydrated_bloc: ^8.1.0
+  infinite_scroll_pagination: ^3.2.0
   intl: ^0.17.0
+  launch_repository:
+    path: packages/launch_repository
+  meta: ^1.7.0
 
 dev_dependencies:
   bloc_test: ^9.0.3
@@ -25,3 +31,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
   generate: true
+  assets:
+    - assets/
