@@ -66,20 +66,7 @@ void main() {
       expect(MockSpacexApiClient.new, returnsNormally);
     });
 
-    test('throws RocketsFetchException on fetching fail', () {
-      when(
-        () => mockApiClient.queryLaunches(
-          filter: any(named: 'filter'),
-          options: any(named: 'options'),
-        ),
-      ).thenThrow(Exception());
-      expect(
-        repository.fetchLaunches(amount: 10, listNumber: 1),
-        throwsA(isA<LaunchFetchingException>()),
-      );
-    });
-
-    group('makes correct request -', () {
+    group('.fetchLaunches()', () {
       setUp(() {
         when(
           () => mockApiClient.queryLaunches(
@@ -89,114 +76,136 @@ void main() {
         ).thenAnswer((_) async => launchPage);
       });
 
-      test('simple fetching', () {
-        repository.fetchLaunches(amount: 22, listNumber: 33);
-        verify(
-          () => mockApiClient.queryLaunches(
-            filter: any(named: 'filter', that: equals(const Filter.empty())),
-            options: any(
-              named: 'options',
-              that: equals(const PaginationOptions(limit: 22, page: 33)),
-            ),
-          ),
-        ).called(1);
+      test('returns correct result if there is no exception', () {
+        expect(
+          repository.fetchLaunches(amount: 22, listNumber: 33),
+          completion(equals(launchPage.docs)),
+        );
       });
 
-      test('with sorting', () {
-        repository.fetchLaunches(
-          amount: 22,
-          listNumber: 33,
-          sorting: const SortingOption(
-            feature: LaunchFeature.date,
-            order: SortOrder.ascending,
-          ),
-        );
-        verify(
+      test('throws LaunchFetchingException on fetching fail', () {
+        when(
           () => mockApiClient.queryLaunches(
-            filter: any(named: 'filter', that: equals(const Filter.empty())),
-            options: any(
-              named: 'options',
-              that: equals(
-                const PaginationOptions(
-                  limit: 22,
-                  page: 33,
-                  sort: {'date_utc': SortOrder.ascending},
+            filter: any(named: 'filter'),
+            options: any(named: 'options'),
+          ),
+        ).thenThrow(Exception());
+        expect(
+          repository.fetchLaunches(amount: 10, listNumber: 1),
+          throwsA(isA<LaunchFetchingException>()),
+        );
+      });
+
+      group('makes correct request -', () {
+        test('simple fetching', () {
+          repository.fetchLaunches(amount: 22, listNumber: 33);
+          verify(
+            () => mockApiClient.queryLaunches(
+              filter: any(named: 'filter', that: equals(const Filter.empty())),
+              options: any(
+                named: 'options',
+                that: equals(const PaginationOptions(limit: 22, page: 33)),
+              ),
+            ),
+          ).called(1);
+        });
+
+        test('with sorting', () {
+          repository.fetchLaunches(
+            amount: 22,
+            listNumber: 33,
+            sorting: const SortingOption(
+              feature: LaunchFeature.date,
+              order: SortOrder.ascending,
+            ),
+          );
+          verify(
+            () => mockApiClient.queryLaunches(
+              filter: any(named: 'filter', that: equals(const Filter.empty())),
+              options: any(
+                named: 'options',
+                that: equals(
+                  const PaginationOptions(
+                    limit: 22,
+                    page: 33,
+                    sort: {'date_utc': SortOrder.ascending},
+                  ),
                 ),
               ),
             ),
-          ),
-        ).called(1);
-      });
+          ).called(1);
+        });
 
-      test('with filtering', () {
-        const option1 = FilteringOption.anyFromValues(
-          feature: LaunchFeature.coreId,
-          values: ['id1', 'id2'],
-        );
-        const option2 = FilteringOption.value(
-          feature: LaunchFeature.isUpcoming,
-          value: true,
-        );
-        final option3 = FilteringOption.interval(
-          feature: LaunchFeature.date,
-          interval: DateTimeInterval(
-            from: DateTime(2017, 3, 2),
-            to: DateTime(2018, 3, 31),
-          ),
-        );
-        repository.fetchLaunches(
-          amount: 22,
-          listNumber: 33,
-          filtering: [option1, option2, option3],
-        );
-        verify(
-          () => mockApiClient.queryLaunches(
-            filter: any(
-              named: 'filter',
-              that: equals(
-                Filter.and([
-                  option1.toFilter(),
-                  option2.toFilter(),
-                  option3.toFilter(),
-                ]),
+        test('with filtering', () {
+          const option1 = FilteringOption.anyFromValues(
+            feature: LaunchFeature.coreId,
+            values: ['id1', 'id2'],
+          );
+          const option2 = FilteringOption.value(
+            feature: LaunchFeature.isUpcoming,
+            value: true,
+          );
+          final option3 = FilteringOption.interval(
+            feature: LaunchFeature.date,
+            interval: DateTimeInterval(
+              from: DateTime(2017, 3, 2),
+              to: DateTime(2018, 3, 31),
+            ),
+          );
+          repository.fetchLaunches(
+            amount: 22,
+            listNumber: 33,
+            filtering: [option1, option2, option3],
+          );
+          verify(
+            () => mockApiClient.queryLaunches(
+              filter: any(
+                named: 'filter',
+                that: equals(
+                  Filter.and([
+                    option1.toFilter(),
+                    option2.toFilter(),
+                    option3.toFilter(),
+                  ]),
+                ),
+              ),
+              options: any(
+                named: 'options',
+                that: equals(const PaginationOptions(limit: 22, page: 33)),
               ),
             ),
-            options: any(
-              named: 'options',
-              that: equals(const PaginationOptions(limit: 22, page: 33)),
-            ),
-          ),
-        ).called(1);
-      });
+          ).called(1);
+        });
 
-      test('with text search', () {
-        const option = FilteringOption.value(
-          feature: LaunchFeature.isUpcoming,
-          value: true,
-        );
-        repository.fetchLaunches(
-          amount: 22,
-          listNumber: 33,
-          searchedText: 'abc',
-          filtering: [option],
-        );
-        verify(
-          () => mockApiClient.queryLaunches(
-            filter: any(
-              named: 'filter',
-              that: equals(
-                Filter.and([
-                  option.toFilter(),
-                  Filter.text(const TextFilterParameters(search: 'abc')),
-                ]),
+        test('with text search', () {
+          const option = FilteringOption.value(
+            feature: LaunchFeature.isUpcoming,
+            value: true,
+          );
+          repository.fetchLaunches(
+            amount: 22,
+            listNumber: 33,
+            searchedText: 'abc',
+            filtering: [option],
+          );
+          verify(
+            () => mockApiClient.queryLaunches(
+              filter: any(
+                named: 'filter',
+                that: equals(
+                  Filter.and([
+                    option.toFilter(),
+                    Filter.text(const TextFilterParameters(search: 'abc')),
+                  ]),
+                ),
+              ),
+              options: any(
+                named: 'options',
+                that: equals(const PaginationOptions(limit: 22, page: 33)),
               ),
             ),
-            options: any(
-              named: 'options',
-              that: equals(const PaginationOptions(limit: 22, page: 33)),
-            ),
-          ),
-        );
+          );
+        });
       });
     });
   });
