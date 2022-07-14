@@ -76,6 +76,13 @@ void main() {
         ).thenAnswer((_) async => launchPage);
       });
 
+      test('returns correct result if there is no exception', () {
+        expect(
+          repository.fetchLaunches(amount: 22, listNumber: 33),
+          completion(equals(launchPage.docs)),
+        );
+      });
+
       test('throws LaunchFetchingException on fetching fail', () {
         when(
           () => mockApiClient.queryLaunches(
