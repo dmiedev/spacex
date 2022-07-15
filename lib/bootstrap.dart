@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
 class AppBlocObserver extends BlocObserver {
   @override
@@ -18,16 +18,22 @@ class AppBlocObserver extends BlocObserver {
   }
 }
 
-Future<void> bootstrap(FutureOr<Widget> Function() builder) async {
+Future<void> bootstrap({
+  required FutureOr<Widget> Function() builder,
+  required HydratedStorage storage,
+}) async {
   FlutterError.onError = (details) {
     log(details.exceptionAsString(), stackTrace: details.stack);
   };
 
   await runZonedGuarded(
     () async {
-      await BlocOverrides.runZoned(
-        () async => runApp(await builder()),
-        blocObserver: AppBlocObserver(),
+      await HydratedBlocOverrides.runZoned(
+        () => BlocOverrides.runZoned(
+          () async => runApp(await builder()),
+          blocObserver: AppBlocObserver(),
+        ),
+        storage: storage,
       );
     },
     (error, stackTrace) => log(error.toString(), stackTrace: stackTrace),
