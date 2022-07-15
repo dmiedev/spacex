@@ -24,7 +24,7 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
       );
       emit(
         LaunchState(
-          launches: [...state.launches, ...launches],
+          launches: [...state.launches, ...launches.reversed],
           lastPageNumber: state.lastPageNumber + 1,
           lastPageAmount: launches.length,
         ),

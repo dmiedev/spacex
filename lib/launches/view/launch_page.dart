@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
+import 'package:intl/intl.dart';
 import 'package:launch_repository/launch_repository.dart';
 import 'package:spacex/launches/bloc/bloc.dart';
+import 'package:spacex/launches/widgets/widgets.dart';
 import 'package:spacex_api/spacex_api.dart';
 
 class LaunchPage extends StatelessWidget {
@@ -50,12 +53,27 @@ class _LaunchViewState extends State<LaunchView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Padding(
-          padding: const EdgeInsets.only(left: 25),
-          child: Image.asset(
-            'assets/spacex_logo_white.png',
-            width: 150,
-          ),
+        // toolbarHeight: 70,
+        title: Column(
+          children: [
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 25),
+            //   child: Image.asset(
+            //     'assets/spacex_logo_white.png',
+            //     width: 150,
+            //   ),
+            // ),
+            // const SizedBox(height: 15),
+            Text(
+              'LAUNCHES',
+              style: GoogleFonts.orbitron(
+                color: Colors.white,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 3,
+              ),
+            ),
+          ],
         ),
       ),
       body: CustomScrollView(
@@ -67,8 +85,20 @@ class _LaunchViewState extends State<LaunchView> {
             child: PagedSliverList<int, Launch>(
               pagingController: _pagingController,
               builderDelegate: PagedChildBuilderDelegate<Launch>(
-                itemBuilder: (context, item, index) => Card(
-                  child: Text('${item.name} ${item.dateUtc}'),
+                itemBuilder: (context, item, index) => Padding(
+                  padding: const EdgeInsets.only(bottom: 10),
+                  child: LaunchCard(
+                    name: item.name != null
+                        ? item.name!.toUpperCase()
+                        : 'Unnamed launch'.toUpperCase(),
+                    number: item.flightNumber,
+                    date: item.dateUtc != null
+                        ? DateFormat.yMMMMd()
+                            .format(item.dateUtc!)
+                            .toUpperCase()
+                        : null,
+                    patchUrl: item.links?.patch?.small,
+                  ),
                 ),
               ),
             ),
