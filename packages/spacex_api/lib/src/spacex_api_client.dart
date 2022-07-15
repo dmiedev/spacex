@@ -77,7 +77,9 @@ class SpacexApiClient {
   }
 
   Future<T> _post<T>(Uri url, Map<String, dynamic> body) {
-    return _sendRequest<T>(() => _httpClient.post(url, body: body));
+    return _sendRequest<T>(
+      () => _httpClient.post(url, body: json.encode(body)),
+    );
   }
 
   Future<T> _get<T>(Uri url) {

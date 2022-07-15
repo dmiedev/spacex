@@ -276,7 +276,7 @@ void main() {
         verify(
           () => mockHttpClient.post(
             queryRocketsUrl,
-            body: any(named: 'body', that: equals(requestBody)),
+            body: any(named: 'body', that: equals(json.encode(requestBody))),
           ),
         ).called(1);
       });
@@ -377,7 +377,7 @@ void main() {
         verify(
           () => mockHttpClient.post(
             queryLaunchesUrl,
-            body: any(named: 'body', that: equals(requestBody)),
+            body: any(named: 'body', that: equals(json.encode(requestBody))),
           ),
         ).called(1);
       });
