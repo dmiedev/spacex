@@ -53,17 +53,8 @@ class _LaunchViewState extends State<LaunchView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        // toolbarHeight: 70,
         title: Column(
           children: [
-            // Padding(
-            //   padding: const EdgeInsets.only(left: 25),
-            //   child: Image.asset(
-            //     'assets/spacex_logo_white.png',
-            //     width: 150,
-            //   ),
-            // ),
-            // const SizedBox(height: 15),
             Text(
               'LAUNCHES',
               style: GoogleFonts.orbitron(
@@ -76,34 +67,62 @@ class _LaunchViewState extends State<LaunchView> {
           ],
         ),
       ),
-      body: CustomScrollView(
-        slivers: [
-          BlocListener<LaunchBloc, LaunchState>(
-            listener: _handleLaunchStateChange,
-            listenWhen: (previous, current) =>
-                previous.lastPageNumber != current.lastPageNumber,
-            child: PagedSliverList<int, Launch>(
-              pagingController: _pagingController,
-              builderDelegate: PagedChildBuilderDelegate<Launch>(
-                itemBuilder: (context, item, index) => Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: LaunchCard(
-                    name: item.name != null
-                        ? item.name!.toUpperCase()
-                        : 'Unnamed launch'.toUpperCase(),
-                    number: item.flightNumber,
-                    date: item.dateUtc != null
-                        ? DateFormat.yMMMMd()
-                            .format(item.dateUtc!)
-                            .toUpperCase()
-                        : null,
-                    patchUrl: item.links?.patch?.small,
+      body: NestedScrollView(
+        headerSliverBuilder: (context, innerBoxIsScrolled) {
+          return <Widget>[
+            SliverOverlapAbsorber(
+              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              sliver: SliverAppBar(
+                title: const SearchBar(hintText: 'Search'),
+                centerTitle: true,
+                floating: true,
+                snap: true,
+                forceElevated: innerBoxIsScrolled,
+              ),
+            )
+          ];
+        },
+        body: Builder(
+          builder: (BuildContext context) {
+            return CustomScrollView(
+              slivers: <Widget>[
+                SliverOverlapInjector(
+                  handle:
+                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+                ),
+                SliverPadding(
+                  padding: const EdgeInsets.only(top: 10),
+                  sliver: BlocListener<LaunchBloc, LaunchState>(
+                    listener: _handleLaunchStateChange,
+                    listenWhen: (previous, current) =>
+                        previous.lastPageNumber != current.lastPageNumber,
+                    child: PagedSliverList<int, Launch>(
+                      pagingController: _pagingController,
+                      builderDelegate: PagedChildBuilderDelegate<Launch>(
+                        itemBuilder: (context, item, index) => Padding(
+                          padding: const EdgeInsets.only(bottom: 10),
+                          child: LaunchCard(
+                            name: item.name != null
+                                ? item.name!.toUpperCase()
+                                : 'Unnamed launch'.toUpperCase(),
+                            number: item.flightNumber,
+                            date: item.dateUtc != null
+                                ? DateFormat.yMMMMd()
+                                    .format(item.dateUtc!)
+                                    .toUpperCase()
+                                : null,
+                            patchUrl: item.links?.patch?.small,
+                            onTap: () {},
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
-        ],
+              ],
+            );
+          },
+        ),
       ),
     );
   }
