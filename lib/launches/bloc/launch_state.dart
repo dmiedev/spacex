@@ -47,6 +47,12 @@ class LaunchState extends Equatable {
   Map<String, dynamic> toJson() => _$LaunchStateToJson(this);
 
   @override
+  String toString() {
+    return 'LaunchState(launches[${launches.length}], $lastPageNumber, '
+        '$lastPageAmount, $errorOccurred)';
+  }
+
+  @override
   List<Object?> get props => [
         launches,
         lastPageAmount,

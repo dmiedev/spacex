@@ -2,7 +2,7 @@ import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:launch_repository/launch_repository.dart';
 import 'package:spacex/launches/bloc/bloc.dart';
 
-class LaunchBloc extends HydratedBloc<LaunchEvent, LaunchState> {
+class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
   LaunchBloc({required LaunchRepository launchRepository})
       : _launchRepository = launchRepository,
         super(const LaunchState.initial()) {
@@ -36,11 +36,11 @@ class LaunchBloc extends HydratedBloc<LaunchEvent, LaunchState> {
     }
   }
 
-  @override
-  LaunchState? fromJson(Map<String, dynamic> json) {
-    return LaunchState.fromJson(json);
-  }
+  // @override
+  // LaunchState? fromJson(Map<String, dynamic> json) {
+  //   return LaunchState.fromJson(json);
+  // }
 
-  @override
-  Map<String, dynamic>? toJson(LaunchState state) => state.toJson();
+  // @override
+  // Map<String, dynamic>? toJson(LaunchState state) => state.toJson();
 }

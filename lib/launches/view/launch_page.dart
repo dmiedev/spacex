@@ -33,7 +33,7 @@ class LaunchView extends StatefulWidget {
 }
 
 class _LaunchViewState extends State<LaunchView> {
-  final _pagingController = PagingController(firstPageKey: 1);
+  final _pagingController = PagingController<int, Launch>(firstPageKey: 1);
 
   @override
   void initState() {
@@ -60,16 +60,29 @@ class _LaunchViewState extends State<LaunchView> {
       ),
       body: CustomScrollView(
         slivers: [
-          PagedSliverList(
-            pagingController: _pagingController,
-            builderDelegate: PagedChildBuilderDelegate<Launch>(
-              itemBuilder: (context, item, index) => Card(
-                child: Text(item.name ?? 'Unknown name'),
+          BlocListener<LaunchBloc, LaunchState>(
+            listener: _handleLaunchStateChange,
+            listenWhen: (previous, current) =>
+                previous.lastPageNumber != current.lastPageNumber,
+            child: PagedSliverList<int, Launch>(
+              pagingController: _pagingController,
+              builderDelegate: PagedChildBuilderDelegate<Launch>(
+                itemBuilder: (context, item, index) => Card(
+                  child: Text('${item.name} ${item.dateUtc}'),
+                ),
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  void _handleLaunchStateChange(BuildContext context, LaunchState state) {
+    final reversedLaunches = state.launches.reversed.toList();
+    _pagingController.appendPage(
+      reversedLaunches.getRange(0, state.lastPageAmount).toList(),
+      state.lastPageNumber + 1,
     );
   }
 
