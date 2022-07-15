@@ -263,12 +263,13 @@ void main() {
       test('makes correct request', () {
         final filter = Filter.equal('country', 'USA');
         const options = PaginationOptions(select: ['name'], offset: 2, page: 3);
-        final requestBody = {
-          'query': filter.toJson(),
-          'options': options.toJson(),
-        };
+        final requestBody = {'query': filter, 'options': options};
         when(
-          () => mockHttpClient.post(queryRocketsUrl, body: any(named: 'body')),
+          () => mockHttpClient.post(
+            queryRocketsUrl,
+            body: any(named: 'body'),
+            headers: any(named: 'headers'),
+          ),
         ).thenAnswer(
           (_) async => http.Response(json.encode(rocketPage), 200),
         );
@@ -277,6 +278,10 @@ void main() {
           () => mockHttpClient.post(
             queryRocketsUrl,
             body: any(named: 'body', that: equals(json.encode(requestBody))),
+            headers: any(
+              named: 'headers',
+              that: equals({'Content-Type': 'application/json'}),
+            ),
           ),
         ).called(1);
       });
@@ -289,6 +294,7 @@ void main() {
             () => mockHttpClient.post(
               queryRocketsUrl,
               body: any(named: 'body'),
+              headers: any(named: 'headers'),
             ),
           ).thenThrow(Exception());
           expect(
@@ -306,6 +312,7 @@ void main() {
             () => mockHttpClient.post(
               queryRocketsUrl,
               body: any(named: 'body'),
+              headers: any(named: 'headers'),
             ),
           ).thenAnswer((_) async => http.Response('', statusCode));
           expect(
@@ -323,7 +330,11 @@ void main() {
 
       test('throws a JsonDecodeException when json decoding fails', () {
         when(
-          () => mockHttpClient.post(queryRocketsUrl, body: any(named: 'body')),
+          () => mockHttpClient.post(
+            queryRocketsUrl,
+            body: any(named: 'body'),
+            headers: any(named: 'headers'),
+          ),
         ).thenAnswer((_) async => http.Response('not a map', 200));
         expect(
           () => spacexApiClient.queryRockets(),
@@ -338,6 +349,7 @@ void main() {
             () => mockHttpClient.post(
               queryRocketsUrl,
               body: any(named: 'body'),
+              headers: any(named: 'headers'),
             ),
           ).thenAnswer(
             (_) async => http.Response('{ "not_a_page": true }', 200),
@@ -354,6 +366,7 @@ void main() {
           () => mockHttpClient.post(
             queryRocketsUrl,
             body: any(named: 'body'),
+            headers: any(named: 'headers'),
           ),
         ).thenAnswer((_) async => http.Response(json.encode(rocketPage), 200));
         expect(spacexApiClient.queryRockets(), completion(equals(rocketPage)));
@@ -364,12 +377,13 @@ void main() {
       test('makes correct request', () {
         final filter = Filter.equal('name', 'CR-1');
         const options = PaginationOptions(select: ['success'], offset: 2);
-        final requestBody = {
-          'query': filter.toJson(),
-          'options': options.toJson(),
-        };
+        final requestBody = {'query': filter, 'options': options};
         when(
-          () => mockHttpClient.post(queryLaunchesUrl, body: any(named: 'body')),
+          () => mockHttpClient.post(
+            queryLaunchesUrl,
+            body: any(named: 'body'),
+            headers: any(named: 'headers'),
+          ),
         ).thenAnswer(
           (_) async => http.Response(json.encode(launchPage), 200),
         );
@@ -378,6 +392,10 @@ void main() {
           () => mockHttpClient.post(
             queryLaunchesUrl,
             body: any(named: 'body', that: equals(json.encode(requestBody))),
+            headers: any(
+              named: 'headers',
+              that: equals({'Content-Type': 'application/json'}),
+            ),
           ),
         ).called(1);
       });
@@ -390,6 +408,7 @@ void main() {
             () => mockHttpClient.post(
               queryLaunchesUrl,
               body: any(named: 'body'),
+              headers: any(named: 'headers'),
             ),
           ).thenThrow(Exception());
           expect(
@@ -407,6 +426,7 @@ void main() {
             () => mockHttpClient.post(
               queryLaunchesUrl,
               body: any(named: 'body'),
+              headers: any(named: 'headers'),
             ),
           ).thenAnswer((_) async => http.Response('', statusCode));
           expect(
@@ -424,7 +444,11 @@ void main() {
 
       test('throws a JsonDecodeException when json decoding fails', () {
         when(
-          () => mockHttpClient.post(queryLaunchesUrl, body: any(named: 'body')),
+          () => mockHttpClient.post(
+            queryLaunchesUrl,
+            body: any(named: 'body'),
+            headers: any(named: 'headers'),
+          ),
         ).thenAnswer((_) async => http.Response('not a map', 200));
         expect(
           () => spacexApiClient.queryLaunches(),
@@ -439,6 +463,7 @@ void main() {
             () => mockHttpClient.post(
               queryLaunchesUrl,
               body: any(named: 'body'),
+              headers: any(named: 'headers'),
             ),
           ).thenAnswer(
             (_) async => http.Response('{ "not_a_page": true }', 200),
@@ -455,6 +480,7 @@ void main() {
           () => mockHttpClient.post(
             queryLaunchesUrl,
             body: any(named: 'body'),
+            headers: any(named: 'headers'),
           ),
         ).thenAnswer((_) async => http.Response(json.encode(launchPage), 200));
         expect(spacexApiClient.queryLaunches(), completion(equals(launchPage)));
