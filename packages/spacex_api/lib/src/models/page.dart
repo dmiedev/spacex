@@ -16,7 +16,7 @@ class Page<T> extends Equatable {
   const Page({
     required this.docs,
     required this.totalDocs,
-    required this.offset,
+    this.offset,
     required this.limit,
     required this.totalPages,
     required this.page,
@@ -35,7 +35,7 @@ class Page<T> extends Equatable {
   final int totalDocs;
 
   /// The index of the first document on this page.
-  final int offset;
+  final int? offset;
 
   /// The amount of documents on this page.
   final int limit;

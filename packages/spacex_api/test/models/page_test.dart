@@ -200,85 +200,96 @@ void main() {
                 {
                   'fairings': {
                     'reused': false,
-                    'recovery_attempt': false,
+                    'recovery_attempt': true,
                     'recovered': false,
-                    'ships': []
+                    'ships': ['5ea6ed2e080df4000697c908']
                   },
                   'links': {
                     'patch': {
                       'small':
-                          'https://images2.imgbox.com/3c/0e/T8iJcSN3_o.png',
-                      'large': 'https://images2.imgbox.com/40/e3/GypSkayF_o.png'
+                          'https://images2.imgbox.com/02/51/7NLaBm8c_o.png',
+                      'large': 'https://images2.imgbox.com/69/f5/04lBXd2F_o.png'
                     },
                     'reddit': {
-                      'campaign': null,
-                      'launch': null,
-                      'media': null,
+                      'campaign':
+                          'https://www.reddit.com/r/spacex/comments/73ttkd/koreasat_5a_launch_campaign_thread/',
+                      'launch':
+                          'https://www.reddit.com/r/spacex/comments/79iuvb/rspacex_koreasat_5a_official_launch_discussion/',
+                      'media':
+                          'https://www.reddit.com/r/spacex/comments/79lmdu/rspacex_koreasat5a_media_thread_videos_images/',
                       'recovery': null
                     },
-                    'flickr': {'small': [], 'original': []},
-                    'presskit': null,
-                    'webcast': 'https://www.youtube.com/watch?v=0a_00nJ_Y88',
-                    'youtube_id': '0a_00nJ_Y88',
+                    'flickr': {
+                      'small': [],
+                      'original': [
+                        'https://farm5.staticflickr.com/4477/38056454431_a5f40f9fd7_o.jpg',
+                        'https://farm5.staticflickr.com/4455/26280153979_b8016a829f_o.jpg',
+                        'https://farm5.staticflickr.com/4459/38056455051_79ef2b949a_o.jpg',
+                        'https://farm5.staticflickr.com/4466/26280153539_ecbc2b3fa9_o.jpg',
+                        'https://farm5.staticflickr.com/4482/26280154209_bf08d76361_o.jpg',
+                        'https://farm5.staticflickr.com/4493/38056455211_a4565a9cee_o.jpg'
+                      ]
+                    },
+                    'presskit':
+                        'http://www.spacex.com/sites/spacex/files/koreasat5apresskit.pdf',
+                    'webcast': 'https://www.youtube.com/watch?v=RUjH14vhLxA',
+                    'youtube_id': 'RUjH14vhLxA',
                     'article':
-                        'https://www.space.com/2196-spacex-inaugural-falcon-1-rocket-lost-launch.html',
-                    'wikipedia': 'https://en.wikipedia.org/wiki/DemoSat'
+                        'https://spaceflightnow.com/2017/10/30/spacex-launches-and-lands-third-rocket-in-three-weeks/',
+                    'wikipedia': 'https://en.wikipedia.org/wiki/Koreasat_5A'
                   },
-                  'static_fire_date_utc': '2006-03-17T00:00:00.000Z',
-                  'static_fire_date_unix': 1142553600,
+                  'static_fire_date_utc': '2017-10-26T16:00:00.000Z',
+                  'static_fire_date_unix': 1509033600,
+                  'tdb': false,
                   'net': false,
-                  'window': 0,
-                  'rocket': '5e9d0d95eda69955f709d1eb',
-                  'success': false,
-                  'failures': [
-                    {
-                      'time': 33,
-                      'altitude': null,
-                      'reason': 'merlin engine failure'
-                    }
-                  ],
-                  'details': 'Engine failure at 33 seconds and loss of vehicle',
+                  'window': 8640,
+                  'rocket': '5e9d0d95eda69973a809d1ec',
+                  'success': true,
+                  'failures': [],
+                  'details':
+                      'KoreaSat 5A is a Ku-band satellite capable of <...>',
                   'crew': [],
-                  'ships': [],
+                  'ships': [
+                    '5ea6ed2f080df4000697c90d',
+                    '5ea6ed2e080df4000697c908',
+                    '5ea6ed30080df4000697c913'
+                  ],
                   'capsules': [],
-                  'payloads': ['5eb0e4b5b6c3bb0006eeb1e1'],
-                  'launchpad': '5e9e4502f5090995de566f86',
-                  'flight_number': 1,
-                  'name': 'FalconSat',
-                  'date_utc': '2006-03-24T22:30:00.000Z',
-                  'date_unix': 1143239400,
-                  'date_local': '2006-03-25T10:30:00+12:00',
+                  'payloads': ['5eb0e4c5b6c3bb0006eeb217'],
+                  'launchpad': '5e9e4502f509094188566f88',
+                  'auto_update': true,
+                  'flight_number': 50,
+                  'name': 'KoreaSat 5A',
+                  'date_utc': '2017-10-30T19:34:00.000Z',
+                  'date_unix': 1509392040,
+                  'date_local': '2017-10-30T15:34:00-04:00',
                   'date_precision': 'hour',
                   'upcoming': false,
                   'cores': [
                     {
-                      'core': '5e9e289df35918033d3b2623',
+                      'core': '5e9e28a4f359185cc03b2651',
                       'flight': 1,
-                      'gridfins': false,
-                      'legs': false,
+                      'gridfins': true,
+                      'legs': true,
                       'reused': false,
-                      'landing_attempt': false,
-                      'landing_success': null,
-                      'landing_type': null,
-                      'landpad': null
+                      'landing_attempt': true,
+                      'landing_success': true,
+                      'landing_type': 'ASDS',
+                      'landpad': '5e9e3032383ecb6bb234e7ca'
                     }
                   ],
-                  'auto_update': true,
-                  'tbd': false,
-                  'launch_library_id': null,
-                  'id': '5eb87cd9ffd86e000604b32a'
-                },
+                  'id': '5eb87d0dffd86e000604b35b'
+                }
               ],
-              'totalDocs': 184,
-              'offset': 0,
+              'totalDocs': 109,
               'limit': 10,
-              'totalPages': 19,
-              'page': 1,
-              'pagingCounter': 1,
-              'hasPrevPage': false,
+              'totalPages': 11,
+              'page': 5,
+              'pagingCounter': 41,
+              'hasPrevPage': true,
               'hasNextPage': true,
-              'prevPage': null,
-              'nextPage': 2
+              'prevPage': 4,
+              'nextPage': 6
             },
           ),
           isA<Page<Launch>>(),
@@ -289,71 +300,82 @@ void main() {
             {
               'docs': [
                 {
-                  'height': {'meters': 22.25, 'feet': 73},
-                  'diameter': {'meters': 1.68, 'feet': 5.5},
-                  'mass': {'kg': 30146, 'lb': 66460},
+                  'height': {'meters': 70, 'feet': 229.6},
+                  'diameter': {'meters': 3.7, 'feet': 12},
+                  'mass': {'kg': 549054, 'lb': 1207920},
                   'first_stage': {
-                    'thrust_sea_level': {'kN': 420, 'lbf': 94000},
-                    'thrust_vacuum': {'kN': 480, 'lbf': 110000},
-                    'reusable': false,
-                    'engines': 1,
-                    'fuel_amount_tons': 44.3,
-                    'burn_time_sec': 169
+                    'thrust_sea_level': {'kN': 7607, 'lbf': 1710000},
+                    'thrust_vacuum': {'kN': 8227, 'lbf': 1849500},
+                    'reusable': true,
+                    'engines': 9,
+                    'fuel_amount_tons': 385,
+                    'burn_time_sec': 162
                   },
                   'second_stage': {
-                    'thrust': {'kN': 31, 'lbf': 7000},
+                    'thrust': {'kN': 934, 'lbf': 210000},
                     'payloads': {
                       'composite_fairing': {
-                        'height': {'meters': 3.5, 'feet': 11.5},
-                        'diameter': {'meters': 1.5, 'feet': 4.9}
+                        'height': {'meters': 13.1, 'feet': 43},
+                        'diameter': {'meters': 5.2, 'feet': 17.1}
                       },
-                      'option_1': 'composite fairing'
+                      'option_1': 'dragon'
                     },
                     'reusable': false,
                     'engines': 1,
-                    'fuel_amount_tons': 3.38,
-                    'burn_time_sec': 378
+                    'fuel_amount_tons': 90,
+                    'burn_time_sec': 397
                   },
                   'engines': {
-                    'isp': {'sea_level': 267, 'vacuum': 304},
-                    'thrust_sea_level': {'kN': 420, 'lbf': 94000},
-                    'thrust_vacuum': {'kN': 480, 'lbf': 110000},
-                    'number': 1,
+                    'isp': {'sea_level': 288, 'vacuum': 312},
+                    'thrust_sea_level': {'kN': 845, 'lbf': 190000},
+                    'thrust_vacuum': {'kN': 914, 'lbf': 205500},
+                    'number': 9,
                     'type': 'merlin',
-                    'version': '1C',
-                    'layout': 'single',
-                    'engine_loss_max': 0,
+                    'version': '1D+',
+                    'layout': 'octaweb',
+                    'engine_loss_max': 2,
                     'propellant_1': 'liquid oxygen',
                     'propellant_2': 'RP-1 kerosene',
-                    'thrust_to_weight': 96
+                    'thrust_to_weight': 180.1
                   },
-                  'landing_legs': {'number': 0, 'material': null},
+                  'landing_legs': {'number': 4, 'material': 'carbon fiber'},
                   'payload_weights': [
                     {
                       'id': 'leo',
                       'name': 'Low Earth Orbit',
-                      'kg': 450,
-                      'lb': 992
-                    }
+                      'kg': 22800,
+                      'lb': 50265
+                    },
+                    {
+                      'id': 'gto',
+                      'name': 'Geosynchronous Transfer Orbit',
+                      'kg': 8300,
+                      'lb': 18300
+                    },
+                    {'id': 'mars', 'name': 'Mars Orbit', 'kg': 4020, 'lb': 8860}
                   ],
                   'flickr_images': [
-                    'https://imgur.com/DaCfMsj.jpg',
-                    'https://imgur.com/azYafd8.jpg'
+                    'https://farm1.staticflickr.com/929/28787338307_3453a11a77_b.jpg',
+                    'https://farm4.staticflickr.com/3955/32915197674_eee74d81bb_b.jpg',
+                    'https://farm1.staticflickr.com/293/32312415025_6841e30bf1_b.jpg',
+                    'https://farm1.staticflickr.com/623/23660653516_5b6cb301d1_b.jpg',
+                    'https://farm6.staticflickr.com/5518/31579784413_d853331601_b.jpg',
+                    'https://farm1.staticflickr.com/745/32394687645_a9c54a34ef_b.jpg'
                   ],
-                  'name': 'Falcon 1',
+                  'name': 'Falcon 9',
                   'type': 'rocket',
-                  'active': false,
+                  'active': true,
                   'stages': 2,
                   'boosters': 0,
-                  'cost_per_launch': 6700000,
-                  'success_rate_pct': 40,
-                  'first_flight': '2006-03-24',
-                  'country': 'Republic of the Marshall Islands',
+                  'cost_per_launch': 50000000,
+                  'success_rate_pct': 97,
+                  'first_flight': '2010-06-04',
+                  'country': 'United States',
                   'company': 'SpaceX',
-                  'wikipedia': 'https://en.wikipedia.org/wiki/Falcon_1',
+                  'wikipedia': 'https://en.wikipedia.org/wiki/Falcon_9',
                   'description':
-                      'The Falcon 1 was an expendable launch system <...>',
-                  'id': '5e9d0d95eda69955f709d1eb'
+                      'Falcon 9 is a two-stage rocket designed and <...>',
+                  'id': '5e9d0d95eda69973a809d1ec'
                 },
               ],
               'totalDocs': 4,
