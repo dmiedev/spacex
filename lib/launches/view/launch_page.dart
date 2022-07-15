@@ -38,6 +38,44 @@ class LaunchView extends StatefulWidget {
 class _LaunchViewState extends State<LaunchView> {
   final _pagingController = PagingController<int, Launch>(firstPageKey: 1);
 
+  final _chips = [
+    ActionChip(
+      avatar: const Icon(Icons.sort, size: 20),
+      label: const Text('Sorting'),
+      onPressed: () {},
+    ),
+    ActionChip(
+      avatar: const Icon(
+        Icons.history_toggle_off,
+        size: 20,
+        color: Colors.black,
+      ), // Icons.schedule
+      label: const Text('Upcoming', style: TextStyle(color: Colors.black)),
+      onPressed: () {},
+      backgroundColor: Colors.white,
+    ),
+    ActionChip(
+      avatar: const Icon(Icons.rocket, size: 20),
+      label: const Text('Rocket'),
+      onPressed: () {},
+    ),
+    ActionChip(
+      avatar: const Icon(Icons.date_range, size: 20),
+      label: const Text('Year'),
+      onPressed: () {},
+    ),
+    ActionChip(
+      avatar: const Icon(Icons.tag, size: 20),
+      label: const Text('Flight Number'),
+      onPressed: () {},
+    ),
+    ActionChip(
+      avatar: const Icon(Icons.done, size: 20),
+      label: const Text('Successfulness'),
+      onPressed: () {},
+    ),
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -53,18 +91,14 @@ class _LaunchViewState extends State<LaunchView> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Column(
-          children: [
-            Text(
-              'LAUNCHES',
-              style: GoogleFonts.orbitron(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 3,
-              ),
-            ),
-          ],
+        title: Text(
+          'LAUNCHES',
+          style: GoogleFonts.orbitron(
+            color: Colors.white,
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            letterSpacing: 3,
+          ),
         ),
       ),
       body: NestedScrollView(
@@ -73,7 +107,23 @@ class _LaunchViewState extends State<LaunchView> {
             SliverOverlapAbsorber(
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
               sliver: SliverAppBar(
-                title: const SearchBar(hintText: 'Search'),
+                toolbarHeight: 105,
+                title: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SearchBar(hintText: 'Search'),
+                    SizedBox(
+                      height: 50,
+                      child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) => _chips[index],
+                        itemCount: _chips.length,
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(width: 10),
+                      ),
+                    ),
+                  ],
+                ),
                 centerTitle: true,
                 floating: true,
                 snap: true,
@@ -90,30 +140,27 @@ class _LaunchViewState extends State<LaunchView> {
                   handle:
                       NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 ),
-                SliverPadding(
-                  padding: const EdgeInsets.only(top: 10),
-                  sliver: BlocListener<LaunchBloc, LaunchState>(
-                    listener: _handleLaunchStateChange,
-                    listenWhen: (previous, current) =>
-                        previous.lastPageNumber != current.lastPageNumber,
-                    child: PagedSliverList<int, Launch>(
-                      pagingController: _pagingController,
-                      builderDelegate: PagedChildBuilderDelegate<Launch>(
-                        itemBuilder: (context, item, index) => Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: LaunchCard(
-                            name: item.name != null
-                                ? item.name!.toUpperCase()
-                                : 'Unnamed launch'.toUpperCase(),
-                            number: item.flightNumber,
-                            date: item.dateUtc != null
-                                ? DateFormat.yMMMMd()
-                                    .format(item.dateUtc!)
-                                    .toUpperCase()
-                                : null,
-                            patchUrl: item.links?.patch?.small,
-                            onTap: () {},
-                          ),
+                BlocListener<LaunchBloc, LaunchState>(
+                  listener: _handleLaunchStateChange,
+                  listenWhen: (previous, current) =>
+                      previous.lastPageNumber != current.lastPageNumber,
+                  child: PagedSliverList<int, Launch>(
+                    pagingController: _pagingController,
+                    builderDelegate: PagedChildBuilderDelegate<Launch>(
+                      itemBuilder: (context, item, index) => Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: LaunchCard(
+                          name: item.name != null
+                              ? item.name!.toUpperCase()
+                              : 'Unnamed launch'.toUpperCase(),
+                          number: item.flightNumber,
+                          date: item.dateUtc != null
+                              ? DateFormat.yMMMMd()
+                                  .format(item.dateUtc!)
+                                  .toUpperCase()
+                              : null,
+                          patchUrl: item.links?.patch?.small,
+                          onTap: () {},
                         ),
                       ),
                     ),
