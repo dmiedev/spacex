@@ -18,7 +18,7 @@ Page<T> _$PageFromJson<T>(Map<String, dynamic> json) => $checkedCreate(
                       .fromJson(e as Map<String, dynamic>))
                   .toList()),
           totalDocs: $checkedConvert('totalDocs', (v) => v as int),
-          offset: $checkedConvert('offset', (v) => v as int),
+          offset: $checkedConvert('offset', (v) => v as int?),
           limit: $checkedConvert('limit', (v) => v as int),
           totalPages: $checkedConvert('totalPages', (v) => v as int),
           page: $checkedConvert('page', (v) => v as int),

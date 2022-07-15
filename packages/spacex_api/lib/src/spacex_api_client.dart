@@ -64,10 +64,7 @@ class SpacexApiClient {
     Filter filter,
     PaginationOptions options,
   ) async {
-    final requestBody = {
-      'query': filter.toJson(),
-      'options': options.toJson(),
-    };
+    final requestBody = {'query': filter, 'options': options};
     final json = await _post<Map<String, dynamic>>(url, requestBody);
     try {
       return Page.fromJson<T>(json);
@@ -78,7 +75,11 @@ class SpacexApiClient {
 
   Future<T> _post<T>(Uri url, Map<String, dynamic> body) {
     return _sendRequest<T>(
-      () => _httpClient.post(url, body: json.encode(body)),
+      () => _httpClient.post(
+        url,
+        body: json.encode(body),
+        headers: {'Content-Type': 'application/json'},
+      ),
     );
   }
 
