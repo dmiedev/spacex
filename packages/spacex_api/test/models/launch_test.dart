@@ -458,7 +458,7 @@ void main() {
       );
     });
 
-    test('has no required parameters except ID to support field selecting', () {
+    test('has no required parameters to support field selecting', () {
       expect(LaunchCore.new, returnsNormally);
     });
 
