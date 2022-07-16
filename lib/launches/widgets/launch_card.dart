@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class LaunchCard extends StatelessWidget {
@@ -43,8 +44,9 @@ class LaunchCard extends StatelessWidget {
                     if (date != null)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 10),
-                        child: Text(
+                        child: AutoSizeText(
                           '$date',
+                          maxLines: name!.split(' ').length > 1 ? 1 : 2,
                           style: const TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.w100,
@@ -52,8 +54,10 @@ class LaunchCard extends StatelessWidget {
                         ),
                       ),
                     if (name != null)
-                      Text(
+                      AutoSizeText(
                         '$name',
+                        maxLines: name!.split(' ').length > 1 ? 2 : 1,
+                        maxFontSize: 30,
                         style: const TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,

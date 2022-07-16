@@ -144,7 +144,12 @@ class _LaunchViewState extends State<LaunchView> {
                   listener: _handleLaunchStateChange,
                   listenWhen: (previous, current) =>
                       previous.lastPageNumber != current.lastPageNumber,
-                  child: PagedSliverList<int, Launch>(
+                  child: PagedSliverGrid<int, Launch>(
+                    gridDelegate:
+                        const SliverGridDelegateWithMaxCrossAxisExtent(
+                      maxCrossAxisExtent: 525,
+                      mainAxisExtent: 175,
+                    ),
                     pagingController: _pagingController,
                     builderDelegate: PagedChildBuilderDelegate<Launch>(
                       itemBuilder: (context, item, index) => Padding(
