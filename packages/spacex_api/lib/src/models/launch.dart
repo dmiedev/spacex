@@ -253,12 +253,12 @@ class LaunchFailure extends Equatable {
 class LaunchCrewMember extends Equatable {
   /// Creates a model of a crew member involved in a rocket launch.
   const LaunchCrewMember({
-    required this.crew,
+    this.crew,
     this.role,
   });
 
   /// The ID of this crew member.
-  final String crew;
+  final String? crew;
 
   /// The role name of this crew member.
   final String? role;
@@ -283,7 +283,7 @@ class LaunchCrewMember extends Equatable {
 class LaunchCore extends Equatable {
   /// Creates a model that holds data about a core used in a rocket launch.
   const LaunchCore({
-    required this.core,
+    this.core,
     this.flight,
     this.gridfins,
     this.legs,
@@ -295,7 +295,7 @@ class LaunchCore extends Equatable {
   });
 
   /// The ID of this core.
-  final String core;
+  final String? core;
 
   /// The number of this core's flight.
   final int? flight;
