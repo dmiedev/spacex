@@ -175,7 +175,7 @@ LaunchCrewMember _$LaunchCrewMemberFromJson(Map<String, dynamic> json) =>
       json,
       ($checkedConvert) {
         final val = LaunchCrewMember(
-          crew: $checkedConvert('crew', (v) => v as String),
+          crew: $checkedConvert('crew', (v) => v as String?),
           role: $checkedConvert('role', (v) => v as String?),
         );
         return val;
@@ -193,7 +193,7 @@ LaunchCore _$LaunchCoreFromJson(Map<String, dynamic> json) => $checkedCreate(
       json,
       ($checkedConvert) {
         final val = LaunchCore(
-          core: $checkedConvert('core', (v) => v as String),
+          core: $checkedConvert('core', (v) => v as String?),
           flight: $checkedConvert('flight', (v) => v as int?),
           gridfins: $checkedConvert('gridfins', (v) => v as bool?),
           legs: $checkedConvert('legs', (v) => v as bool?),
