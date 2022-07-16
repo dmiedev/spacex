@@ -36,7 +36,10 @@ class LaunchView extends StatefulWidget {
 }
 
 class _LaunchViewState extends State<LaunchView> {
-  final _pagingController = PagingController<int, Launch>(firstPageKey: 1);
+  final _pagingController = PagingController<int, Launch>(
+    firstPageKey: 1,
+    invisibleItemsThreshold: 1,
+  );
 
   final _chips = [
     ActionChip(
@@ -142,16 +145,21 @@ class _LaunchViewState extends State<LaunchView> {
                 ),
                 BlocListener<LaunchBloc, LaunchState>(
                   listener: _handleLaunchStateChange,
-                  listenWhen: (previous, current) =>
-                      previous.lastPageNumber != current.lastPageNumber,
                   child: PagedSliverGrid<int, Launch>(
                     gridDelegate:
                         const SliverGridDelegateWithMaxCrossAxisExtent(
                       maxCrossAxisExtent: 525,
                       mainAxisExtent: 175,
                     ),
+                    showNewPageErrorIndicatorAsGridChild: false,
+                    showNewPageProgressIndicatorAsGridChild: false,
+                    showNoMoreItemsIndicatorAsGridChild: false,
                     pagingController: _pagingController,
                     builderDelegate: PagedChildBuilderDelegate<Launch>(
+                      newPageProgressIndicatorBuilder: (context) =>
+                          const _GridLoadingIndicator(),
+                      firstPageProgressIndicatorBuilder: (context) =>
+                          const _GridLoadingIndicator(),
                       itemBuilder: (context, item, index) => Padding(
                         padding: const EdgeInsets.only(bottom: 10),
                         child: LaunchCard(
@@ -195,5 +203,21 @@ class _LaunchViewState extends State<LaunchView> {
   void dispose() {
     _pagingController.dispose();
     super.dispose();
+  }
+}
+
+class _GridLoadingIndicator extends StatelessWidget {
+  const _GridLoadingIndicator({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        children: const [
+          CircularProgressIndicator(color: Colors.white),
+        ],
+      ),
+    );
   }
 }
