@@ -18,6 +18,8 @@ LaunchState _$LaunchStateFromJson(Map<String, dynamic> json) => $checkedCreate(
                   .toList()),
           lastPageNumber: $checkedConvert('lastPageNumber', (v) => v as int),
           lastPageAmount: $checkedConvert('lastPageAmount', (v) => v as int),
+          hasReachedEnd:
+              $checkedConvert('hasReachedEnd', (v) => v as bool? ?? false),
           errorOccurred:
               $checkedConvert('errorOccurred', (v) => v as bool? ?? false),
         );
@@ -30,5 +32,6 @@ Map<String, dynamic> _$LaunchStateToJson(LaunchState instance) =>
       'launches': instance.launches.map((e) => e.toJson()).toList(),
       'lastPageNumber': instance.lastPageNumber,
       'lastPageAmount': instance.lastPageAmount,
+      'hasReachedEnd': instance.hasReachedEnd,
       'errorOccurred': instance.errorOccurred,
     };

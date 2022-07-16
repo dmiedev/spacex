@@ -180,6 +180,10 @@ class _LaunchViewState extends State<LaunchView> {
   }
 
   void _handleLaunchStateChange(BuildContext context, LaunchState state) {
+    if (state.hasReachedEnd) {
+      _pagingController.nextPageKey = null;
+      return;
+    }
     final reversedLaunches = state.launches.reversed.toList();
     _pagingController.appendPage(
       reversedLaunches.getRange(0, state.lastPageAmount).toList(),

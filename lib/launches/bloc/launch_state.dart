@@ -12,6 +12,7 @@ class LaunchState extends Equatable {
     required this.launches,
     required this.lastPageNumber,
     required this.lastPageAmount,
+    this.hasReachedEnd = false,
     this.errorOccurred = false,
   });
 
@@ -19,23 +20,27 @@ class LaunchState extends Equatable {
       : launches = const [],
         lastPageNumber = 0,
         lastPageAmount = 0,
+        hasReachedEnd = false,
         errorOccurred = false;
 
   final List<Launch> launches;
   final int lastPageNumber;
   final int lastPageAmount;
+  final bool hasReachedEnd;
   final bool errorOccurred;
 
   LaunchState copyWith({
     List<Launch>? launches,
     int? lastPageNumber,
     int? lastPageAmount,
+    bool? hasReachedEnd,
     bool? errorOccurred,
   }) {
     return LaunchState(
       launches: launches ?? this.launches,
       lastPageNumber: lastPageNumber ?? this.lastPageNumber,
       lastPageAmount: lastPageAmount ?? this.lastPageAmount,
+      hasReachedEnd: hasReachedEnd ?? this.hasReachedEnd,
       errorOccurred: errorOccurred ?? this.errorOccurred,
     );
   }
@@ -49,7 +54,7 @@ class LaunchState extends Equatable {
   @override
   String toString() {
     return 'LaunchState(launches[${launches.length}], $lastPageNumber, '
-        '$lastPageAmount, $errorOccurred)';
+        '$lastPageAmount, $hasReachedEnd, $errorOccurred)';
   }
 
   @override
@@ -57,6 +62,7 @@ class LaunchState extends Equatable {
         launches,
         lastPageAmount,
         lastPageNumber,
+        hasReachedEnd,
         errorOccurred,
       ];
 }

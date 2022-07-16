@@ -22,13 +22,17 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
         amount: _amountPerPage,
         listNumber: state.lastPageNumber + 1,
       );
-      emit(
-        LaunchState(
-          launches: [...state.launches, ...launches.reversed],
-          lastPageNumber: state.lastPageNumber + 1,
-          lastPageAmount: launches.length,
-        ),
-      );
+      if (launches.isEmpty) {
+        emit(state.copyWith(hasReachedEnd: true));
+      } else {
+        emit(
+          LaunchState(
+            launches: [...state.launches, ...launches.reversed],
+            lastPageNumber: state.lastPageNumber + 1,
+            lastPageAmount: launches.length,
+          ),
+        );
+      }
     } on Exception {
       emit(
         state.copyWith(errorOccurred: true),
