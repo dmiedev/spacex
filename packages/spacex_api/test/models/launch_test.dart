@@ -415,8 +415,8 @@ void main() {
       expect(crewMember, LaunchCrewMember(crew: '1', role: 'Captain'));
     });
 
-    test('has no required parameters except ID to support field selecting', () {
-      expect(() => LaunchCrewMember(crew: 'id'), returnsNormally);
+    test('has no required parameters to support field selecting', () {
+      expect(LaunchCrewMember.new, returnsNormally);
     });
 
     test('.fromJson() return correct result', () {
@@ -459,7 +459,7 @@ void main() {
     });
 
     test('has no required parameters except ID to support field selecting', () {
-      expect(() => LaunchCore(core: 'id'), returnsNormally);
+      expect(LaunchCore.new, returnsNormally);
     });
 
     test('.fromJson() return correct result', () {
