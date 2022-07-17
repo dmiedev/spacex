@@ -117,6 +117,10 @@ class _LaunchViewState extends State<LaunchView> {
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
               sliver: SliverAppBar(
                 toolbarHeight: 105,
+                centerTitle: true,
+                floating: true,
+                snap: true,
+                forceElevated: innerBoxIsScrolled,
                 title: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -139,10 +143,6 @@ class _LaunchViewState extends State<LaunchView> {
                     ),
                   ],
                 ),
-                centerTitle: true,
-                floating: true,
-                snap: true,
-                forceElevated: innerBoxIsScrolled,
               ),
             )
           ];
@@ -174,6 +174,9 @@ class _LaunchViewState extends State<LaunchView> {
                       firstPageProgressIndicatorBuilder: (context) {
                         return const _GridLoadingIndicator();
                       },
+                      noItemsFoundIndicatorBuilder: (context) {
+                        return const _GridNoItemsFoundIndicator();
+                      },
                       itemBuilder: (context, item, index) => Padding(
                         padding: const EdgeInsets.only(bottom: 10),
                         child: LaunchCard(
@@ -203,7 +206,7 @@ class _LaunchViewState extends State<LaunchView> {
 
   void _handleLaunchStateChange(BuildContext context, LaunchState state) {
     if (state.hasReachedEnd) {
-      _gridController.nextPageKey = null;
+      _gridController.appendLastPage([]);
       return;
     }
     final reversedLaunches = state.launches.reversed.toList();
@@ -240,6 +243,30 @@ class _GridLoadingIndicator extends StatelessWidget {
         children: [
           CircularProgressIndicator(
             color: Theme.of(context).colorScheme.secondary,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _GridNoItemsFoundIndicator extends StatelessWidget {
+  const _GridNoItemsFoundIndicator({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 30),
+      child: Column(
+        children: const [
+          Text(
+            'NO LAUNCHES FOUND',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+          SizedBox(height: 20),
+          Text(
+            'Try changing your search criteria.',
+            style: TextStyle(fontSize: 16),
           ),
         ],
       ),
