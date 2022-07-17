@@ -237,8 +237,10 @@ class _GridLoadingIndicator extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(20),
       child: Column(
-        children: const [
-          CircularProgressIndicator(color: Colors.white),
+        children: [
+          CircularProgressIndicator(
+            color: Theme.of(context).colorScheme.secondary,
+          ),
         ],
       ),
     );

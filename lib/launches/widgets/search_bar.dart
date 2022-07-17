@@ -31,6 +31,7 @@ class SearchBar extends StatelessWidget {
         suffixIcon: IconButton(
           onPressed: onClearButtonPressed,
           icon: const Icon(Icons.clear),
+          color: Colors.grey,
         ),
       ),
     );

@@ -7,7 +7,7 @@ part 'launch_state.g.dart';
 
 @immutable
 @JsonSerializable()
-class LaunchState extends Equatable {
+class LaunchState {
   const LaunchState({
     required this.launches,
     required this.lastPageNumber,
@@ -56,13 +56,4 @@ class LaunchState extends Equatable {
     return 'LaunchState(launches[${launches.length}], $lastPageNumber, '
         '$lastPageAmount, $hasReachedEnd, $errorOccurred)';
   }
-
-  @override
-  List<Object?> get props => [
-        launches,
-        lastPageAmount,
-        lastPageNumber,
-        hasReachedEnd,
-        errorOccurred,
-      ];
 }
