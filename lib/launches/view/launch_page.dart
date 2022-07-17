@@ -178,8 +178,15 @@ class _LaunchViewState extends State<LaunchView> {
                         return const _GridNoItemsFoundIndicator();
                       },
                       firstPageErrorIndicatorBuilder: (context) {
-                        return _GridFirstPageIndicator(
-                          onRetryButtonPressed: _handleRetryButtonPress,
+                        return _GridFirstPageErrorIndicator(
+                          onRetryButtonPressed:
+                              _handleFirstPageErrorRetryButtonPress,
+                        );
+                      },
+                      newPageErrorIndicatorBuilder: (context) {
+                        return _GridNewPageErrorIndicator(
+                          onRetryButtonPressed:
+                              _handleNewPageErrorRetryButtonPress,
                         );
                       },
                       itemBuilder: (context, item, index) => Padding(
@@ -232,8 +239,12 @@ class _LaunchViewState extends State<LaunchView> {
     _gridController.refresh();
   }
 
-  void _handleRetryButtonPress() {
+  void _handleFirstPageErrorRetryButtonPress() {
     _gridController.refresh();
+  }
+
+  void _handleNewPageErrorRetryButtonPress() {
+    _gridController.retryLastFailedRequest();
   }
 
   @override
@@ -267,7 +278,7 @@ class _GridNoItemsFoundIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 30),
+      padding: const EdgeInsets.all(30),
       child: Column(
         children: const [
           Text(
@@ -285,8 +296,8 @@ class _GridNoItemsFoundIndicator extends StatelessWidget {
   }
 }
 
-class _GridFirstPageIndicator extends StatelessWidget {
-  const _GridFirstPageIndicator({
+class _GridFirstPageErrorIndicator extends StatelessWidget {
+  const _GridFirstPageErrorIndicator({
     super.key,
     this.onRetryButtonPressed,
   });
@@ -309,6 +320,52 @@ class _GridFirstPageIndicator extends StatelessWidget {
             'be a problem on our end.\n\n'
             'You can also try reloading the page or changing your search '
             'criteria.',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 16),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: onRetryButtonPressed,
+            style: ButtonStyle(
+              backgroundColor: MaterialStateColor.resolveWith(
+                (states) => Colors.white,
+              ),
+              foregroundColor: MaterialStateColor.resolveWith(
+                (states) => Colors.black,
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Icon(Icons.replay),
+                SizedBox(width: 5),
+                Text('RETRY'),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _GridNewPageErrorIndicator extends StatelessWidget {
+  const _GridNewPageErrorIndicator({
+    super.key,
+    this.onRetryButtonPressed,
+  });
+
+  final void Function()? onRetryButtonPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(30),
+      child: Column(
+        children: [
+          const Text(
+            'An error occurred while loading data. '
+            'Please check your Internet connection.',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 16),
           ),
