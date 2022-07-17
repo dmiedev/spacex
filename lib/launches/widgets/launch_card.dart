@@ -72,6 +72,9 @@ class LaunchCard extends StatelessWidget {
                   child: Image(
                     height: 100,
                     image: NetworkImage(patchUrl!),
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container();
+                    },
                   ),
                 ),
             ],

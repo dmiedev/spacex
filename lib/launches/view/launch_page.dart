@@ -116,7 +116,7 @@ class _LaunchViewState extends State<LaunchView> {
             SliverOverlapAbsorber(
               handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
               sliver: SliverAppBar(
-                toolbarHeight: 105,
+                toolbarHeight: 110,
                 centerTitle: true,
                 floating: true,
                 snap: true,
@@ -177,6 +177,11 @@ class _LaunchViewState extends State<LaunchView> {
                       noItemsFoundIndicatorBuilder: (context) {
                         return const _GridNoItemsFoundIndicator();
                       },
+                      firstPageErrorIndicatorBuilder: (context) {
+                        return _GridFirstPageIndicator(
+                          onRetryButtonPressed: _handleRetryButtonPress,
+                        );
+                      },
                       itemBuilder: (context, item, index) => Padding(
                         padding: const EdgeInsets.only(bottom: 10),
                         child: LaunchCard(
@@ -205,15 +210,17 @@ class _LaunchViewState extends State<LaunchView> {
   }
 
   void _handleLaunchStateChange(BuildContext context, LaunchState state) {
-    if (state.hasReachedEnd) {
+    if (state.errorOccurred) {
+      _gridController.error = true;
+    } else if (state.hasReachedEnd) {
       _gridController.appendLastPage([]);
-      return;
+    } else {
+      final reversedLaunches = state.launches.reversed.toList();
+      _gridController.appendPage(
+        reversedLaunches.getRange(0, state.lastPageAmount).toList(),
+        state.lastPageNumber + 1,
+      );
     }
-    final reversedLaunches = state.launches.reversed.toList();
-    _gridController.appendPage(
-      reversedLaunches.getRange(0, state.lastPageAmount).toList(),
-      state.lastPageNumber + 1,
-    );
   }
 
   void _handleSearchBarSubmit(String text) {
@@ -222,6 +229,10 @@ class _LaunchViewState extends State<LaunchView> {
 
   void _handleSearchBarClearButtonPress() {
     _searchBarController.clear();
+    _gridController.refresh();
+  }
+
+  void _handleRetryButtonPress() {
     _gridController.refresh();
   }
 
@@ -251,7 +262,7 @@ class _GridLoadingIndicator extends StatelessWidget {
 }
 
 class _GridNoItemsFoundIndicator extends StatelessWidget {
-  const _GridNoItemsFoundIndicator({Key? key}) : super(key: key);
+  const _GridNoItemsFoundIndicator({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -265,8 +276,61 @@ class _GridNoItemsFoundIndicator extends StatelessWidget {
           ),
           SizedBox(height: 20),
           Text(
-            'Try changing your search criteria.',
+            'Please try changing your search criteria.',
             style: TextStyle(fontSize: 16),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _GridFirstPageIndicator extends StatelessWidget {
+  const _GridFirstPageIndicator({
+    super.key,
+    this.onRetryButtonPressed,
+  });
+
+  final void Function()? onRetryButtonPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(30),
+      child: Column(
+        children: [
+          const Text(
+            'AN ERROR OCCURRED',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+          ),
+          const SizedBox(height: 20),
+          const Text(
+            'Please check your Internet connection. If it is alright, it may '
+            'be a problem on our end.\n\n'
+            'You can also try reloading the page or changing your search '
+            'criteria.',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 16),
+          ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: onRetryButtonPressed,
+            style: ButtonStyle(
+              backgroundColor: MaterialStateColor.resolveWith(
+                (states) => Colors.white,
+              ),
+              foregroundColor: MaterialStateColor.resolveWith(
+                (states) => Colors.black,
+              ),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Icon(Icons.replay),
+                SizedBox(width: 5),
+                Text('RETRY'),
+              ],
+            ),
           ),
         ],
       ),
