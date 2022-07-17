@@ -20,22 +20,33 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
     try {
       final launches = await _launchRepository.fetchLaunches(
         amount: _amountPerPage,
-        listNumber: state.lastPageNumber + 1,
+        listNumber: !event.firstPage ? state.lastPageNumber + 1 : 1,
+        searchedText: event.searchedText.isNotEmpty ? event.searchedText : null,
       );
       if (launches.isEmpty) {
-        emit(state.copyWith(hasReachedEnd: true));
+        emit(
+          state.copyWith(
+            launches: !event.firstPage ? state.launches : [],
+            hasReachedEnd: true,
+          ),
+        );
       } else {
         emit(
           LaunchState(
-            launches: [...state.launches, ...launches.reversed],
-            lastPageNumber: state.lastPageNumber + 1,
+            launches: !event.firstPage
+                ? [...state.launches, ...launches.reversed]
+                : launches.reversed.toList(),
+            lastPageNumber: !event.firstPage ? state.lastPageNumber + 1 : 1,
             lastPageAmount: launches.length,
           ),
         );
       }
     } on Exception {
       emit(
-        state.copyWith(errorOccurred: true),
+        state.copyWith(
+          launches: !event.firstPage ? state.launches : [],
+          errorOccurred: true,
+        ),
       );
     }
   }

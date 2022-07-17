@@ -36,10 +36,11 @@ class LaunchView extends StatefulWidget {
 }
 
 class _LaunchViewState extends State<LaunchView> {
-  final _pagingController = PagingController<int, Launch>(
+  final _gridController = PagingController<int, Launch>(
     firstPageKey: 1,
     invisibleItemsThreshold: 1,
   );
+  final _searchBarController = TextEditingController();
 
   final _chips = [
     ActionChip(
@@ -82,11 +83,16 @@ class _LaunchViewState extends State<LaunchView> {
   @override
   void initState() {
     super.initState();
-    _pagingController.addPageRequestListener(_handlePageRequest);
+    _gridController.addPageRequestListener(_handlePageRequest);
   }
 
   void _handlePageRequest(int pageNumber) {
-    context.read<LaunchBloc>().add(LaunchPageRequested());
+    context.read<LaunchBloc>().add(
+          LaunchPageRequested(
+            searchedText: _searchBarController.text,
+            firstPage: pageNumber == 1,
+          ),
+        );
   }
 
   @override
@@ -114,15 +120,21 @@ class _LaunchViewState extends State<LaunchView> {
                 title: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const SearchBar(hintText: 'Search'),
+                    SearchBar(
+                      controller: _searchBarController,
+                      hintText: 'Search',
+                      onSubmitted: _handleSearchBarSubmit,
+                      onClearButtonPressed: _handleSearchBarClearButtonPress,
+                    ),
                     SizedBox(
                       height: 50,
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) => _chips[index],
                         itemCount: _chips.length,
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(width: 10),
+                        separatorBuilder: (context, index) {
+                          return const SizedBox(width: 10);
+                        },
                       ),
                     ),
                   ],
@@ -154,12 +166,14 @@ class _LaunchViewState extends State<LaunchView> {
                     showNewPageErrorIndicatorAsGridChild: false,
                     showNewPageProgressIndicatorAsGridChild: false,
                     showNoMoreItemsIndicatorAsGridChild: false,
-                    pagingController: _pagingController,
+                    pagingController: _gridController,
                     builderDelegate: PagedChildBuilderDelegate<Launch>(
-                      newPageProgressIndicatorBuilder: (context) =>
-                          const _GridLoadingIndicator(),
-                      firstPageProgressIndicatorBuilder: (context) =>
-                          const _GridLoadingIndicator(),
+                      newPageProgressIndicatorBuilder: (context) {
+                        return const _GridLoadingIndicator();
+                      },
+                      firstPageProgressIndicatorBuilder: (context) {
+                        return const _GridLoadingIndicator();
+                      },
                       itemBuilder: (context, item, index) => Padding(
                         padding: const EdgeInsets.only(bottom: 10),
                         child: LaunchCard(
@@ -189,19 +203,28 @@ class _LaunchViewState extends State<LaunchView> {
 
   void _handleLaunchStateChange(BuildContext context, LaunchState state) {
     if (state.hasReachedEnd) {
-      _pagingController.nextPageKey = null;
+      _gridController.nextPageKey = null;
       return;
     }
     final reversedLaunches = state.launches.reversed.toList();
-    _pagingController.appendPage(
+    _gridController.appendPage(
       reversedLaunches.getRange(0, state.lastPageAmount).toList(),
       state.lastPageNumber + 1,
     );
   }
 
+  void _handleSearchBarSubmit(String text) {
+    _gridController.refresh();
+  }
+
+  void _handleSearchBarClearButtonPress() {
+    _searchBarController.clear();
+    _gridController.refresh();
+  }
+
   @override
   void dispose() {
-    _pagingController.dispose();
+    _gridController.dispose();
     super.dispose();
   }
 }
