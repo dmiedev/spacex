@@ -73,8 +73,10 @@ class AppView extends StatelessWidget {
 
 class AppScrollBehavior extends MaterialScrollBehavior {
   @override
-  Set<PointerDeviceKind> get dragDevices => {
-        PointerDeviceKind.touch,
-        PointerDeviceKind.mouse,
-      };
+  Set<PointerDeviceKind> get dragDevices {
+    return {
+      PointerDeviceKind.touch,
+      PointerDeviceKind.mouse,
+    };
+  }
 }

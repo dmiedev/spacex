@@ -19,7 +19,7 @@ class LaunchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => LaunchBloc(
+      create: (context) => LaunchBloc(
         launchRepository: context.read<LaunchRepository>(),
       ),
       child: const LaunchView(),
