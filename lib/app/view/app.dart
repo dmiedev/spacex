@@ -46,28 +46,26 @@ class AppView extends StatelessWidget {
   }
 
   ThemeData _buildTheme() {
+    final base = ThemeData.dark();
+
     return ThemeData(
       primaryColor: Colors.black,
-      textTheme: _buildTextTheme(),
+      textTheme: GoogleFonts.robotoCondensedTextTheme(base.textTheme),
       scaffoldBackgroundColor: Colors.black,
       colorScheme: const ColorScheme(
         background: Colors.black,
         onBackground: Colors.white,
         brightness: Brightness.dark,
-        primary: Colors.black,
-        onPrimary: Colors.white,
-        secondary: Colors.white,
-        onSecondary: Colors.black,
+        primary: Colors.white,
+        onPrimary: Colors.black,
+        secondary: Colors.black,
+        onSecondary: Colors.white,
         surface: Colors.black,
         onSurface: Colors.white,
         error: Colors.red,
         onError: Colors.white,
       ),
     );
-  }
-
-  TextTheme _buildTextTheme() {
-    return GoogleFonts.robotoCondensedTextTheme(ThemeData.dark().textTheme);
   }
 }
 
