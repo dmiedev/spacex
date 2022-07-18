@@ -70,6 +70,7 @@ class LaunchCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: Image(
+                    key: ValueKey(patchUrl),
                     height: 100,
                     image: NetworkImage(patchUrl!),
                     errorBuilder: (context, error, stackTrace) {
