@@ -123,15 +123,23 @@ class _LaunchViewState extends State<LaunchView> {
 
   void _handleLaunchStateChange(BuildContext context, LaunchState state) {
     if (state.errorOccurred) {
-      _gridController.error = true;
+      if (state.lastPageNumber == 1) {
+        _gridController.value = const PagingState(nextPageKey: 1, error: true);
+      } else {
+        _gridController.error = true;
+      }
     } else if (state.hasReachedEnd) {
       _gridController.appendLastPage([]);
-    } else {
-      final reversedLaunches = state.launches.reversed.toList();
-      _gridController.appendPage(
-        reversedLaunches.getRange(0, state.lastPageAmount).toList(),
-        state.lastPageNumber + 1,
+    } else if (state.lastPageNumber == 1) {
+      _gridController.value = PagingState(
+        itemList: state.launches,
+        nextPageKey: 2,
       );
+    } else {
+      final launchAmount = state.launches.length;
+      final lastPageLaunches =
+          state.launches.skip(launchAmount - state.lastPageAmount).toList();
+      _gridController.appendPage(lastPageLaunches, state.lastPageNumber + 1);
     }
   }
 

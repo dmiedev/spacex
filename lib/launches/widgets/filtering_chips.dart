@@ -1,5 +1,11 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:launch_repository/launch_repository.dart';
+import 'package:spacex/launches/bloc/bloc.dart';
+import 'package:spacex_api/spacex_api.dart';
 
 const _chipIconSize = 20.0;
 
@@ -41,60 +47,89 @@ class _SortingOrderChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ActionChip(
-      label: const Icon(Icons.sort, size: _chipIconSize),
-      tooltip: 'Sorting order',
-      onPressed: _handlePress,
+    return BlocBuilder<LaunchBloc, LaunchState>(
+      buildWhen: (previous, current) =>
+          previous.sortingOption.order != current.sortingOption.order,
+      builder: (context, state) => ActionChip(
+        label: Transform(
+          alignment: Alignment.center,
+          transform: Matrix4.rotationX(
+            state.sortingOption.order == SortOrder.ascending ? math.pi : 0,
+          ),
+          child: const Icon(Icons.sort, size: _chipIconSize),
+        ),
+        tooltip: 'Sorting order',
+        onPressed: () => _handlePress(context),
+      ),
     );
   }
 
-  void _handlePress() {
-    // TODO(dmiedev): Switch ascending to descending, descending to ascending
+  void _handlePress(BuildContext context) {
+    context.read<LaunchBloc>().add(LaunchSortingOrderSwitched());
   }
 }
 
 class _SortingChip extends StatelessWidget {
   const _SortingChip({
-    super.key,
-    this.hasIcon = false,
+    super.key
   });
-
-  final bool hasIcon;
 
   @override
   Widget build(BuildContext context) {
-    return ActionChip(
-      avatar: hasIcon ? const Icon(Icons.sort, size: _chipIconSize) : null,
-      label: const Text('Sorting'),
-      onPressed: () => _handlePress(context),
+    return BlocBuilder<LaunchBloc, LaunchState>(
+      buildWhen: (previous, current) =>
+          previous.sortingOption.feature != current.sortingOption.feature,
+      builder: (context, state) => ActionChip(
+        label: Text(
+          _mapLaunchFeatureToLabel(state.sortingOption.feature),
+          style: const TextStyle(color: Colors.black),
+        ),
+        onPressed: () => _handlePress(context),
+        backgroundColor: Colors.white,
+      ),
     );
   }
 
-  void _handlePress(BuildContext context) {
-    showDialog(
+  String _mapLaunchFeatureToLabel(LaunchFeature feature) {
+    switch (feature) {
+      case LaunchFeature.date:
+        return 'Sorting by Date';
+      case LaunchFeature.name:
+        return 'Sorting by Name';
+      case LaunchFeature.flightNumber:
+        return 'Sorting by Flight Number';
+      // ignore: no_default_cases
+      default:
+        break;
+    }
+    return 'Sorting';
+  }
+
+  Future<void> _handlePress(BuildContext context) async {
+    final launchBloc = context.read<LaunchBloc>();
+    final feature = await showDialog<LaunchFeature>(
       context: context,
       builder: (context) => SimpleDialog(
         title: const Text('Select Sorting'),
         children: [
           SimpleDialogOption(
-            child: const Text('None'),
-            onPressed: () {},
-          ),
-          SimpleDialogOption(
-            child: const Text('Flight Number'),
-            onPressed: () {},
+            child: const Text('Date'),
+            onPressed: () => Navigator.pop(context, LaunchFeature.date),
           ),
           SimpleDialogOption(
             child: const Text('Name'),
-            onPressed: () {},
+            onPressed: () => Navigator.pop(context, LaunchFeature.name),
           ),
           SimpleDialogOption(
-            child: const Text('Date'),
-            onPressed: () {},
+            child: const Text('Flight Number'),
+            onPressed: () => Navigator.pop(context, LaunchFeature.flightNumber),
           ),
         ],
       ),
     );
+    if (feature != null) {
+      launchBloc.add(LaunchSortingOptionAdded(feature: feature));
+    }
   }
 }
 

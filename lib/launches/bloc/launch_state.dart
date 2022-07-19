@@ -1,9 +1,7 @@
-import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:launch_repository/launch_repository.dart';
 import 'package:meta/meta.dart';
 import 'package:spacex_api/spacex_api.dart';
-
-part 'launch_state.g.dart';
 
 @immutable
 @JsonSerializable()
@@ -12,48 +10,37 @@ class LaunchState {
     required this.launches,
     required this.lastPageNumber,
     required this.lastPageAmount,
-    this.hasReachedEnd = false,
-    this.errorOccurred = false,
+    required this.hasReachedEnd,
+    required this.errorOccurred,
+    required this.searchedText,
+    required this.sortingOption,
   });
 
   const LaunchState.initial()
-      : launches = const [],
-        lastPageNumber = 0,
-        lastPageAmount = 0,
-        hasReachedEnd = false,
-        errorOccurred = false;
+      : this(
+          launches: const [],
+          lastPageNumber: 0,
+          lastPageAmount: 0,
+          hasReachedEnd: false,
+          errorOccurred: false,
+          searchedText: '',
+          sortingOption: const SortingOption(
+            feature: LaunchFeature.date,
+            order: SortOrder.ascending,
+          ),
+        );
 
   final List<Launch> launches;
   final int lastPageNumber;
   final int lastPageAmount;
   final bool hasReachedEnd;
   final bool errorOccurred;
-
-  LaunchState copyWith({
-    List<Launch>? launches,
-    int? lastPageNumber,
-    int? lastPageAmount,
-    bool? hasReachedEnd,
-    bool? errorOccurred,
-  }) {
-    return LaunchState(
-      launches: launches ?? this.launches,
-      lastPageNumber: lastPageNumber ?? this.lastPageNumber,
-      lastPageAmount: lastPageAmount ?? this.lastPageAmount,
-      hasReachedEnd: hasReachedEnd ?? this.hasReachedEnd,
-      errorOccurred: errorOccurred ?? this.errorOccurred,
-    );
-  }
-
-  static LaunchState fromJson(Map<String, dynamic> json) {
-    return _$LaunchStateFromJson(json);
-  }
-
-  Map<String, dynamic> toJson() => _$LaunchStateToJson(this);
+  final String searchedText;
+  final SortingOption sortingOption;
 
   @override
   String toString() {
     return 'LaunchState(launches[${launches.length}], $lastPageNumber, '
-        '$lastPageAmount, $hasReachedEnd, $errorOccurred)';
+        '$lastPageAmount, $hasReachedEnd, $errorOccurred, $sortingOption)';
   }
 }

@@ -1,9 +1,13 @@
 import 'package:equatable/equatable.dart';
+import 'package:launch_repository/launch_repository.dart';
 import 'package:meta/meta.dart';
 
 @immutable
 abstract class LaunchEvent extends Equatable {
   const LaunchEvent();
+
+  @override
+  List<Object?> get props => [];
 }
 
 class LaunchPageRequested extends LaunchEvent {
@@ -18,3 +22,16 @@ class LaunchPageRequested extends LaunchEvent {
   @override
   List<Object?> get props => [searchedText, firstPage];
 }
+
+class LaunchSortingOptionAdded extends LaunchEvent {
+  const LaunchSortingOptionAdded({
+    required this.feature,
+  });
+
+  final LaunchFeature feature;
+
+  @override
+  List<Object?> get props => [feature];
+}
+
+class LaunchSortingOrderSwitched extends LaunchEvent {}
