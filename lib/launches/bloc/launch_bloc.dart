@@ -34,6 +34,12 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
             feature: LaunchFeature.isUpcoming,
             value: state.time == LaunchTime.upcoming,
           ),
+          if (state.successfulness != LaunchSuccessfulness.any &&
+              state.time == LaunchTime.past)
+            FilteringOption.value(
+              feature: LaunchFeature.isSuccessful,
+              value: state.successfulness == LaunchSuccessfulness.success,
+            ),
         ],
       );
       if (launches.isEmpty) {
@@ -110,7 +116,12 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
     final timeFiltering = state.time == LaunchTime.upcoming
         ? LaunchTime.past
         : LaunchTime.upcoming;
-    emit(state.getEmpty(time: timeFiltering));
+    emit(
+      state.getEmpty(
+        time: timeFiltering,
+        successfulness: LaunchSuccessfulness.any,
+      ),
+    );
     final newState = await _fetchNewState();
     emit(newState);
   }

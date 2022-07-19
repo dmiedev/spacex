@@ -290,33 +290,87 @@ class _SuccessfulnessChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ActionChip(
-      avatar: const Icon(Icons.done, size: _chipIconSize),
-      label: const Text('Successfulness'),
-      onPressed: () => _handlePress(context),
+    return BlocBuilder<LaunchBloc, LaunchState>(
+      buildWhen: (previous, current) =>
+          previous.successfulness != current.successfulness ||
+          previous.time != current.time,
+      builder: (context, state) {
+        if (state.time == LaunchTime.upcoming) {
+          return Container();
+        }
+        return ActionChip(
+          avatar: Icon(
+            state.successfulness == LaunchSuccessfulness.failure
+                ? Icons.close
+                : Icons.done,
+            size: _chipIconSize,
+            color: state.successfulness == LaunchSuccessfulness.any
+                ? null
+                : Colors.black,
+          ),
+          label: Text(
+            _getLabelText(state.successfulness),
+            style: TextStyle(
+              color: state.successfulness == LaunchSuccessfulness.any
+                  ? null
+                  : Colors.black,
+            ),
+          ),
+          onPressed: () => _handlePress(context),
+          backgroundColor: state.successfulness == LaunchSuccessfulness.any
+              ? null
+              : Colors.white,
+        );
+      },
     );
   }
 
-  void _handlePress(BuildContext context) {
-    showDialog(
+  String _getLabelText(LaunchSuccessfulness successfulness) {
+    switch (successfulness) {
+      case LaunchSuccessfulness.any:
+        return 'Successfulness';
+      case LaunchSuccessfulness.success:
+        return 'Success';
+      case LaunchSuccessfulness.failure:
+        return 'Failure';
+    }
+  }
+
+  Future<void> _handlePress(BuildContext context) async {
+    final launchBloc = context.read<LaunchBloc>();
+    final successfulness = await showDialog<LaunchSuccessfulness>(
       context: context,
       builder: (context) => SimpleDialog(
         title: const Text('Select Successfulness'),
         children: [
           SimpleDialogOption(
-            child: const Text('All'),
-            onPressed: () {},
+            child: const Text('Any'),
+            onPressed: () => Navigator.pop(
+              context,
+              LaunchSuccessfulness.any,
+            ),
           ),
           SimpleDialogOption(
             child: const Text('Success'),
-            onPressed: () {},
+            onPressed: () => Navigator.pop(
+              context,
+              LaunchSuccessfulness.success,
+            ),
           ),
           SimpleDialogOption(
             child: const Text('Failure'),
-            onPressed: () {},
+            onPressed: () => Navigator.pop(
+              context,
+              LaunchSuccessfulness.failure,
+            ),
           ),
         ],
       ),
     );
+    if (successfulness != null) {
+      launchBloc.add(
+        LaunchSuccessfulnessSelected(successfulness: successfulness),
+      );
+    }
   }
 }
