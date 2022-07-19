@@ -70,9 +70,7 @@ class _SortingOrderChip extends StatelessWidget {
 }
 
 class _SortingChip extends StatelessWidget {
-  const _SortingChip({
-    super.key
-  });
+  const _SortingChip({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -138,15 +136,31 @@ class _TimeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ActionChip(
-      avatar: const Icon(Icons.history_toggle_off, size: _chipIconSize),
-      label: const Text('Upcoming'),
-      onPressed: _handlePress,
+    return BlocBuilder<LaunchBloc, LaunchState>(
+      buildWhen: (previous, current) =>
+          previous.timeFiltering != current.timeFiltering,
+      builder: (context, state) => ActionChip(
+        avatar: Icon(
+          state.timeFiltering == LaunchTimeFiltering.upcoming
+              ? Icons.history_toggle_off
+              : Icons.schedule,
+          color: Colors.black,
+          size: _chipIconSize,
+        ),
+        label: Text(
+          state.timeFiltering == LaunchTimeFiltering.upcoming
+              ? 'Upcoming'
+              : 'Past',
+          style: const TextStyle(color: Colors.black),
+        ),
+        onPressed: () => _handlePress(context),
+        backgroundColor: Colors.white,
+      ),
     );
   }
 
-  void _handlePress() {
-    // TODO(dmiedev): Switch upcoming to past, past to upcoming
+  void _handlePress(BuildContext context) {
+    context.read<LaunchBloc>().add(LaunchTimeFilteringSwitched());
   }
 }
 

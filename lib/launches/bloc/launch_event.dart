@@ -24,9 +24,7 @@ class LaunchPageRequested extends LaunchEvent {
 }
 
 class LaunchSortingOptionAdded extends LaunchEvent {
-  const LaunchSortingOptionAdded({
-    required this.feature,
-  });
+  const LaunchSortingOptionAdded({required this.feature});
 
   final LaunchFeature feature;
 
@@ -35,3 +33,14 @@ class LaunchSortingOptionAdded extends LaunchEvent {
 }
 
 class LaunchSortingOrderSwitched extends LaunchEvent {}
+
+class LaunchTimeFilteringSwitched extends LaunchEvent {}
+
+class LaunchFilteringOptionRemoved extends LaunchEvent {
+  const LaunchFilteringOptionRemoved({required this.feature});
+
+  final LaunchFeature feature;
+
+  @override
+  List<Object?> get props => [feature];
+}

@@ -10,6 +10,7 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
     on<LaunchPageRequested>(_handlePageRequested);
     on<LaunchSortingOptionAdded>(_handleSortingOptionAdded);
     on<LaunchSortingOrderSwitched>(_handleSortingOrderSwitched);
+    on<LaunchTimeFilteringSwitched>(_handleTimeFilteringSwitched);
   }
 
   static const _amountPerPage = 10;
@@ -20,6 +21,7 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
     required int pageNumber,
     required String searchedText,
     required SortingOption sortingOption,
+    required LaunchTimeFiltering timeFiltering,
   }) async {
     try {
       final launches = await _launchRepository.fetchLaunches(
@@ -27,6 +29,12 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
         listNumber: pageNumber,
         searchedText: searchedText.isNotEmpty ? searchedText : null,
         sorting: sortingOption,
+        filtering: [
+          FilteringOption.value(
+            feature: LaunchFeature.isUpcoming,
+            value: timeFiltering == LaunchTimeFiltering.upcoming,
+          ),
+        ],
       );
       if (launches.isEmpty) {
         return LaunchState(
@@ -36,6 +44,7 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
           hasReachedEnd: true,
           errorOccurred: false,
           searchedText: searchedText,
+          timeFiltering: timeFiltering,
           sortingOption: sortingOption,
         );
       }
@@ -46,6 +55,7 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
         hasReachedEnd: false,
         errorOccurred: false,
         searchedText: searchedText,
+        timeFiltering: timeFiltering,
         sortingOption: sortingOption,
       );
     } on Exception {
@@ -56,6 +66,7 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
         hasReachedEnd: false,
         errorOccurred: true,
         searchedText: searchedText,
+        timeFiltering: timeFiltering,
         sortingOption: sortingOption,
       );
     }
@@ -69,6 +80,7 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
       pageNumber: !event.firstPage ? state.lastPageNumber + 1 : 1,
       searchedText: event.searchedText,
       sortingOption: state.sortingOption,
+      timeFiltering: state.timeFiltering,
     );
     emit(newState);
   }
@@ -84,6 +96,7 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
         feature: event.feature,
         order: state.sortingOption.order,
       ),
+      timeFiltering: state.timeFiltering,
     );
     emit(newState);
   }
@@ -101,6 +114,22 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
             ? SortOrder.descending
             : SortOrder.ascending,
       ),
+      timeFiltering: state.timeFiltering,
+    );
+    emit(newState);
+  }
+
+  Future<void> _handleTimeFilteringSwitched(
+    LaunchTimeFilteringSwitched event,
+    Emitter<LaunchState> emit,
+  ) async {
+    final newState = await _fetchNewState(
+      pageNumber: 1,
+      searchedText: state.searchedText,
+      sortingOption: state.sortingOption,
+      timeFiltering: state.timeFiltering == LaunchTimeFiltering.upcoming
+          ? LaunchTimeFiltering.past
+          : LaunchTimeFiltering.upcoming,
     );
     emit(newState);
   }

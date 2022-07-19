@@ -3,6 +3,8 @@ import 'package:launch_repository/launch_repository.dart';
 import 'package:meta/meta.dart';
 import 'package:spacex_api/spacex_api.dart';
 
+enum LaunchTimeFiltering { past, upcoming }
+
 @immutable
 @JsonSerializable()
 class LaunchState {
@@ -13,6 +15,7 @@ class LaunchState {
     required this.hasReachedEnd,
     required this.errorOccurred,
     required this.searchedText,
+    required this.timeFiltering,
     required this.sortingOption,
   });
 
@@ -24,6 +27,7 @@ class LaunchState {
           hasReachedEnd: false,
           errorOccurred: false,
           searchedText: '',
+          timeFiltering: LaunchTimeFiltering.upcoming,
           sortingOption: const SortingOption(
             feature: LaunchFeature.date,
             order: SortOrder.ascending,
@@ -36,8 +40,10 @@ class LaunchState {
   final bool hasReachedEnd;
   final bool errorOccurred;
   final String searchedText;
+  final LaunchTimeFiltering timeFiltering;
   final SortingOption sortingOption;
 
+  // TODO(dmiedev): change toString()
   @override
   String toString() {
     return 'LaunchState(launches[${launches.length}], $lastPageNumber, '
