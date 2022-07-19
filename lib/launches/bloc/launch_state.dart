@@ -11,42 +11,59 @@ class LaunchState {
   const LaunchState({
     required this.launches,
     required this.lastPageNumber,
-    required this.lastPageAmount,
     required this.hasReachedEnd,
     required this.errorOccurred,
     required this.searchedText,
-    required this.timeFiltering,
     required this.sortingOption,
+    required this.timeFiltering,
   });
 
   const LaunchState.initial()
       : this(
-          launches: const [],
+          launches: null,
           lastPageNumber: 0,
-          lastPageAmount: 0,
           hasReachedEnd: false,
           errorOccurred: false,
           searchedText: '',
-          timeFiltering: LaunchTimeFiltering.upcoming,
           sortingOption: const SortingOption(
             feature: LaunchFeature.date,
             order: SortOrder.ascending,
           ),
+          timeFiltering: LaunchTimeFiltering.upcoming,
         );
 
-  final List<Launch> launches;
+  final List<Launch>? launches;
   final int lastPageNumber;
-  final int lastPageAmount;
   final bool hasReachedEnd;
   final bool errorOccurred;
   final String searchedText;
-  final LaunchTimeFiltering timeFiltering;
   final SortingOption sortingOption;
+  final LaunchTimeFiltering timeFiltering;
+
+  LaunchState copyWith({
+    List<Launch>? launches,
+    int? lastPageNumber,
+    bool? hasReachedEnd,
+    bool? errorOccurred,
+    String? searchedText,
+    SortingOption? sortingOption,
+    LaunchTimeFiltering? timeFiltering,
+  }) {
+    return LaunchState(
+      launches: launches ?? this.launches,
+      lastPageNumber: lastPageNumber ?? this.lastPageNumber,
+      hasReachedEnd: hasReachedEnd ?? this.hasReachedEnd,
+      errorOccurred: errorOccurred ?? this.errorOccurred,
+      searchedText: searchedText ?? this.searchedText,
+      sortingOption: sortingOption ?? this.sortingOption,
+      timeFiltering: timeFiltering ?? this.timeFiltering,
+    );
+  }
 
   // TODO(dmiedev): change toString()
   @override
   String toString() {
-    return 'LaunchState(launches[${launches.length}], $lastPageNumber, '
-        '$lastPageAmount, $hasReachedEnd, $errorOccurred, $sortingOption)';
+    return 'LaunchState(launches[${launches?.length}], $lastPageNumber, '
+        '$hasReachedEnd, $errorOccurred, $sortingOption)';
   }
 }

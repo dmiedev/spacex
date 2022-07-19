@@ -40,7 +40,6 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
         return LaunchState(
           launches: pageNumber == 1 ? [] : state.launches,
           lastPageNumber: state.lastPageNumber,
-          lastPageAmount: state.lastPageAmount,
           hasReachedEnd: true,
           errorOccurred: false,
           searchedText: searchedText,
@@ -49,9 +48,9 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
         );
       }
       return LaunchState(
-        launches: pageNumber == 1 ? launches : [...state.launches, ...launches],
+        launches:
+            pageNumber == 1 ? launches : [...?state.launches, ...launches],
         lastPageNumber: pageNumber,
-        lastPageAmount: launches.length,
         hasReachedEnd: false,
         errorOccurred: false,
         searchedText: searchedText,
@@ -62,7 +61,6 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
       return LaunchState(
         launches: pageNumber == 1 ? [] : state.launches,
         lastPageNumber: pageNumber,
-        lastPageAmount: pageNumber == 1 ? 0 : state.launches.length,
         hasReachedEnd: false,
         errorOccurred: true,
         searchedText: searchedText,
@@ -89,13 +87,21 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
     LaunchSortingOptionAdded event,
     Emitter<LaunchState> emit,
   ) async {
+    final sortingOption = SortingOption(
+      feature: event.feature,
+      order: state.sortingOption.order,
+    );
+    emit(
+      const LaunchState.initial().copyWith(
+        searchedText: state.searchedText,
+        sortingOption: sortingOption,
+        timeFiltering: state.timeFiltering,
+      ),
+    );
     final newState = await _fetchNewState(
       pageNumber: 1,
       searchedText: state.searchedText,
-      sortingOption: SortingOption(
-        feature: event.feature,
-        order: state.sortingOption.order,
-      ),
+      sortingOption: sortingOption,
       timeFiltering: state.timeFiltering,
     );
     emit(newState);
@@ -105,15 +111,23 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
     LaunchSortingOrderSwitched event,
     Emitter<LaunchState> emit,
   ) async {
+    final sortingOption = SortingOption(
+      feature: state.sortingOption.feature,
+      order: state.sortingOption.order == SortOrder.ascending
+          ? SortOrder.descending
+          : SortOrder.ascending,
+    );
+    emit(
+      const LaunchState.initial().copyWith(
+        searchedText: state.searchedText,
+        sortingOption: sortingOption,
+        timeFiltering: state.timeFiltering,
+      ),
+    );
     final newState = await _fetchNewState(
       pageNumber: 1,
       searchedText: state.searchedText,
-      sortingOption: SortingOption(
-        feature: state.sortingOption.feature,
-        order: state.sortingOption.order == SortOrder.ascending
-            ? SortOrder.descending
-            : SortOrder.ascending,
-      ),
+      sortingOption: sortingOption,
       timeFiltering: state.timeFiltering,
     );
     emit(newState);
@@ -123,13 +137,21 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
     LaunchTimeFilteringSwitched event,
     Emitter<LaunchState> emit,
   ) async {
+    final timeFiltering = state.timeFiltering == LaunchTimeFiltering.upcoming
+        ? LaunchTimeFiltering.past
+        : LaunchTimeFiltering.upcoming;
+    emit(
+      const LaunchState.initial().copyWith(
+        searchedText: state.searchedText,
+        sortingOption: state.sortingOption,
+        timeFiltering: timeFiltering,
+      ),
+    );
     final newState = await _fetchNewState(
       pageNumber: 1,
       searchedText: state.searchedText,
       sortingOption: state.sortingOption,
-      timeFiltering: state.timeFiltering == LaunchTimeFiltering.upcoming
-          ? LaunchTimeFiltering.past
-          : LaunchTimeFiltering.upcoming,
+      timeFiltering: timeFiltering,
     );
     emit(newState);
   }
