@@ -49,12 +49,12 @@ class _SortingOrderChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LaunchBloc, LaunchState>(
       buildWhen: (previous, current) =>
-          previous.sortingOption.order != current.sortingOption.order,
+          previous.sorting.order != current.sorting.order,
       builder: (context, state) => ActionChip(
         label: Transform(
           alignment: Alignment.center,
           transform: Matrix4.rotationX(
-            state.sortingOption.order == SortOrder.ascending ? math.pi : 0,
+            state.sorting.order == SortOrder.ascending ? math.pi : 0,
           ),
           child: const Icon(Icons.sort, size: _chipIconSize),
         ),
@@ -76,10 +76,10 @@ class _SortingChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LaunchBloc, LaunchState>(
       buildWhen: (previous, current) =>
-          previous.sortingOption.feature != current.sortingOption.feature,
+          previous.sorting.feature != current.sorting.feature,
       builder: (context, state) => ActionChip(
         label: Text(
-          _mapLaunchFeatureToLabel(state.sortingOption.feature),
+          _mapLaunchFeatureToLabel(state.sorting.feature),
           style: const TextStyle(color: Colors.black),
         ),
         onPressed: () => _handlePress(context),
@@ -126,7 +126,7 @@ class _SortingChip extends StatelessWidget {
       ),
     );
     if (feature != null) {
-      launchBloc.add(LaunchSortingOptionAdded(feature: feature));
+      launchBloc.add(LaunchSortingSelected(feature: feature));
     }
   }
 }
@@ -137,20 +137,17 @@ class _TimeChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LaunchBloc, LaunchState>(
-      buildWhen: (previous, current) =>
-          previous.timeFiltering != current.timeFiltering,
+      buildWhen: (previous, current) => previous.time != current.time,
       builder: (context, state) => ActionChip(
         avatar: Icon(
-          state.timeFiltering == LaunchTimeFiltering.upcoming
+          state.time == LaunchTime.upcoming
               ? Icons.history_toggle_off
               : Icons.schedule,
           color: Colors.black,
           size: _chipIconSize,
         ),
         label: Text(
-          state.timeFiltering == LaunchTimeFiltering.upcoming
-              ? 'Upcoming'
-              : 'Past',
+          state.time == LaunchTime.upcoming ? 'Upcoming' : 'Past',
           style: const TextStyle(color: Colors.black),
         ),
         onPressed: () => _handlePress(context),
@@ -160,7 +157,7 @@ class _TimeChip extends StatelessWidget {
   }
 
   void _handlePress(BuildContext context) {
-    context.read<LaunchBloc>().add(LaunchTimeFilteringSwitched());
+    context.read<LaunchBloc>().add(LaunchTimeSwitched());
   }
 }
 

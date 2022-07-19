@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:launch_repository/launch_repository.dart';
 import 'package:meta/meta.dart';
+import 'package:spacex/launches/bloc/bloc.dart';
 
 @immutable
 abstract class LaunchEvent extends Equatable {
@@ -23,8 +24,8 @@ class LaunchPageRequested extends LaunchEvent {
   List<Object?> get props => [searchedText, firstPage];
 }
 
-class LaunchSortingOptionAdded extends LaunchEvent {
-  const LaunchSortingOptionAdded({required this.feature});
+class LaunchSortingSelected extends LaunchEvent {
+  const LaunchSortingSelected({required this.feature});
 
   final LaunchFeature feature;
 
@@ -34,13 +35,15 @@ class LaunchSortingOptionAdded extends LaunchEvent {
 
 class LaunchSortingOrderSwitched extends LaunchEvent {}
 
-class LaunchTimeFilteringSwitched extends LaunchEvent {}
+class LaunchTimeSwitched extends LaunchEvent {}
 
-class LaunchFilteringOptionRemoved extends LaunchEvent {
-  const LaunchFilteringOptionRemoved({required this.feature});
+class LaunchSuccessfulnessSelected extends LaunchEvent {
+  const LaunchSuccessfulnessSelected({
+    required this.successfulness,
+  });
 
-  final LaunchFeature feature;
+  final LaunchSuccessfulness successfulness;
 
   @override
-  List<Object?> get props => [feature];
+  List<Object?> get props => [successfulness];
 }

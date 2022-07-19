@@ -3,7 +3,9 @@ import 'package:launch_repository/launch_repository.dart';
 import 'package:meta/meta.dart';
 import 'package:spacex_api/spacex_api.dart';
 
-enum LaunchTimeFiltering { past, upcoming }
+enum LaunchTime { past, upcoming }
+
+enum LaunchSuccessfulness { any, success, failure }
 
 @immutable
 @JsonSerializable()
@@ -14,8 +16,9 @@ class LaunchState {
     required this.hasReachedEnd,
     required this.errorOccurred,
     required this.searchedText,
-    required this.sortingOption,
-    required this.timeFiltering,
+    required this.sorting,
+    required this.time,
+    required this.successfulness,
   });
 
   const LaunchState.initial()
@@ -25,11 +28,12 @@ class LaunchState {
           hasReachedEnd: false,
           errorOccurred: false,
           searchedText: '',
-          sortingOption: const SortingOption(
+          sorting: const SortingOption(
             feature: LaunchFeature.date,
             order: SortOrder.ascending,
           ),
-          timeFiltering: LaunchTimeFiltering.upcoming,
+          time: LaunchTime.upcoming,
+          successfulness: LaunchSuccessfulness.any,
         );
 
   final List<Launch>? launches;
@@ -37,8 +41,22 @@ class LaunchState {
   final bool hasReachedEnd;
   final bool errorOccurred;
   final String searchedText;
-  final SortingOption sortingOption;
-  final LaunchTimeFiltering timeFiltering;
+  final SortingOption sorting;
+  final LaunchTime time;
+  final LaunchSuccessfulness successfulness;
+
+  LaunchState getEmpty({
+    SortingOption? sorting,
+    LaunchTime? time,
+    LaunchSuccessfulness? successfulness,
+  }) {
+    return const LaunchState.initial().copyWith(
+      searchedText: searchedText,
+      sorting: sorting ?? this.sorting,
+      time: time ?? this.time,
+      successfulness: successfulness ?? this.successfulness,
+    );
+  }
 
   LaunchState copyWith({
     List<Launch>? launches,
@@ -46,8 +64,9 @@ class LaunchState {
     bool? hasReachedEnd,
     bool? errorOccurred,
     String? searchedText,
-    SortingOption? sortingOption,
-    LaunchTimeFiltering? timeFiltering,
+    SortingOption? sorting,
+    LaunchTime? time,
+    LaunchSuccessfulness? successfulness,
   }) {
     return LaunchState(
       launches: launches ?? this.launches,
@@ -55,8 +74,9 @@ class LaunchState {
       hasReachedEnd: hasReachedEnd ?? this.hasReachedEnd,
       errorOccurred: errorOccurred ?? this.errorOccurred,
       searchedText: searchedText ?? this.searchedText,
-      sortingOption: sortingOption ?? this.sortingOption,
-      timeFiltering: timeFiltering ?? this.timeFiltering,
+      sorting: sorting ?? this.sorting,
+      time: time ?? this.time,
+      successfulness: successfulness ?? this.successfulness,
     );
   }
 
@@ -64,6 +84,6 @@ class LaunchState {
   @override
   String toString() {
     return 'LaunchState(launches[${launches?.length}], $lastPageNumber, '
-        '$hasReachedEnd, $errorOccurred, $sortingOption)';
+        '$hasReachedEnd, $errorOccurred, $sorting)';
   }
 }

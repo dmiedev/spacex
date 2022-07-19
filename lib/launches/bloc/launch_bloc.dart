@@ -8,9 +8,10 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
       : _launchRepository = launchRepository,
         super(const LaunchState.initial()) {
     on<LaunchPageRequested>(_handlePageRequested);
-    on<LaunchSortingOptionAdded>(_handleSortingOptionAdded);
+    on<LaunchSortingSelected>(_handleSortingSelected);
     on<LaunchSortingOrderSwitched>(_handleSortingOrderSwitched);
-    on<LaunchTimeFilteringSwitched>(_handleTimeFilteringSwitched);
+    on<LaunchTimeSwitched>(_handleTimeSwitched);
+    on<LaunchSuccessfulnessSelected>(_handleSuccessfulnessSelected);
   }
 
   static const _amountPerPage = 10;
@@ -18,54 +19,47 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
   final LaunchRepository _launchRepository;
 
   Future<LaunchState> _fetchNewState({
-    required int pageNumber,
-    required String searchedText,
-    required SortingOption sortingOption,
-    required LaunchTimeFiltering timeFiltering,
+    int pageNumber = 1,
+    String? searchedText,
   }) async {
+    searchedText ??= state.searchedText;
     try {
       final launches = await _launchRepository.fetchLaunches(
         amount: _amountPerPage,
         listNumber: pageNumber,
         searchedText: searchedText.isNotEmpty ? searchedText : null,
-        sorting: sortingOption,
+        sorting: state.sorting,
         filtering: [
           FilteringOption.value(
             feature: LaunchFeature.isUpcoming,
-            value: timeFiltering == LaunchTimeFiltering.upcoming,
+            value: state.time == LaunchTime.upcoming,
           ),
         ],
       );
       if (launches.isEmpty) {
-        return LaunchState(
+        return state.copyWith(
           launches: pageNumber == 1 ? [] : state.launches,
           lastPageNumber: state.lastPageNumber,
           hasReachedEnd: true,
           errorOccurred: false,
           searchedText: searchedText,
-          timeFiltering: timeFiltering,
-          sortingOption: sortingOption,
         );
       }
-      return LaunchState(
+      return state.copyWith(
         launches:
             pageNumber == 1 ? launches : [...?state.launches, ...launches],
         lastPageNumber: pageNumber,
         hasReachedEnd: false,
         errorOccurred: false,
         searchedText: searchedText,
-        timeFiltering: timeFiltering,
-        sortingOption: sortingOption,
       );
     } on Exception {
-      return LaunchState(
-        launches: pageNumber == 1 ? [] : state.launches,
+      return state.copyWith(
+        launches: pageNumber == 1 ? null : state.launches,
         lastPageNumber: pageNumber,
         hasReachedEnd: false,
         errorOccurred: true,
         searchedText: searchedText,
-        timeFiltering: timeFiltering,
-        sortingOption: sortingOption,
       );
     }
   }
@@ -77,82 +71,56 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
     final newState = await _fetchNewState(
       pageNumber: !event.firstPage ? state.lastPageNumber + 1 : 1,
       searchedText: event.searchedText,
-      sortingOption: state.sortingOption,
-      timeFiltering: state.timeFiltering,
     );
     emit(newState);
   }
 
-  Future<void> _handleSortingOptionAdded(
-    LaunchSortingOptionAdded event,
+  Future<void> _handleSortingSelected(
+    LaunchSortingSelected event,
     Emitter<LaunchState> emit,
   ) async {
     final sortingOption = SortingOption(
       feature: event.feature,
-      order: state.sortingOption.order,
+      order: state.sorting.order,
     );
-    emit(
-      const LaunchState.initial().copyWith(
-        searchedText: state.searchedText,
-        sortingOption: sortingOption,
-        timeFiltering: state.timeFiltering,
-      ),
-    );
-    final newState = await _fetchNewState(
-      pageNumber: 1,
-      searchedText: state.searchedText,
-      sortingOption: sortingOption,
-      timeFiltering: state.timeFiltering,
-    );
+    emit(state.getEmpty(sorting: sortingOption));
+    final newState = await _fetchNewState();
     emit(newState);
   }
 
-  void _handleSortingOrderSwitched(
+  Future<void> _handleSortingOrderSwitched(
     LaunchSortingOrderSwitched event,
     Emitter<LaunchState> emit,
   ) async {
     final sortingOption = SortingOption(
-      feature: state.sortingOption.feature,
-      order: state.sortingOption.order == SortOrder.ascending
+      feature: state.sorting.feature,
+      order: state.sorting.order == SortOrder.ascending
           ? SortOrder.descending
           : SortOrder.ascending,
     );
-    emit(
-      const LaunchState.initial().copyWith(
-        searchedText: state.searchedText,
-        sortingOption: sortingOption,
-        timeFiltering: state.timeFiltering,
-      ),
-    );
-    final newState = await _fetchNewState(
-      pageNumber: 1,
-      searchedText: state.searchedText,
-      sortingOption: sortingOption,
-      timeFiltering: state.timeFiltering,
-    );
+    emit(state.getEmpty(sorting: sortingOption));
+    final newState = await _fetchNewState();
     emit(newState);
   }
 
-  Future<void> _handleTimeFilteringSwitched(
-    LaunchTimeFilteringSwitched event,
+  Future<void> _handleTimeSwitched(
+    LaunchTimeSwitched event,
     Emitter<LaunchState> emit,
   ) async {
-    final timeFiltering = state.timeFiltering == LaunchTimeFiltering.upcoming
-        ? LaunchTimeFiltering.past
-        : LaunchTimeFiltering.upcoming;
-    emit(
-      const LaunchState.initial().copyWith(
-        searchedText: state.searchedText,
-        sortingOption: state.sortingOption,
-        timeFiltering: timeFiltering,
-      ),
-    );
-    final newState = await _fetchNewState(
-      pageNumber: 1,
-      searchedText: state.searchedText,
-      sortingOption: state.sortingOption,
-      timeFiltering: timeFiltering,
-    );
+    final timeFiltering = state.time == LaunchTime.upcoming
+        ? LaunchTime.past
+        : LaunchTime.upcoming;
+    emit(state.getEmpty(time: timeFiltering));
+    final newState = await _fetchNewState();
+    emit(newState);
+  }
+
+  Future<void> _handleSuccessfulnessSelected(
+    LaunchSuccessfulnessSelected event,
+    Emitter<LaunchState> emit,
+  ) async {
+    emit(state.getEmpty(successfulness: event.successfulness));
+    final newState = await _fetchNewState();
     emit(newState);
   }
 }
