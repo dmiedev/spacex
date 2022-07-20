@@ -37,6 +37,17 @@ class LaunchSortingOrderSwitched extends LaunchEvent {}
 
 class LaunchTimeSwitched extends LaunchEvent {}
 
+class LaunchFlightNumberSet extends LaunchEvent {
+  const LaunchFlightNumberSet({
+    required this.flightNumber,
+  });
+
+  final int flightNumber;
+
+  @override
+  List<Object?> get props => [flightNumber];
+}
+
 class LaunchSuccessfulnessSelected extends LaunchEvent {
   const LaunchSuccessfulnessSelected({
     required this.successfulness,

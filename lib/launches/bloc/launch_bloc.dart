@@ -11,6 +11,7 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
     on<LaunchSortingSelected>(_handleSortingSelected);
     on<LaunchSortingOrderSwitched>(_handleSortingOrderSwitched);
     on<LaunchTimeSwitched>(_handleTimeSwitched);
+    on<LaunchFlightNumberSet>(_handleFlightNumberSet);
     on<LaunchSuccessfulnessSelected>(_handleSuccessfulnessSelected);
   }
 
@@ -39,6 +40,11 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
             FilteringOption.value(
               feature: LaunchFeature.isSuccessful,
               value: state.successfulness == LaunchSuccessfulness.success,
+            ),
+          if (state.flightNumber != -1)
+            FilteringOption.value(
+              feature: LaunchFeature.flightNumber,
+              value: state.flightNumber,
             ),
         ],
       );
@@ -131,6 +137,15 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
     Emitter<LaunchState> emit,
   ) async {
     emit(state.getEmpty(successfulness: event.successfulness));
+    final newState = await _fetchNewState();
+    emit(newState);
+  }
+
+  Future<void> _handleFlightNumberSet(
+    LaunchFlightNumberSet event,
+    Emitter<LaunchState> emit,
+  ) async {
+    emit(state.getEmpty(flightNumber: event.flightNumber));
     final newState = await _fetchNewState();
     emit(newState);
   }

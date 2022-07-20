@@ -11,19 +11,19 @@ enum LaunchSuccessfulness { any, success, failure }
 @JsonSerializable()
 class LaunchState {
   const LaunchState({
-    required this.launches,
+    this.launches,
     required this.lastPageNumber,
     required this.hasReachedEnd,
     required this.errorOccurred,
     required this.searchedText,
     required this.sorting,
     required this.time,
+    required this.flightNumber,
     required this.successfulness,
   });
 
   const LaunchState.initial()
       : this(
-          launches: null,
           lastPageNumber: 0,
           hasReachedEnd: false,
           errorOccurred: false,
@@ -33,6 +33,7 @@ class LaunchState {
             order: SortOrder.ascending,
           ),
           time: LaunchTime.upcoming,
+          flightNumber: -1,
           successfulness: LaunchSuccessfulness.any,
         );
 
@@ -43,17 +44,20 @@ class LaunchState {
   final String searchedText;
   final SortingOption sorting;
   final LaunchTime time;
+  final int flightNumber;
   final LaunchSuccessfulness successfulness;
 
   LaunchState getEmpty({
     SortingOption? sorting,
     LaunchTime? time,
+    int? flightNumber,
     LaunchSuccessfulness? successfulness,
   }) {
     return const LaunchState.initial().copyWith(
       searchedText: searchedText,
       sorting: sorting ?? this.sorting,
       time: time ?? this.time,
+      flightNumber: flightNumber ?? this.flightNumber,
       successfulness: successfulness ?? this.successfulness,
     );
   }
@@ -66,6 +70,7 @@ class LaunchState {
     String? searchedText,
     SortingOption? sorting,
     LaunchTime? time,
+    int? flightNumber,
     LaunchSuccessfulness? successfulness,
   }) {
     return LaunchState(
@@ -76,6 +81,7 @@ class LaunchState {
       searchedText: searchedText ?? this.searchedText,
       sorting: sorting ?? this.sorting,
       time: time ?? this.time,
+      flightNumber: flightNumber ?? this.flightNumber,
       successfulness: successfulness ?? this.successfulness,
     );
   }

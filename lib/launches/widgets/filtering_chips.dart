@@ -254,34 +254,122 @@ class _FlightNumberChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ActionChip(
-      avatar: const Icon(Icons.tag, size: _chipIconSize),
-      label: const Text('Flight Number'),
-      onPressed: () => _handlePress(context),
+    return BlocBuilder<LaunchBloc, LaunchState>(
+      buildWhen: (previous, current) =>
+          previous.flightNumber != current.flightNumber,
+      builder: (context, state) => ActionChip(
+        avatar: Icon(
+          Icons.tag,
+          size: _chipIconSize,
+          color: state.flightNumber != -1 ? Colors.black : null,
+        ),
+        label: state.flightNumber != -1
+            ? Text(
+                '${state.flightNumber}',
+                style: const TextStyle(color: Colors.black),
+              )
+            : const Text('Flight Number'),
+        onPressed: () => _handlePress(context),
+        backgroundColor: state.flightNumber != -1 ? Colors.white : null,
+      ),
     );
   }
 
-  void _handlePress(BuildContext context) {
-    showDialog(
+  Future<void> _handlePress(BuildContext context) async {
+    final launchBloc = context.read<LaunchBloc>();
+    final flightNumber = launchBloc.state.flightNumber;
+    final newFlightNumber = await showDialog<int>(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Enter Flight Number'),
-        content: TextField(
-          keyboardType: TextInputType.number,
-          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-        ),
-        actions: [
-          TextButton(
-            child: const Text('CANCEL'),
-            onPressed: () {},
-          ),
-          TextButton(
-            child: const Text('OK'),
-            onPressed: () {},
-          ),
-        ],
+      builder: (context) => _FlightNumberDialog(
+        flightNumber: flightNumber != -1 ? flightNumber : null,
       ),
     );
+    if (newFlightNumber != null) {
+      launchBloc.add(LaunchFlightNumberSet(flightNumber: newFlightNumber));
+    }
+  }
+}
+
+class _FlightNumberDialog extends StatefulWidget {
+  const _FlightNumberDialog({
+    super.key,
+    this.flightNumber,
+  }) : assert(
+          flightNumber == null || flightNumber >= 0,
+          'Flight number must be positive.',
+        );
+
+  final int? flightNumber;
+
+  @override
+  State<_FlightNumberDialog> createState() => _FlightNumberDialogState();
+}
+
+class _FlightNumberDialogState extends State<_FlightNumberDialog> {
+  final _formKey = GlobalKey<FormState>();
+  final _textFieldController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.flightNumber != null) {
+      _textFieldController.text = '${widget.flightNumber}';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Enter Flight Number'),
+      content: Form(
+        key: _formKey,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        child: TextFormField(
+          validator: _validateFlightNumberField,
+          controller: _textFieldController,
+          keyboardType: TextInputType.number,
+          maxLength: 3,
+          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+          decoration: const InputDecoration(
+            label: Text('Flight Number'),
+            hintText: '123',
+          ),
+        ),
+      ),
+      actions: [
+        TextButton(
+          child: const Text('CANCEL'),
+          onPressed: () => Navigator.pop(context),
+        ),
+        TextButton(
+          child: const Text('RESET'),
+          onPressed: () => Navigator.pop(context, -1),
+        ),
+        TextButton(
+          child: const Text('OK'),
+          onPressed: () => _handleOkButtonPress(context),
+        ),
+      ],
+    );
+  }
+
+  String? _validateFlightNumberField(String? string) {
+    if (string != null && string.isEmpty) {
+      return 'This field must not be empty!';
+    }
+    return null;
+  }
+
+  void _handleOkButtonPress(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      Navigator.pop(context, int.parse(_textFieldController.text));
+    }
+  }
+
+  @override
+  void dispose() {
+    _textFieldController.dispose();
+    super.dispose();
   }
 }
 
