@@ -32,7 +32,7 @@ class FilteringChips extends StatelessWidget {
         padding,
         const _RocketChip(),
         padding,
-        const _DateChip(),
+        const _YearChip(),
         padding,
         const _FlightNumberChip(),
         padding,
@@ -222,30 +222,203 @@ class _RocketChip extends StatelessWidget {
   }
 }
 
-class _DateChip extends StatelessWidget {
-  const _DateChip({super.key});
+extension _DateTimeRangeConverter on DateTimeRange {
+  DateTimeInterval toInterval() {
+    return DateTimeInterval(from: start, to: end);
+  }
+
+  static DateTimeRange fromInterval(DateTimeInterval interval) {
+    return DateTimeRange(start: interval.from, end: interval.to);
+  }
+}
+
+class _YearChip extends StatelessWidget {
+  const _YearChip({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ActionChip(
-      avatar: const Icon(Icons.date_range, size: _chipIconSize),
-      label: const Text('Date Range'),
-      onPressed: () => _handlePress(context),
+    return BlocBuilder<LaunchBloc, LaunchState>(
+      buildWhen: (previous, current) =>
+          previous.dateInterval != current.dateInterval,
+      builder: (context, state) => ActionChip(
+        avatar: Icon(
+          Icons.date_range,
+          size: _chipIconSize,
+          color: state.dateInterval != null ? Colors.black : null,
+        ),
+        label: state.dateInterval != null
+            ? Text(
+                _getIntervalLabelText(state.dateInterval!),
+                style: const TextStyle(color: Colors.black),
+              )
+            : const Text('Year Range'),
+        onPressed: () => _handlePress(context),
+        backgroundColor: state.dateInterval != null ? Colors.white : null,
+      ),
     );
   }
 
-  void _handlePress(BuildContext context) {
+  String _getIntervalLabelText(DateTimeInterval interval) {
+    if (interval.from.year == interval.to.year) {
+      return '${interval.from.year}';
+    } else {
+      return '${interval.from.year}-${interval.to.year}';
+    }
+  }
+
+  Future<void> _handlePress(BuildContext context) async {
+    final launchBloc = context.read<LaunchBloc>();
+    final currentInterval = launchBloc.state.dateInterval;
+
     final now = DateTime.now();
     final start = DateTime(2006);
     final end = DateTime(now.year + 2).subtract(const Duration(seconds: 1));
-    showDateRangePicker(
+
+    final maxRange = DateTimeRange(start: start, end: end);
+
+    final yearRange = await showDialog<DateTimeRange>(
       context: context,
-      firstDate: start,
-      lastDate: end,
-      currentDate: now,
-      initialEntryMode: DatePickerEntryMode.input,
-      initialDateRange: DateTimeRange(start: start, end: end),
+      builder: (context) => _YearRangeDialog(
+        initialRange: currentInterval != null
+            ? _DateTimeRangeConverter.fromInterval(currentInterval)
+            : null,
+        allowedRange: maxRange,
+      ),
     );
+    if (yearRange != null) {
+      launchBloc.add(
+        LaunchDateIntervalSet(
+          dateInterval: yearRange == maxRange ? null : yearRange.toInterval(),
+        ),
+      );
+    }
+  }
+}
+
+class _YearRangeDialog extends StatefulWidget {
+  const _YearRangeDialog({
+    super.key,
+    this.initialRange,
+    required this.allowedRange,
+  });
+
+  final DateTimeRange? initialRange;
+  final DateTimeRange allowedRange;
+
+  @override
+  State<_YearRangeDialog> createState() => _YearRangeDialogState();
+}
+
+class _YearRangeDialogState extends State<_YearRangeDialog> {
+  final _formKey = GlobalKey<FormState>();
+
+  final _yearRangeStartController = TextEditingController();
+  final _yearRangeEndController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.initialRange != null) {
+      _yearRangeStartController.text = '${widget.initialRange!.start.year}';
+      _yearRangeEndController.text = '${widget.initialRange!.end.year}';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: const Text('Enter Year Range'),
+      content: Form(
+        key: _formKey,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextFormField(
+              validator: _validateYearRangeStartField,
+              controller: _yearRangeStartController,
+              keyboardType: TextInputType.number,
+              maxLength: 4,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              decoration: InputDecoration(
+                label: const Text('Start Year'),
+                hintText: '${widget.allowedRange.start.year}',
+              ),
+            ),
+            TextFormField(
+              validator: _validateYearRangeEndField,
+              controller: _yearRangeEndController,
+              keyboardType: TextInputType.number,
+              maxLength: 4,
+              inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+              decoration: InputDecoration(
+                label: const Text('End Year'),
+                hintText: '${widget.allowedRange.end.year}',
+              ),
+            ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          child: const Text('CANCEL'),
+          onPressed: () => Navigator.pop(context),
+        ),
+        TextButton(
+          child: const Text('RESET'),
+          onPressed: () => Navigator.pop(context, widget.allowedRange),
+        ),
+        TextButton(
+          child: const Text('OK'),
+          onPressed: () => _handleOkButtonPress(context),
+        ),
+      ],
+    );
+  }
+
+  bool _checkFieldYearRangeCorrectness() {
+    final startYear = int.parse(_yearRangeStartController.text);
+    final endYear = int.parse(_yearRangeEndController.text);
+    return startYear <= endYear;
+  }
+
+  String? _validateYearRangeField(String? string, String anotherFieldText) {
+    final startLimit = widget.allowedRange.start.year;
+    final endLimit = widget.allowedRange.end.year;
+    if (string != null && string.isEmpty) {
+      return 'This field must not be empty!';
+    } else {
+      final year = int.parse(string!);
+      if (year < startLimit || year > endLimit) {
+        return 'The year must be in the range $startLimit-$endLimit!';
+      } else if (anotherFieldText.isNotEmpty) {
+        if (!_checkFieldYearRangeCorrectness()) {
+          return 'Incorrect range!';
+        }
+      }
+    }
+    return null;
+  }
+
+  String? _validateYearRangeStartField(String? string) {
+    return _validateYearRangeField(string, _yearRangeEndController.text);
+  }
+
+  String? _validateYearRangeEndField(String? string) {
+    return _validateYearRangeField(string, _yearRangeStartController.text);
+  }
+
+  void _handleOkButtonPress(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      final startYear = int.parse(_yearRangeStartController.text);
+      final endYear = int.parse(_yearRangeEndController.text);
+      Navigator.pop(
+        context,
+        DateTimeRange(
+          start: DateTime(startYear),
+          end: DateTime(endYear + 1).subtract(const Duration(seconds: 1)),
+        ),
+      );
+    }
   }
 }
 

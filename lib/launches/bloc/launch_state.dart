@@ -18,6 +18,7 @@ class LaunchState {
     required this.searchedText,
     required this.sorting,
     required this.time,
+    this.dateInterval,
     required this.flightNumber,
     required this.successfulness,
   });
@@ -44,12 +45,14 @@ class LaunchState {
   final String searchedText;
   final SortingOption sorting;
   final LaunchTime time;
+  final DateTimeInterval? dateInterval;
   final int flightNumber;
   final LaunchSuccessfulness successfulness;
 
   LaunchState getEmpty({
     SortingOption? sorting,
     LaunchTime? time,
+    DateTimeInterval? Function()? dateInterval,
     int? flightNumber,
     LaunchSuccessfulness? successfulness,
   }) {
@@ -57,30 +60,33 @@ class LaunchState {
       searchedText: searchedText,
       sorting: sorting ?? this.sorting,
       time: time ?? this.time,
+      dateInterval: dateInterval ?? () => this.dateInterval,
       flightNumber: flightNumber ?? this.flightNumber,
       successfulness: successfulness ?? this.successfulness,
     );
   }
 
   LaunchState copyWith({
-    List<Launch>? launches,
+    List<Launch>? Function()? launches,
     int? lastPageNumber,
     bool? hasReachedEnd,
     bool? errorOccurred,
     String? searchedText,
     SortingOption? sorting,
     LaunchTime? time,
+    DateTimeInterval? Function()? dateInterval,
     int? flightNumber,
     LaunchSuccessfulness? successfulness,
   }) {
     return LaunchState(
-      launches: launches ?? this.launches,
+      launches: launches != null ? launches() : this.launches,
       lastPageNumber: lastPageNumber ?? this.lastPageNumber,
       hasReachedEnd: hasReachedEnd ?? this.hasReachedEnd,
       errorOccurred: errorOccurred ?? this.errorOccurred,
       searchedText: searchedText ?? this.searchedText,
       sorting: sorting ?? this.sorting,
       time: time ?? this.time,
+      dateInterval: dateInterval != null ? dateInterval() : this.dateInterval,
       flightNumber: flightNumber ?? this.flightNumber,
       successfulness: successfulness ?? this.successfulness,
     );

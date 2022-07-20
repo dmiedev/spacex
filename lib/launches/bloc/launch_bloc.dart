@@ -12,6 +12,7 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
     on<LaunchSortingOrderSwitched>(_handleSortingOrderSwitched);
     on<LaunchTimeSwitched>(_handleTimeSwitched);
     on<LaunchFlightNumberSet>(_handleFlightNumberSet);
+    on<LaunchDateIntervalSet>(_handleDateIntervalSet);
     on<LaunchSuccessfulnessSelected>(_handleSuccessfulnessSelected);
   }
 
@@ -35,22 +36,27 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
             feature: LaunchFeature.isUpcoming,
             value: state.time == LaunchTime.upcoming,
           ),
-          if (state.successfulness != LaunchSuccessfulness.any &&
-              state.time == LaunchTime.past)
-            FilteringOption.value(
-              feature: LaunchFeature.isSuccessful,
-              value: state.successfulness == LaunchSuccessfulness.success,
+          if (state.dateInterval != null)
+            FilteringOption.interval(
+              feature: LaunchFeature.date,
+              interval: state.dateInterval!,
             ),
           if (state.flightNumber != -1)
             FilteringOption.value(
               feature: LaunchFeature.flightNumber,
               value: state.flightNumber,
             ),
+          if (state.successfulness != LaunchSuccessfulness.any &&
+              state.time == LaunchTime.past)
+            FilteringOption.value(
+              feature: LaunchFeature.isSuccessful,
+              value: state.successfulness == LaunchSuccessfulness.success,
+            ),
         ],
       );
       if (launches.isEmpty) {
         return state.copyWith(
-          launches: pageNumber == 1 ? [] : state.launches,
+          launches: () => pageNumber == 1 ? [] : state.launches,
           lastPageNumber: state.lastPageNumber,
           hasReachedEnd: true,
           errorOccurred: false,
@@ -58,7 +64,7 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
         );
       }
       return state.copyWith(
-        launches:
+        launches: () =>
             pageNumber == 1 ? launches : [...?state.launches, ...launches],
         lastPageNumber: pageNumber,
         hasReachedEnd: false,
@@ -67,7 +73,7 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
       );
     } on Exception {
       return state.copyWith(
-        launches: pageNumber == 1 ? null : state.launches,
+        launches: () => pageNumber == 1 ? null : state.launches,
         lastPageNumber: pageNumber,
         hasReachedEnd: false,
         errorOccurred: true,
@@ -132,11 +138,11 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
     emit(newState);
   }
 
-  Future<void> _handleSuccessfulnessSelected(
-    LaunchSuccessfulnessSelected event,
+  Future<void> _handleDateIntervalSet(
+    LaunchDateIntervalSet event,
     Emitter<LaunchState> emit,
   ) async {
-    emit(state.getEmpty(successfulness: event.successfulness));
+    emit(state.getEmpty(dateInterval: () => event.dateInterval));
     final newState = await _fetchNewState();
     emit(newState);
   }
@@ -146,6 +152,15 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
     Emitter<LaunchState> emit,
   ) async {
     emit(state.getEmpty(flightNumber: event.flightNumber));
+    final newState = await _fetchNewState();
+    emit(newState);
+  }
+
+  Future<void> _handleSuccessfulnessSelected(
+    LaunchSuccessfulnessSelected event,
+    Emitter<LaunchState> emit,
+  ) async {
+    emit(state.getEmpty(successfulness: event.successfulness));
     final newState = await _fetchNewState();
     emit(newState);
   }
