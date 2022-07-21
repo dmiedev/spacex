@@ -1,11 +1,14 @@
 import 'package:bloc/bloc.dart';
 import 'package:launch_repository/launch_repository.dart';
+import 'package:rocket_repository/rocket_repository.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex_api/spacex_api.dart';
 
 class LaunchFilteringBloc
     extends Bloc<LaunchFilteringEvent, LaunchFilteringState> {
-  LaunchFilteringBloc() : super(const LaunchFilteringState.initial()) {
+  LaunchFilteringBloc({required RocketRepository rocketRepository})
+      : _rocketRepository = rocketRepository,
+        super(const LaunchFilteringState.initial()) {
     on<LaunchFilteringSearchedTextSubmitted>(_handleSearchedTextSubmitted);
     on<LaunchFilteringSortingSelected>(_handleSortingSelected);
     on<LaunchFilteringSortingOrderSwitched>(_handleSortingOrderSwitched);
@@ -13,17 +16,17 @@ class LaunchFilteringBloc
     on<LaunchFilteringFlightNumberSet>(_handleFlightNumberSet);
     on<LaunchFilteringDateIntervalSet>(_handleDateIntervalSet);
     on<LaunchFilteringSuccessfulnessSelected>(_handleSuccessfulnessSelected);
+    on<LaunchFilteringRocketsRequested>(_handleRocketsRequested);
+    on<LaunchFilteringRocketsSelected>(_handleRocketsSelected);
   }
+
+  final RocketRepository _rocketRepository;
 
   void _handleSearchedTextSubmitted(
     LaunchFilteringSearchedTextSubmitted event,
     Emitter<LaunchFilteringState> emit,
   ) {
-    emit(
-      state.copyWith(
-        searchedText: event.searchedText,
-      ),
-    );
+    emit(state.copyWith(searchedText: event.searchedText));
   }
 
   void _handleSortingSelected(
@@ -74,32 +77,43 @@ class LaunchFilteringBloc
     LaunchFilteringDateIntervalSet event,
     Emitter<LaunchFilteringState> emit,
   ) {
-    emit(
-      state.copyWith(
-        dateInterval: () => event.dateInterval,
-      ),
-    );
+    emit(state.copyWith(dateInterval: () => event.dateInterval));
   }
 
   void _handleFlightNumberSet(
     LaunchFilteringFlightNumberSet event,
     Emitter<LaunchFilteringState> emit,
   ) {
-    emit(
-      state.copyWith(
-        flightNumber: event.flightNumber,
-      ),
-    );
+    emit(state.copyWith(flightNumber: event.flightNumber));
   }
 
   void _handleSuccessfulnessSelected(
     LaunchFilteringSuccessfulnessSelected event,
     Emitter<LaunchFilteringState> emit,
   ) {
-    emit(
-      state.copyWith(
-        successfulness: event.successfulness,
-      ),
-    );
+    emit(state.copyWith(successfulness: event.successfulness));
+  }
+
+  Future<void> _handleRocketsRequested(
+    LaunchFilteringRocketsRequested event,
+    Emitter<LaunchFilteringState> emit,
+  ) async {
+    if (state.allRocketsAreLoaded) {
+      return;
+    }
+    late final List<RocketInfo> rockets;
+    try {
+      rockets = await _rocketRepository.fetchRocketInfos();
+    } on Exception {
+      rockets = [];
+    }
+    emit(state.copyWith(allRockets: () => rockets));
+  }
+
+  Future<void> _handleRocketsSelected(
+    LaunchFilteringRocketsSelected event,
+    Emitter<LaunchFilteringState> emit,
+  ) async {
+    emit(state.copyWith(rockets: event.rockets));
   }
 }

@@ -52,6 +52,11 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
               feature: LaunchFeature.isSuccessful,
               value: event.successfulness == LaunchSuccessfulness.success,
             ),
+          if (event.rocketIds != null && event.rocketIds!.isNotEmpty)
+            FilteringOption.anyFromValues(
+              feature: LaunchFeature.rocketId,
+              values: event.rocketIds!,
+            ),
         ],
       );
       if (launches.isEmpty) {
@@ -78,8 +83,7 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
         hasReachedEnd: false,
         errorOccurred: true,
       );
-    } finally {
-      emit(newState);
     }
+    emit(newState);
   }
 }

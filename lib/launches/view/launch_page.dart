@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:launch_repository/launch_repository.dart';
+import 'package:rocket_repository/rocket_repository.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex/launch_filtering/widgets/widgets.dart';
 import 'package:spacex/launches/bloc/bloc.dart';
@@ -28,7 +29,9 @@ class LaunchPage extends StatelessWidget {
           ),
         ),
         BlocProvider<LaunchFilteringBloc>(
-          create: (BuildContext context) => LaunchFilteringBloc(),
+          create: (context) => LaunchFilteringBloc(
+            rocketRepository: context.read<RocketRepository>(),
+          ),
         ),
       ],
       child: const LaunchView(),
@@ -60,24 +63,29 @@ class _LaunchViewState extends State<LaunchView> {
     _sendLaunchPageRequestedEvent(
       context: context,
       pageNumber: pageNumber,
-      filteringState: context.read<LaunchFilteringBloc>().state,
+      state: context.read<LaunchFilteringBloc>().state,
     );
   }
 
   void _sendLaunchPageRequestedEvent({
     required BuildContext context,
     required int pageNumber,
-    required LaunchFilteringState filteringState,
+    required LaunchFilteringState state,
   }) {
     context.read<LaunchBloc>().add(
           LaunchPageRequested(
             pageNumber: pageNumber,
-            searchedText: filteringState.searchedText,
-            sorting: filteringState.sorting,
-            time: filteringState.time,
-            dateInterval: filteringState.dateInterval,
-            flightNumber: filteringState.flightNumber,
-            successfulness: filteringState.successfulness,
+            searchedText: state.searchedText,
+            sorting: state.sorting,
+            time: state.time,
+            dateInterval: state.dateInterval,
+            flightNumber: state.flightNumber,
+            successfulness: state.successfulness,
+            rocketIds: state.allRockets != null
+                ? state.rockets
+                    .map((index) => state.allRockets![index].id)
+                    .toList()
+                : null,
           ),
         );
   }
@@ -109,6 +117,8 @@ class _LaunchViewState extends State<LaunchView> {
                 snap: true,
                 forceElevated: innerBoxIsScrolled,
                 title: BlocListener<LaunchFilteringBloc, LaunchFilteringState>(
+                  listenWhen: (previous, current) =>
+                      previous.allRockets == current.allRockets,
                   listener: _handleLaunchFilteringStateChange,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -165,7 +175,7 @@ class _LaunchViewState extends State<LaunchView> {
     _sendLaunchPageRequestedEvent(
       context: context,
       pageNumber: 1,
-      filteringState: state,
+      state: state,
     );
   }
 

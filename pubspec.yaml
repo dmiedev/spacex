@@ -24,6 +24,8 @@ dependencies:
     path: packages/launch_repository
   meta: ^1.7.0
   path_provider: ^2.0.11
+  rocket_repository:
+    path: packages/rocket_repository
   spacex_api:
     path: packages/spacex_api
 

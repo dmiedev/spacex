@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:launch_repository/launch_repository.dart';
+import 'package:rocket_repository/rocket_repository.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 
 abstract class LaunchFilteringEvent extends Equatable {
@@ -66,4 +67,17 @@ class LaunchFilteringSuccessfulnessSelected extends LaunchFilteringEvent {
 
   @override
   List<Object?> get props => [successfulness];
+}
+
+class LaunchFilteringRocketsRequested extends LaunchFilteringEvent {}
+
+class LaunchFilteringRocketsSelected extends LaunchFilteringEvent {
+  const LaunchFilteringRocketsSelected({
+    required this.rockets,
+  });
+
+  final List<int> rockets;
+
+  @override
+  List<Object?> get props => [rockets];
 }

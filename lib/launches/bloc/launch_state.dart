@@ -1,10 +1,11 @@
+import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:spacex_api/spacex_api.dart';
 
 @immutable
 @JsonSerializable()
-class LaunchState {
+class LaunchState extends Equatable {
   const LaunchState({
     this.launches,
     required this.lastPageNumber,
@@ -45,4 +46,12 @@ class LaunchState {
     return 'LaunchState(launches[${launches?.length}], $lastPageNumber, '
         '$hasReachedEnd, $errorOccurred)';
   }
+
+  @override
+  List<Object?> get props => [
+        launches,
+        lastPageNumber,
+        hasReachedEnd,
+        errorOccurred,
+      ];
 }

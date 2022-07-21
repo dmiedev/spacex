@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:launch_repository/launch_repository.dart';
+import 'package:rocket_repository/rocket_repository.dart';
 import 'package:spacex/l10n/l10n.dart';
 import 'package:spacex/launches/view/launch_page.dart';
 
@@ -12,15 +13,18 @@ class App extends StatelessWidget {
   const App({
     super.key,
     required this.launchRepository,
+    required this.rocketRepository,
   });
 
   final LaunchRepository launchRepository;
+  final RocketRepository rocketRepository;
 
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: launchRepository),
+        RepositoryProvider.value(value: rocketRepository),
       ],
       child: const AppView(),
     );

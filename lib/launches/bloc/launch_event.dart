@@ -20,6 +20,7 @@ class LaunchPageRequested extends LaunchEvent {
     this.dateInterval,
     this.flightNumber,
     this.successfulness,
+    this.rocketIds,
   });
 
   final int pageNumber;
@@ -29,6 +30,7 @@ class LaunchPageRequested extends LaunchEvent {
   final DateTimeInterval? dateInterval;
   final int? flightNumber;
   final LaunchSuccessfulness? successfulness;
+  final List<String>? rocketIds;
 
   @override
   List<Object?> get props => [
@@ -39,5 +41,6 @@ class LaunchPageRequested extends LaunchEvent {
         dateInterval,
         flightNumber,
         successfulness,
+        rocketIds,
       ];
 }

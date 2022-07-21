@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:launch_repository/launch_repository.dart';
+import 'package:rocket_repository/rocket_repository.dart';
 import 'package:spacex_api/spacex_api.dart';
 
 enum LaunchTime { past, upcoming }
@@ -14,6 +15,8 @@ class LaunchFilteringState extends Equatable {
     this.dateInterval,
     required this.flightNumber,
     required this.successfulness,
+    this.allRockets,
+    required this.rockets,
   });
 
   const LaunchFilteringState.initial()
@@ -27,6 +30,7 @@ class LaunchFilteringState extends Equatable {
           dateInterval: null,
           flightNumber: -1,
           successfulness: LaunchSuccessfulness.any,
+          rockets: const [],
         );
 
   final String searchedText;
@@ -35,6 +39,10 @@ class LaunchFilteringState extends Equatable {
   final DateTimeInterval? dateInterval;
   final int flightNumber;
   final LaunchSuccessfulness successfulness;
+  final List<RocketInfo>? allRockets;
+  final List<int> rockets;
+
+  bool get allRocketsAreLoaded => allRockets != null && allRockets!.isNotEmpty;
 
   LaunchFilteringState copyWith({
     String? searchedText,
@@ -43,6 +51,8 @@ class LaunchFilteringState extends Equatable {
     DateTimeInterval? Function()? dateInterval,
     int? flightNumber,
     LaunchSuccessfulness? successfulness,
+    List<RocketInfo>? Function()? allRockets,
+    List<int>? rockets,
   }) {
     return LaunchFilteringState(
       searchedText: searchedText ?? this.searchedText,
@@ -51,6 +61,8 @@ class LaunchFilteringState extends Equatable {
       dateInterval: dateInterval != null ? dateInterval() : this.dateInterval,
       flightNumber: flightNumber ?? this.flightNumber,
       successfulness: successfulness ?? this.successfulness,
+      allRockets: allRockets != null ? allRockets() : this.allRockets,
+      rockets: rockets ?? this.rockets,
     );
   }
 
@@ -62,5 +74,7 @@ class LaunchFilteringState extends Equatable {
         dateInterval,
         flightNumber,
         successfulness,
+        allRockets,
+        rockets,
       ];
 }
