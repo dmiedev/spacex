@@ -3,16 +3,14 @@ import 'package:flutter/material.dart';
 class SearchBar extends StatelessWidget {
   const SearchBar({
     super.key,
-    this.controller,
+    required this.controller,
+    required this.onSubmitted,
     this.hintText,
-    this.onSubmitted,
-    this.onClearButtonPressed,
   });
 
-  final TextEditingController? controller;
+  final TextEditingController controller;
+  final void Function(String) onSubmitted;
   final String? hintText;
-  final void Function(String)? onSubmitted;
-  final void Function()? onClearButtonPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +27,16 @@ class SearchBar extends StatelessWidget {
           borderSide: BorderSide(color: Colors.white),
         ),
         suffixIcon: IconButton(
-          onPressed: onClearButtonPressed,
+          onPressed: _handleClearButtonPress,
           icon: const Icon(Icons.clear),
           color: Colors.grey,
         ),
       ),
     );
+  }
+
+  void _handleClearButtonPress() {
+    controller.clear();
+    onSubmitted('');
   }
 }

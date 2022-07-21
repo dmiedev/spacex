@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:launch_repository/launch_repository.dart';
-import 'package:spacex/launches/bloc/bloc.dart';
+import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex_api/spacex_api.dart';
 
 const _chipIconSize = 20.0;
@@ -47,7 +47,7 @@ class _SortingOrderChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LaunchBloc, LaunchState>(
+    return BlocBuilder<LaunchFilteringBloc, LaunchFilteringState>(
       buildWhen: (previous, current) =>
           previous.sorting.order != current.sorting.order,
       builder: (context, state) => ActionChip(
@@ -56,16 +56,23 @@ class _SortingOrderChip extends StatelessWidget {
           transform: Matrix4.rotationX(
             state.sorting.order == SortOrder.ascending ? math.pi : 0,
           ),
-          child: const Icon(Icons.sort, size: _chipIconSize),
+          child: const Icon(
+            Icons.sort,
+            size: _chipIconSize,
+            color: Colors.black,
+          ),
         ),
         tooltip: 'Sorting order',
         onPressed: () => _handlePress(context),
+        backgroundColor: Colors.white,
       ),
     );
   }
 
   void _handlePress(BuildContext context) {
-    context.read<LaunchBloc>().add(LaunchSortingOrderSwitched());
+    context.read<LaunchFilteringBloc>().add(
+          LaunchFilteringSortingOrderSwitched(),
+        );
   }
 }
 
@@ -74,7 +81,7 @@ class _SortingChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LaunchBloc, LaunchState>(
+    return BlocBuilder<LaunchFilteringBloc, LaunchFilteringState>(
       buildWhen: (previous, current) =>
           previous.sorting.feature != current.sorting.feature,
       builder: (context, state) => ActionChip(
@@ -104,7 +111,7 @@ class _SortingChip extends StatelessWidget {
   }
 
   Future<void> _handlePress(BuildContext context) async {
-    final launchBloc = context.read<LaunchBloc>();
+    final launchFilteringBloc = context.read<LaunchFilteringBloc>();
     final feature = await showDialog<LaunchFeature>(
       context: context,
       builder: (context) => SimpleDialog(
@@ -126,7 +133,7 @@ class _SortingChip extends StatelessWidget {
       ),
     );
     if (feature != null) {
-      launchBloc.add(LaunchSortingSelected(feature: feature));
+      launchFilteringBloc.add(LaunchFilteringSortingSelected(feature: feature));
     }
   }
 }
@@ -136,7 +143,7 @@ class _TimeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LaunchBloc, LaunchState>(
+    return BlocBuilder<LaunchFilteringBloc, LaunchFilteringState>(
       buildWhen: (previous, current) => previous.time != current.time,
       builder: (context, state) => ActionChip(
         avatar: Icon(
@@ -157,7 +164,7 @@ class _TimeChip extends StatelessWidget {
   }
 
   void _handlePress(BuildContext context) {
-    context.read<LaunchBloc>().add(LaunchTimeSwitched());
+    context.read<LaunchFilteringBloc>().add(LaunchFilteringTimeSwitched());
   }
 }
 
@@ -237,7 +244,7 @@ class _YearChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LaunchBloc, LaunchState>(
+    return BlocBuilder<LaunchFilteringBloc, LaunchFilteringState>(
       buildWhen: (previous, current) =>
           previous.dateInterval != current.dateInterval,
       builder: (context, state) => ActionChip(
@@ -267,8 +274,8 @@ class _YearChip extends StatelessWidget {
   }
 
   Future<void> _handlePress(BuildContext context) async {
-    final launchBloc = context.read<LaunchBloc>();
-    final currentInterval = launchBloc.state.dateInterval;
+    final launchFilteringBloc = context.read<LaunchFilteringBloc>();
+    final currentInterval = launchFilteringBloc.state.dateInterval;
 
     final now = DateTime.now();
     final start = DateTime(2006);
@@ -286,8 +293,8 @@ class _YearChip extends StatelessWidget {
       ),
     );
     if (yearRange != null) {
-      launchBloc.add(
-        LaunchDateIntervalSet(
+      launchFilteringBloc.add(
+        LaunchFilteringDateIntervalSet(
           dateInterval: yearRange == maxRange ? null : yearRange.toInterval(),
         ),
       );
@@ -427,7 +434,7 @@ class _FlightNumberChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LaunchBloc, LaunchState>(
+    return BlocBuilder<LaunchFilteringBloc, LaunchFilteringState>(
       buildWhen: (previous, current) =>
           previous.flightNumber != current.flightNumber,
       builder: (context, state) => ActionChip(
@@ -449,8 +456,8 @@ class _FlightNumberChip extends StatelessWidget {
   }
 
   Future<void> _handlePress(BuildContext context) async {
-    final launchBloc = context.read<LaunchBloc>();
-    final flightNumber = launchBloc.state.flightNumber;
+    final launchFilteringBloc = context.read<LaunchFilteringBloc>();
+    final flightNumber = launchFilteringBloc.state.flightNumber;
     final newFlightNumber = await showDialog<int>(
       context: context,
       builder: (context) => _FlightNumberDialog(
@@ -458,7 +465,8 @@ class _FlightNumberChip extends StatelessWidget {
       ),
     );
     if (newFlightNumber != null) {
-      launchBloc.add(LaunchFlightNumberSet(flightNumber: newFlightNumber));
+      launchFilteringBloc
+          .add(LaunchFilteringFlightNumberSet(flightNumber: newFlightNumber));
     }
   }
 }
@@ -551,7 +559,7 @@ class _SuccessfulnessChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<LaunchBloc, LaunchState>(
+    return BlocBuilder<LaunchFilteringBloc, LaunchFilteringState>(
       buildWhen: (previous, current) =>
           previous.successfulness != current.successfulness ||
           previous.time != current.time,
@@ -598,7 +606,7 @@ class _SuccessfulnessChip extends StatelessWidget {
   }
 
   Future<void> _handlePress(BuildContext context) async {
-    final launchBloc = context.read<LaunchBloc>();
+    final launchFilteringBloc = context.read<LaunchFilteringBloc>();
     final successfulness = await showDialog<LaunchSuccessfulness>(
       context: context,
       builder: (context) => SimpleDialog(
@@ -629,8 +637,8 @@ class _SuccessfulnessChip extends StatelessWidget {
       ),
     );
     if (successfulness != null) {
-      launchBloc.add(
-        LaunchSuccessfulnessSelected(successfulness: successfulness),
+      launchFilteringBloc.add(
+        LaunchFilteringSuccessfulnessSelected(successfulness: successfulness),
       );
     }
   }

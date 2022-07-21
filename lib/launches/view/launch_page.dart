@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:launch_repository/launch_repository.dart';
+import 'package:spacex/launch_filtering/bloc/bloc.dart';
+import 'package:spacex/launch_filtering/widgets/widgets.dart';
 import 'package:spacex/launches/bloc/bloc.dart';
 import 'package:spacex/launches/widgets/widgets.dart';
 import 'package:spacex_api/spacex_api.dart';
@@ -18,10 +20,17 @@ class LaunchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LaunchBloc(
-        launchRepository: context.read<LaunchRepository>(),
-      ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<LaunchBloc>(
+          create: (context) => LaunchBloc(
+            launchRepository: context.read<LaunchRepository>(),
+          ),
+        ),
+        BlocProvider<LaunchFilteringBloc>(
+          create: (BuildContext context) => LaunchFilteringBloc(),
+        ),
+      ],
       child: const LaunchView(),
     );
   }
@@ -48,10 +57,27 @@ class _LaunchViewState extends State<LaunchView> {
   }
 
   void _handlePageRequest(int pageNumber) {
+    _sendLaunchPageRequestedEvent(
+      context: context,
+      pageNumber: pageNumber,
+      filteringState: context.read<LaunchFilteringBloc>().state,
+    );
+  }
+
+  void _sendLaunchPageRequestedEvent({
+    required BuildContext context,
+    required int pageNumber,
+    required LaunchFilteringState filteringState,
+  }) {
     context.read<LaunchBloc>().add(
           LaunchPageRequested(
-            searchedText: _searchBarController.text,
-            firstPage: pageNumber == 1,
+            pageNumber: pageNumber,
+            searchedText: filteringState.searchedText,
+            sorting: filteringState.sorting,
+            time: filteringState.time,
+            dateInterval: filteringState.dateInterval,
+            flightNumber: filteringState.flightNumber,
+            successfulness: filteringState.successfulness,
           ),
         );
   }
@@ -82,20 +108,23 @@ class _LaunchViewState extends State<LaunchView> {
                 floating: true,
                 snap: true,
                 forceElevated: innerBoxIsScrolled,
-                title: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SearchBar(
-                      controller: _searchBarController,
-                      hintText: 'Search',
-                      onSubmitted: _handleSearchBarSubmit,
-                      onClearButtonPressed: _handleSearchBarClearButtonPress,
-                    ),
-                    const SizedBox(
-                      height: 50,
-                      child: FilteringChips(),
-                    ),
-                  ],
+                title: BlocListener<LaunchFilteringBloc, LaunchFilteringState>(
+                  listener: _handleLaunchFilteringStateChange,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SearchBar(
+                        controller: _searchBarController,
+                        hintText: 'Search',
+                        onSubmitted: (text) =>
+                            _handleSearchBarSubmit(context, text),
+                      ),
+                      const SizedBox(
+                        height: 50,
+                        child: FilteringChips(),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             )
@@ -129,13 +158,21 @@ class _LaunchViewState extends State<LaunchView> {
     );
   }
 
-  void _handleSearchBarSubmit(String text) {
-    _gridController.refresh();
+  void _handleLaunchFilteringStateChange(
+    BuildContext context,
+    LaunchFilteringState state,
+  ) {
+    _sendLaunchPageRequestedEvent(
+      context: context,
+      pageNumber: 1,
+      filteringState: state,
+    );
   }
 
-  void _handleSearchBarClearButtonPress() {
-    _searchBarController.clear();
-    _gridController.refresh();
+  void _handleSearchBarSubmit(BuildContext context, String text) {
+    context.read<LaunchFilteringBloc>().add(
+          LaunchFilteringSearchedTextSubmitted(searchedText: text),
+        );
   }
 
   @override
