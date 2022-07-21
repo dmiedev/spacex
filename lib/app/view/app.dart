@@ -69,6 +69,10 @@ class AppView extends StatelessWidget {
         error: Colors.red,
         onError: Colors.white,
       ),
+      checkboxTheme: CheckboxThemeData(
+        fillColor: MaterialStateProperty.all(Colors.black),
+        side: const BorderSide(color: Colors.white),
+      ),
     );
   }
 }
