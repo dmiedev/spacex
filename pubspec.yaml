@@ -17,7 +17,6 @@ dependencies:
     sdk: flutter
   google_fonts: ^3.0.1
   hydrated_bloc: ^8.1.0
-  infinite_scroll_pagination: ^3.2.0
   intl: ^0.17.0
   json_annotation: ^4.6.0
   launch_repository:

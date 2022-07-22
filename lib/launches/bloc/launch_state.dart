@@ -3,48 +3,50 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:meta/meta.dart';
 import 'package:spacex_api/spacex_api.dart';
 
+enum LaunchStateStatus { success, loading, failure }
+
 @immutable
 @JsonSerializable()
 class LaunchState extends Equatable {
   const LaunchState({
-    this.launches,
+    required this.launches,
     required this.lastPageNumber,
     required this.hasReachedEnd,
-    required this.errorOccurred,
+    required this.status,
   });
 
   const LaunchState.initial()
       : this(
-          launches: null,
+          launches: const [],
           lastPageNumber: 0,
           hasReachedEnd: false,
-          errorOccurred: false,
+          status: LaunchStateStatus.loading,
         );
 
-  final List<Launch>? launches;
+  final List<Launch> launches;
   final int lastPageNumber;
   final bool hasReachedEnd;
-  final bool errorOccurred;
+  final LaunchStateStatus status;
 
   LaunchState copyWith({
-    List<Launch>? Function()? launches,
+    List<Launch>? launches,
     int? lastPageNumber,
     bool? hasReachedEnd,
-    bool? errorOccurred,
+    LaunchStateStatus? status,
   }) {
     return LaunchState(
-      launches: launches != null ? launches() : this.launches,
+      launches: launches ?? this.launches,
       lastPageNumber: lastPageNumber ?? this.lastPageNumber,
       hasReachedEnd: hasReachedEnd ?? this.hasReachedEnd,
-      errorOccurred: errorOccurred ?? this.errorOccurred,
+      status: status ?? this.status,
     );
   }
 
   // TODO(dmiedev): change toString()
   @override
   String toString() {
-    return 'LaunchState(launches[${launches?.length}], $lastPageNumber, '
-        '$hasReachedEnd, $errorOccurred)';
+    return 'LaunchState(launches[${launches.length}], $lastPageNumber, '
+        '$hasReachedEnd, $status)';
   }
 
   @override
@@ -52,6 +54,6 @@ class LaunchState extends Equatable {
         launches,
         lastPageNumber,
         hasReachedEnd,
-        errorOccurred,
+        status,
       ];
 }

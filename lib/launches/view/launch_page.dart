@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:launch_repository/launch_repository.dart';
 import 'package:rocket_repository/rocket_repository.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex/launch_filtering/widgets/widgets.dart';
 import 'package:spacex/launches/bloc/bloc.dart';
 import 'package:spacex/launches/widgets/widgets.dart';
-import 'package:spacex_api/spacex_api.dart';
 
 class LaunchPage extends StatelessWidget {
   const LaunchPage({super.key});
@@ -47,22 +45,14 @@ class LaunchView extends StatefulWidget {
 }
 
 class _LaunchViewState extends State<LaunchView> {
-  final _gridController = PagingController<int, Launch>(
-    firstPageKey: 1,
-    invisibleItemsThreshold: 1,
-  );
   final _searchBarController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    _gridController.addPageRequestListener(_handlePageRequest);
-  }
-
-  void _handlePageRequest(int pageNumber) {
     _sendLaunchPageRequestedEvent(
       context: context,
-      pageNumber: pageNumber,
+      pageNumber: 1,
       state: context.read<LaunchFilteringBloc>().state,
     );
   }
@@ -81,11 +71,7 @@ class _LaunchViewState extends State<LaunchView> {
             dateInterval: state.dateInterval,
             flightNumber: state.flightNumber,
             successfulness: state.successfulness,
-            rocketIds: state.allRockets != null
-                ? state.rockets
-                    .map((index) => state.allRockets![index].id)
-                    .toList()
-                : null,
+            rocketIds: state.rocketIds,
           ),
         );
   }
@@ -141,30 +127,26 @@ class _LaunchViewState extends State<LaunchView> {
           ];
         },
         body: Builder(
-          builder: (BuildContext context) {
+          builder: (context) {
+            final primaryController = PrimaryScrollController.of(context)!;
             return CustomScrollView(
               slivers: <Widget>[
                 SliverOverlapInjector(
                   handle:
                       NestedScrollView.sliverOverlapAbsorberHandleFor(context),
                 ),
-                BlocListener<LaunchBloc, LaunchState>(
-                  listener: _handleLaunchStateChange,
-                  child: LaunchGrid(controller: _gridController),
+                LaunchGrid(
+                  controller: primaryController,
+                  onNextPageRequest: _sendNextLaunchPageRequest,
+                  onFirstPageErrorRetryButtonPressed:
+                      _sendNextLaunchPageRequest,
+                  onNextPageErrorRetryButtonPressed: _sendNextLaunchPageRequest,
                 ),
               ],
             );
           },
         ),
       ),
-    );
-  }
-
-  void _handleLaunchStateChange(BuildContext context, LaunchState state) {
-    _gridController.value = PagingState(
-      nextPageKey: state.hasReachedEnd ? null : state.lastPageNumber + 1,
-      itemList: state.launches,
-      error: state.errorOccurred ? true : null,
     );
   }
 
@@ -179,6 +161,14 @@ class _LaunchViewState extends State<LaunchView> {
     );
   }
 
+  void _sendNextLaunchPageRequest() {
+    _sendLaunchPageRequestedEvent(
+      context: context,
+      pageNumber: context.read<LaunchBloc>().state.lastPageNumber + 1,
+      state: context.read<LaunchFilteringBloc>().state,
+    );
+  }
+
   void _handleSearchBarSubmit(BuildContext context, String text) {
     context.read<LaunchFilteringBloc>().add(
           LaunchFilteringSearchedTextSubmitted(searchedText: text),
@@ -187,7 +177,6 @@ class _LaunchViewState extends State<LaunchView> {
 
   @override
   void dispose() {
-    _gridController.dispose();
     _searchBarController.dispose();
     super.dispose();
   }

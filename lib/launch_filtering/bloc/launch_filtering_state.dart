@@ -44,6 +44,12 @@ class LaunchFilteringState extends Equatable {
 
   bool get allRocketsAreLoaded => allRockets != null && allRockets!.isNotEmpty;
 
+  List<String>? get rocketIds {
+    return allRockets != null
+        ? rockets.map((index) => allRockets![index].id).toList()
+        : null;
+  }
+
   LaunchFilteringState copyWith({
     String? searchedText,
     SortingOption? sorting,

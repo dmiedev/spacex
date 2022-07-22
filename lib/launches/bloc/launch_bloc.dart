@@ -20,6 +20,8 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
   ) async {
     if (event.pageNumber == 1) {
       emit(const LaunchState.initial());
+    } else {
+      emit(state.copyWith(status: LaunchStateStatus.loading));
     }
     late final LaunchState newState;
     try {
@@ -64,24 +66,24 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
           launches: event.pageNumber == 1 ? [] : state.launches,
           lastPageNumber: state.lastPageNumber,
           hasReachedEnd: true,
-          errorOccurred: false,
+          status: LaunchStateStatus.success,
         );
       } else {
         newState = LaunchState(
           launches: event.pageNumber == 1
               ? launches
-              : [...?state.launches, ...launches],
+              : [...state.launches, ...launches],
           lastPageNumber: event.pageNumber,
           hasReachedEnd: false,
-          errorOccurred: false,
+          status: LaunchStateStatus.success,
         );
       }
     } on Exception {
       newState = LaunchState(
-        launches: event.pageNumber == 1 ? null : state.launches,
+        launches: event.pageNumber == 1 ? [] : state.launches,
         lastPageNumber: state.lastPageNumber,
         hasReachedEnd: false,
-        errorOccurred: true,
+        status: LaunchStateStatus.failure,
       );
     }
     emit(newState);
