@@ -101,6 +101,7 @@ class LaunchFilteringBloc
     if (state.allRocketsAreLoaded) {
       return;
     }
+    emit(state.copyWith(allRockets: () => null));
     late final List<RocketInfo> rockets;
     try {
       rockets = await _rocketRepository.fetchRocketInfos();
