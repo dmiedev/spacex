@@ -1,9 +1,9 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:spacex/launches/bloc/bloc.dart';
 import 'package:spacex/launches/widgets/launch_card.dart';
+import 'package:spacex_ui/spacex_ui.dart';
 
 class LaunchGrid extends StatefulWidget {
   const LaunchGrid({
@@ -74,7 +74,7 @@ class _LaunchGridState extends State<LaunchGrid> {
             mainAxisExtent: _cardHeight,
           ),
           delegate: SliverChildBuilderDelegate(
-            (context, index) => _gridItemBuilder(context, index, state),
+            (context, index) => _buildGridItem(context, index, state),
             childCount: state.status == LaunchStateStatus.success
                 ? state.launches.length
                 : state.launches.length + 1,
@@ -84,7 +84,7 @@ class _LaunchGridState extends State<LaunchGrid> {
     );
   }
 
-  Widget _gridItemBuilder(BuildContext context, int index, LaunchState state) {
+  Widget _buildGridItem(BuildContext context, int index, LaunchState state) {
     if (index == state.launches.length) {
       switch (state.status) {
         case LaunchStateStatus.loading:
@@ -133,21 +133,9 @@ class _NoItemsFoundIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(30),
-      child: Column(
-        children: const [
-          Text(
-            'NO LAUNCHES FOUND',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
-          SizedBox(height: 20),
-          Text(
-            'Please try changing your search criteria.',
-            style: TextStyle(fontSize: 16),
-          ),
-        ],
-      ),
+    return const TextMessage(
+      title: 'NO LAUNCHES FOUND',
+      text: 'Please try changing your search criteria.',
     );
   }
 }
@@ -162,44 +150,16 @@ class _FirstPageErrorIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(30),
-      child: Column(
-        children: [
-          const Text(
-            'AN ERROR OCCURRED',
-            style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-          ),
-          const SizedBox(height: 20),
-          const Text(
-            'Please check your Internet connection. If it is alright, it may '
-            'be a problem on our end.\n\n'
-            'You can also try reloading the page or changing your search '
-            'criteria.',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: onRetryButtonPressed,
-            style: ButtonStyle(
-              backgroundColor: MaterialStateColor.resolveWith(
-                (states) => Colors.white,
-              ),
-              foregroundColor: MaterialStateColor.resolveWith(
-                (states) => Colors.black,
-              ),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                Icon(Icons.replay),
-                SizedBox(width: 5),
-                Text('RETRY'),
-              ],
-            ),
-          ),
-        ],
+    return TextMessage(
+      title: 'AN ERROR OCCURRED',
+      text: 'Please check your Internet connection. If it is alright, it may '
+          'be a problem on our end.\n\n'
+          'You can also try reloading the page or changing your search '
+          'criteria.',
+      button: IconTextButton(
+        icon: const Icon(Icons.replay),
+        text: 'RETRY',
+        onPressed: onRetryButtonPressed,
       ),
     );
   }
@@ -215,38 +175,14 @@ class _NewPageErrorIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(30),
-      child: Column(
-        children: [
-          const AutoSizeText(
-            'An error occurred while loading data.\n'
-            'Please check your Internet connection.',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 16),
-            maxLines: 3,
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton(
-            onPressed: onRetryButtonPressed,
-            style: ButtonStyle(
-              backgroundColor: MaterialStateColor.resolveWith(
-                (states) => Colors.white,
-              ),
-              foregroundColor: MaterialStateColor.resolveWith(
-                (states) => Colors.black,
-              ),
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                Icon(Icons.replay),
-                SizedBox(width: 5),
-                Text('RETRY'),
-              ],
-            ),
-          ),
-        ],
+    return TextMessage(
+      text: 'An error occurred while loading data.\n'
+          'Please check your Internet connection.',
+      textMaxLines: 3,
+      button: IconTextButton(
+        icon: const Icon(Icons.replay),
+        text: 'RETRY',
+        onPressed: onRetryButtonPressed,
       ),
     );
   }

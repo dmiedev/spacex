@@ -15,7 +15,6 @@ dependencies:
   flutter_bloc: ^8.0.1
   flutter_localizations:
     sdk: flutter
-  google_fonts: ^3.0.1
   hydrated_bloc: ^8.1.0
   intl: ^0.17.0
   json_annotation: ^4.6.0
@@ -27,6 +26,8 @@ dependencies:
     path: packages/rocket_repository
   spacex_api:
     path: packages/spacex_api
+  spacex_ui:
+    path: packages/spacex_ui
 
 dev_dependencies:
   bloc_test: ^9.0.3

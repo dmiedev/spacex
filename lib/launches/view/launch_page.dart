@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:launch_repository/launch_repository.dart';
 import 'package:rocket_repository/rocket_repository.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex/launch_filtering/widgets/widgets.dart';
 import 'package:spacex/launches/bloc/bloc.dart';
 import 'package:spacex/launches/widgets/widgets.dart';
+import 'package:spacex_ui/spacex_ui.dart';
 
 class LaunchPage extends StatelessWidget {
   const LaunchPage({super.key});
@@ -32,19 +32,19 @@ class LaunchPage extends StatelessWidget {
           ),
         ),
       ],
-      child: const LaunchView(),
+      child: const _LaunchView(),
     );
   }
 }
 
-class LaunchView extends StatefulWidget {
-  const LaunchView({super.key});
+class _LaunchView extends StatefulWidget {
+  const _LaunchView({super.key});
 
   @override
-  State<LaunchView> createState() => _LaunchViewState();
+  State<_LaunchView> createState() => _LaunchViewState();
 }
 
-class _LaunchViewState extends State<LaunchView> {
+class _LaunchViewState extends State<_LaunchView> {
   final _searchBarController = TextEditingController();
 
   @override
@@ -79,18 +79,7 @@ class _LaunchViewState extends State<LaunchView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(
-          'LAUNCHES',
-          style: GoogleFonts.orbitron(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-            letterSpacing: 3,
-          ),
-        ),
-      ),
+      appBar: const SpacexAppBar(title: 'Launches'),
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return <Widget>[
@@ -117,7 +106,7 @@ class _LaunchViewState extends State<LaunchView> {
                       ),
                       const SizedBox(
                         height: 50,
-                        child: FilteringChips(),
+                        child: LaunchFilteringChips(),
                       ),
                     ],
                   ),

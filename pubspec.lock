@@ -262,7 +262,7 @@ packages:
     source: hosted
     version: "2.1.0"
   google_fonts:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: google_fonts
       url: "https://pub.dartlang.org"
@@ -599,6 +599,13 @@ packages:
     dependency: "direct main"
     description:
       path: "packages/spacex_api"
+      relative: true
+    source: path
+    version: "1.0.0+1"
+  spacex_ui:
+    dependency: "direct main"
+    description:
+      path: "packages/spacex_ui"
       relative: true
     source: path
     version: "1.0.0+1"
