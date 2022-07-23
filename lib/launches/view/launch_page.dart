@@ -9,10 +9,16 @@ import 'package:spacex/launches/bloc/bloc.dart';
 import 'package:spacex/launches/widgets/widgets.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 
+/// A page that displays a grid view of [LaunchCard]s with
+/// [LaunchFilteringChips] and a [SearchBar] on top.
+///
+/// Creates instances of [LaunchBloc] and [LaunchFilteringBloc].
 class LaunchPage extends StatelessWidget {
+  /// Creates the launch app page.
   const LaunchPage({super.key});
 
-  static Route<LaunchPage> get route {
+  /// Returns a [MaterialPageRoute] that contains this page.
+  static Route<LaunchPage> route() {
     return MaterialPageRoute(
       builder: (context) => const LaunchPage(),
     );

@@ -4,7 +4,10 @@ import 'package:spacex/l10n/l10n.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 
+/// A launch filtering chip that displays a dialog to select launch
+/// successfulness on user press.
 class LaunchSuccessfulnessChip extends StatelessWidget {
+  /// Creates a launch successfulness filtering chip.
   const LaunchSuccessfulnessChip({super.key});
 
   @override

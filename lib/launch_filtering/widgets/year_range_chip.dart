@@ -15,7 +15,10 @@ extension _DateTimeRangeConverter on DateTimeRange {
   }
 }
 
+/// A launch filtering chip that displays a launch year range selection dialog
+/// on user press.
 class LaunchYearRangeChip extends StatelessWidget {
+  /// Creates a launch year range filtering chip.
   const LaunchYearRangeChip({super.key});
 
   @override

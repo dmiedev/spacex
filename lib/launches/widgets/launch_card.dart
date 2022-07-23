@@ -1,7 +1,10 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
+/// A [Card] that contains the most important information about a rocket launch.
 class LaunchCard extends StatelessWidget {
+  /// Creates a [Card] that contains the most important information about a
+  /// rocket launch.
   const LaunchCard({
     super.key,
     this.name,
@@ -11,10 +14,19 @@ class LaunchCard extends StatelessWidget {
     this.onTap,
   });
 
+  /// The name of the launch.
   final String? name;
+
+  /// The flight number of the launch.
   final int? number;
+
+  /// The date of the launch.
   final String? date;
+
+  /// A URL to the patch of the launch.
   final String? patchUrl;
+
+  /// Called when the user taps this card.
   final VoidCallback? onTap;
 
   @override

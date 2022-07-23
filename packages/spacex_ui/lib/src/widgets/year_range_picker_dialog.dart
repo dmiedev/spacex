@@ -3,14 +3,24 @@ import 'package:flutter/services.dart';
 
 // TODO(dmiedev): l10n
 
+/// A dialog that allows user to enter a year range.
+///
+/// Pops with a [DateTimeRange] that spans through the entered year range.
+///
+/// If the user presses the reset button, the dialog pops with the
+/// [allowedRange].
 class YearRangePickerDialog extends StatefulWidget {
+  /// Creates a dialog that allows user to enter a year range.
   const YearRangePickerDialog({
     super.key,
     this.initialRange,
     required this.allowedRange,
   });
 
+  /// The years to pre-fill range start and end fields.
   final DateTimeRange? initialRange;
+
+  /// A [DateTimeRange] between whose years the entered year range is valid.
   final DateTimeRange allowedRange;
 
   @override

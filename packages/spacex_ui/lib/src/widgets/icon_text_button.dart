@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// A button whose body contains an icon and text.
 class IconTextButton extends StatelessWidget {
+  /// Creates a button whose body contains an icon and text.
   const IconTextButton({
     super.key,
     required this.icon,
@@ -8,8 +10,13 @@ class IconTextButton extends StatelessWidget {
     required this.onPressed,
   });
 
+  /// The icon this button displays.
   final Widget icon;
+
+  /// The label string this button displays.
   final String label;
+
+  /// Called when the user presses on this button.
   final void Function()? onPressed;
 
   @override

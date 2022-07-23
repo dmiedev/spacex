@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:spacex/launch_filtering/widgets/widgets.dart';
 
+/// A horizontal [ListView] with different launch filtering chips.
 class LaunchFilteringChips extends StatelessWidget {
+  /// Creates a horizontal [ListView] with different launch filtering chips.
   const LaunchFilteringChips({super.key});
 
   @override

@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:flutter/widgets.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 
+/// Global app [Bloc] observer.
 class AppBlocObserver extends BlocObserver {
   @override
   void onChange(BlocBase<dynamic> bloc, Change<dynamic> change) {
@@ -18,6 +19,7 @@ class AppBlocObserver extends BlocObserver {
   }
 }
 
+/// Sets up error logging and runs an app built by [builder] in a new [Zone].
 Future<void> bootstrap({
   required FutureOr<Widget> Function() builder,
   required HydratedStorage storage,

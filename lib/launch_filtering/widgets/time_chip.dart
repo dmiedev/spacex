@@ -4,7 +4,9 @@ import 'package:spacex/l10n/l10n.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 
+/// A launch filtering chip that switches launch time on user press.
 class LaunchTimeChip extends StatelessWidget {
+  /// Creates a launch time filtering chip.
   const LaunchTimeChip({super.key});
 
   @override

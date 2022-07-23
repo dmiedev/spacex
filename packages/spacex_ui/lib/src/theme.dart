@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+/// A collection of the SpaceX app-related theme objects.
 class SpacexAppTheme {
+  /// The theme of the SpaceX app.
   static ThemeData get theme {
     final base = ThemeData.dark();
     return ThemeData(

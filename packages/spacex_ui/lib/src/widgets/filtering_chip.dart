@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// A chip that represents a filtering option.
 class FilteringChip extends StatelessWidget {
+  /// Creates a chip that represents a filtering option.
   const FilteringChip({
     super.key,
     this.icon,
@@ -10,10 +12,19 @@ class FilteringChip extends StatelessWidget {
     this.tooltip,
   });
 
+  /// An icon to display prior to the chip's label.
   final Widget? icon;
+
+  /// A label string to display on this chip.
   final String? label;
+
+  /// Whether this chip is active.
   final bool active;
+
+  /// Called when the user presses on this chip.
   final void Function() onPressed;
+
+  /// Tooltip string to be used for the body area of this chip.
   final String? tooltip;
 
   @override

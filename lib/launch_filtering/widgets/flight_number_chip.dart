@@ -5,7 +5,10 @@ import 'package:spacex/l10n/l10n.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 
+/// A launch filtering chip that displays a dialog to enter a flight number on
+/// user press.
 class LaunchFlightNumberChip extends StatelessWidget {
+  /// Creates a launch flight number filtering chip.
   const LaunchFlightNumberChip({super.key});
 
   @override

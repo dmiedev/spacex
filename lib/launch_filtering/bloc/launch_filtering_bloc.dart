@@ -4,8 +4,10 @@ import 'package:rocket_repository/rocket_repository.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex_api/spacex_api.dart';
 
+/// A [Bloc] that manages the launch filtering feature.
 class LaunchFilteringBloc
     extends Bloc<LaunchFilteringEvent, LaunchFilteringState> {
+  /// Creates a [Bloc] that manages the launch filtering feature.
   LaunchFilteringBloc({required RocketRepository rocketRepository})
       : _rocketRepository = rocketRepository,
         super(const LaunchFilteringState.initial()) {

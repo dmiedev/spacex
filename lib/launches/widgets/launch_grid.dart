@@ -6,7 +6,11 @@ import 'package:spacex/launches/bloc/bloc.dart';
 import 'package:spacex/launches/widgets/launch_card.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 
+/// A [SliverGrid] of [LaunchCard]s that continuously requests launch pages from
+/// the [LaunchBloc].
 class LaunchGrid extends StatefulWidget {
+  /// Creates a [SliverGrid] of [LaunchCard]s that continuously requests launch
+  /// pages from the [LaunchBloc].
   const LaunchGrid({
     super.key,
     required this.controller,
@@ -15,9 +19,19 @@ class LaunchGrid extends StatefulWidget {
     this.onNextPageErrorRetryButtonPressed,
   });
 
+  /// The controller of the [CustomScrollView] that this grid is contained
+  /// within.
   final ScrollController controller;
+
+  /// Called on a next launch page request.
   final void Function() onNextPageRequest;
+
+  /// Called when the user presses the retry button below the first page error
+  /// message.
   final void Function()? onFirstPageErrorRetryButtonPressed;
+
+  /// Called when the user presses the retry button below the next page error
+  /// message.
   final void Function()? onNextPageErrorRetryButtonPressed;
 
   @override

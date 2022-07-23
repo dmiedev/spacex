@@ -9,14 +9,19 @@ import 'package:spacex/l10n/l10n.dart';
 import 'package:spacex/launches/view/launch_page.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 
+/// The SpaceX app.
 class App extends StatelessWidget {
+  /// Creates the SpaceX app.
   const App({
     super.key,
     required this.launchRepository,
     required this.rocketRepository,
   });
 
+  /// Launch repository for this app to use.
   final LaunchRepository launchRepository;
+
+  /// Rocket repository for this app to use.
   final RocketRepository rocketRepository;
 
   @override

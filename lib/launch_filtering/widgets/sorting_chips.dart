@@ -8,7 +8,9 @@ import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex_api/spacex_api.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 
+/// A launch filtering chip that switches sorting order on user press.
 class LaunchSortingOrderChip extends StatelessWidget {
+  /// Creates a launch sorting order chip.
   const LaunchSortingOrderChip({super.key});
 
   @override
@@ -39,7 +41,10 @@ class LaunchSortingOrderChip extends StatelessWidget {
   }
 }
 
+/// A launch filtering chip that displays a dialog to select a sorting option on
+/// user press.
 class LaunchSortingChip extends StatelessWidget {
+  /// Creates a launch sorting chip.
   const LaunchSortingChip({super.key});
 
   @override

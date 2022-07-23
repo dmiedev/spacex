@@ -1,7 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
+/// A message with provided text information.
 class TextMessage extends StatelessWidget {
+  /// Creates a widget that displays a message with provided text information.
   const TextMessage({
     super.key,
     this.title,
@@ -10,9 +12,16 @@ class TextMessage extends StatelessWidget {
     this.button,
   });
 
+  /// The title of this message.
   final String? title;
+
+  /// The main body of this message.
   final String? text;
+
+  /// A maximum number of lines for the message text to span.
   final int? textMaxLines;
+
+  /// A button to display under this message.
   final Widget? button;
 
   @override

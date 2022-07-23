@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+/// The [AppBar] that is used in the SpaceX app.
 class SpacexAppBar extends StatelessWidget implements PreferredSizeWidget {
+  /// The [AppBar] that is used in the SpaceX app.
   const SpacexAppBar({
     super.key,
     required this.title,
   });
 
+  /// The title string this app bar displays.
   final String title;
 
   @override

@@ -3,7 +3,9 @@ import 'package:launch_repository/launch_repository.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex/launches/bloc/bloc.dart';
 
+/// A [Bloc] that manages the launch loading and display feature.
 class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
+  /// Creates a [Bloc] that manages the launch loading and display feature.
   LaunchBloc({required LaunchRepository launchRepository})
       : _launchRepository = launchRepository,
         super(const LaunchState.initial()) {
