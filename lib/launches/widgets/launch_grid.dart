@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:spacex/l10n/l10n.dart';
 import 'package:spacex/launches/bloc/bloc.dart';
 import 'package:spacex/launches/widgets/launch_card.dart';
 import 'package:spacex_ui/spacex_ui.dart';
@@ -101,7 +102,7 @@ class _LaunchGridState extends State<LaunchGrid> {
     return LaunchCard(
       name: launch.name != null
           ? launch.name!.toUpperCase()
-          : 'Unnamed launch'.toUpperCase(),
+          : context.l10n.unnamedLaunchCardName.toUpperCase(),
       number: launch.flightNumber,
       date: launch.dateUtc != null
           ? DateFormat.yMMMMd().format(launch.dateUtc!).toUpperCase()
@@ -133,9 +134,10 @@ class _NoItemsFoundIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const TextMessage(
-      title: 'NO LAUNCHES FOUND',
-      text: 'Please try changing your search criteria.',
+    final l10n = context.l10n;
+    return TextMessage(
+      title: l10n.noLaunchesFoundMessageTitle,
+      text: l10n.noLaunchesFoundMessageText,
     );
   }
 }
@@ -150,15 +152,13 @@ class _FirstPageErrorIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return TextMessage(
-      title: 'AN ERROR OCCURRED',
-      text: 'Please check your Internet connection. If it is alright, it may '
-          'be a problem on our end.\n\n'
-          'You can also try reloading the page or changing your search '
-          'criteria.',
+      title: l10n.loadingErrorMessageTitle,
+      text: l10n.loadingErrorMessageTextLong,
       button: IconTextButton(
         icon: const Icon(Icons.replay),
-        text: 'RETRY',
+        label: 'RETRY',
         onPressed: onRetryButtonPressed,
       ),
     );
@@ -175,13 +175,13 @@ class _NewPageErrorIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return TextMessage(
-      text: 'An error occurred while loading data.\n'
-          'Please check your Internet connection.',
+      text: l10n.loadingErrorMessageTextShort,
       textMaxLines: 3,
       button: IconTextButton(
         icon: const Icon(Icons.replay),
-        text: 'RETRY',
+        label: l10n.retryButtonLabel,
         onPressed: onRetryButtonPressed,
       ),
     );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:launch_repository/launch_repository.dart';
+import 'package:spacex/l10n/l10n.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 
@@ -19,15 +20,16 @@ class LaunchYearRangeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return BlocBuilder<LaunchFilteringBloc, LaunchFilteringState>(
       buildWhen: (previous, current) =>
           previous.dateInterval != current.dateInterval,
       builder: (context, state) => FilteringChip(
         active: state.dateInterval != null,
         icon: const Icon(Icons.date_range),
-        text: state.dateInterval != null
+        label: state.dateInterval != null
             ? _getIntervalLabelText(state.dateInterval!)
-            : 'Year Range',
+            : l10n.yearRangeChipLabel,
         onPressed: () => _handlePress(context),
       ),
     );

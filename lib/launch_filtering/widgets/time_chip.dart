@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spacex/l10n/l10n.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 
@@ -8,6 +9,7 @@ class LaunchTimeChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return BlocBuilder<LaunchFilteringBloc, LaunchFilteringState>(
       buildWhen: (previous, current) => previous.time != current.time,
       builder: (context, state) => FilteringChip(
@@ -18,7 +20,9 @@ class LaunchTimeChip extends StatelessWidget {
               : Icons.schedule,
         ),
         onPressed: () => _handlePress(context),
-        text: state.time == LaunchTime.upcoming ? 'Upcoming' : 'Past',
+        label: state.time == LaunchTime.upcoming
+            ? l10n.upcomingTimeChipLabel
+            : l10n.pastTimeChipLabel,
       ),
     );
   }

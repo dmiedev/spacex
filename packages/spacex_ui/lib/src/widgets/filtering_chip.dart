@@ -4,14 +4,14 @@ class FilteringChip extends StatelessWidget {
   const FilteringChip({
     super.key,
     this.icon,
-    this.text,
+    this.label,
     required this.active,
     required this.onPressed,
     this.tooltip,
   });
 
   final Widget? icon;
-  final String? text;
+  final String? label;
   final bool active;
   final void Function() onPressed;
   final String? tooltip;
@@ -29,7 +29,7 @@ class FilteringChip extends StatelessWidget {
             )
           : null,
       label: Text(
-        text ?? '',
+        label ?? '',
         style: TextStyle(color: active ? Colors.black : null),
       ),
       onPressed: onPressed,

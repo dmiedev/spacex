@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spacex/l10n/l10n.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 
@@ -9,15 +10,16 @@ class LaunchFlightNumberChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return BlocBuilder<LaunchFilteringBloc, LaunchFilteringState>(
       buildWhen: (previous, current) =>
           previous.flightNumber != current.flightNumber,
       builder: (context, state) => FilteringChip(
         active: state.flightNumber != -1,
         icon: const Icon(Icons.tag),
-        text: state.flightNumber != -1
+        label: state.flightNumber != -1
             ? '${state.flightNumber}'
-            : 'Flight Number',
+            : l10n.flightNumberChipLabel,
         onPressed: () => _handlePress(context),
       ),
     );
@@ -69,45 +71,54 @@ class _FlightNumberDialogState extends State<_FlightNumberDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return AlertDialog(
-      title: const Text('Enter Flight Number'),
+      title: Text(l10n.flightNumberDialogTitle),
       content: Form(
         key: _formKey,
         autovalidateMode: AutovalidateMode.onUserInteraction,
         child: TextFormField(
-          validator: _validateFlightNumberField,
+          validator: (string) => _validateFlightNumberField(context, string),
           controller: _textFieldController,
           keyboardType: TextInputType.number,
           maxLength: 3,
           inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-          decoration: const InputDecoration(
-            label: Text('Flight Number'),
+          decoration: InputDecoration(
+            label: Text(l10n.flightNumberChipLabel),
             hintText: '123',
           ),
         ),
       ),
       actions: [
         TextButton(
-          child: const Text('CANCEL'),
-          onPressed: () => Navigator.pop(context),
+          child: Text(l10n.cancelButtonLabel),
+          onPressed: () => _handleCancelButtonPress(context),
         ),
         TextButton(
-          child: const Text('RESET'),
-          onPressed: () => Navigator.pop(context, -1),
+          child: Text(l10n.resetButtonLabel),
+          onPressed: () => _handleResetButtonPress(context),
         ),
         TextButton(
-          child: const Text('OK'),
+          child: Text(l10n.okButtonLabel),
           onPressed: () => _handleOkButtonPress(context),
         ),
       ],
     );
   }
 
-  String? _validateFlightNumberField(String? string) {
+  String? _validateFlightNumberField(BuildContext context, String? string) {
     if (string != null && string.isEmpty) {
-      return 'This field must not be empty!';
+      return context.l10n.emptyFieldError;
     }
     return null;
+  }
+
+  void _handleCancelButtonPress(BuildContext context) {
+    Navigator.pop(context);
+  }
+
+  void _handleResetButtonPress(BuildContext context) {
+    Navigator.pop(context, -1);
   }
 
   void _handleOkButtonPress(BuildContext context) {

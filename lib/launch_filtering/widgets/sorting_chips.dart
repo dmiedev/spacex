@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:launch_repository/launch_repository.dart';
+import 'package:spacex/l10n/l10n.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex_api/spacex_api.dart';
 import 'package:spacex_ui/spacex_ui.dart';
@@ -12,6 +13,7 @@ class LaunchSortingOrderChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return BlocBuilder<LaunchFilteringBloc, LaunchFilteringState>(
       buildWhen: (previous, current) =>
           previous.sorting.order != current.sorting.order,
@@ -25,7 +27,7 @@ class LaunchSortingOrderChip extends StatelessWidget {
           child: const Icon(Icons.sort),
         ),
         onPressed: () => _handlePress(context),
-        tooltip: 'Sorting order',
+        tooltip: l10n.sortingOrderChipTooltip,
       ),
     );
   }
@@ -47,25 +49,26 @@ class LaunchSortingChip extends StatelessWidget {
           previous.sorting.feature != current.sorting.feature,
       builder: (context, state) => FilteringChip(
         active: true,
-        text: _mapLaunchFeatureToLabel(state.sorting.feature),
+        label: _mapLaunchFeatureToLabel(context, state.sorting.feature),
         onPressed: () => _handlePress(context),
       ),
     );
   }
 
-  String _mapLaunchFeatureToLabel(LaunchFeature feature) {
+  String _mapLaunchFeatureToLabel(BuildContext context, LaunchFeature feature) {
+    final l10n = context.l10n;
     switch (feature) {
       case LaunchFeature.date:
-        return 'Sorting by Date';
+        return l10n.dateSortingChipLabel;
       case LaunchFeature.name:
-        return 'Sorting by Name';
+        return l10n.nameSortingChipLabel;
       case LaunchFeature.flightNumber:
-        return 'Sorting by Flight Number';
+        return l10n.flightNumberSortingChipLabel;
       // ignore: no_default_cases
       default:
         break;
     }
-    return 'Sorting';
+    return l10n.sortingChipLabel;
   }
 
   Future<void> _handlePress(BuildContext context) async {
@@ -85,19 +88,20 @@ class _LaunchSortingSelectionDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return SimpleDialog(
-      title: const Text('Select Sorting'),
+      title: Text(l10n.sortingSelectionDialogTitle),
       children: [
         SimpleDialogOption(
-          child: const Text('Date'),
+          child: Text(l10n.dateOptionLabel),
           onPressed: () => Navigator.pop(context, LaunchFeature.date),
         ),
         SimpleDialogOption(
-          child: const Text('Name'),
+          child: Text(l10n.nameOptionLabel),
           onPressed: () => Navigator.pop(context, LaunchFeature.name),
         ),
         SimpleDialogOption(
-          child: const Text('Flight Number'),
+          child: Text(l10n.flightNumberOptionLabel),
           onPressed: () => Navigator.pop(context, LaunchFeature.flightNumber),
         ),
       ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rocket_repository/rocket_repository.dart';
+import 'package:spacex/l10n/l10n.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 
@@ -14,18 +15,25 @@ class LaunchRocketChip extends StatelessWidget {
       builder: (context, state) => FilteringChip(
         icon: const Icon(Icons.rocket),
         active: state.rockets.isNotEmpty,
-        text: _getLabel(state.allRockets, state.rockets),
+        label: _getLabel(context, state.allRockets, state.rockets),
         onPressed: () => _handlePress(context),
       ),
     );
   }
 
-  String _getLabel(List<RocketInfo>? allRockets, List<int> rockets) {
-    return rockets.isEmpty
-        ? 'Rockets'
-        : rockets.length == 1
-            ? allRockets![rockets.first].name
-            : 'Rockets: ${rockets.length}';
+  String _getLabel(
+    BuildContext context,
+    List<RocketInfo>? allRockets,
+    List<int> rockets,
+  ) {
+    final l10n = context.l10n;
+    if (rockets.isEmpty) {
+      return l10n.rocketChipLabel;
+    } else if (rockets.length == 1) {
+      return allRockets![rockets.first].name;
+    } else {
+      return '${l10n.rocketChipLabel}: ${rockets.length}';
+    }
   }
 
   void _handlePress(BuildContext context) {
@@ -72,8 +80,9 @@ class _RocketSelectionDialogState extends State<_RocketSelectionDialog> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return AlertDialog(
-      title: const Text('Select Rockets'),
+      title: Text(l10n.rocketSelectionDialogTitle),
       content: BlocConsumer<LaunchFilteringBloc, LaunchFilteringState>(
         listenWhen: (previous, current) =>
             !previous.allRocketsAreLoaded && current.allRocketsAreLoaded,
@@ -86,12 +95,11 @@ class _RocketSelectionDialogState extends State<_RocketSelectionDialog> {
             return const Center(child: CircularProgressIndicator());
           } else if (state.allRockets!.isEmpty) {
             return TextMessage(
-              text: 'An error occurred while loading data.\n'
-                  'Please check your Internet connection.',
+              text: l10n.loadingErrorMessageTextShort,
               textMaxLines: 3,
               button: IconTextButton(
                 icon: const Icon(Icons.replay),
-                text: 'RETRY',
+                label: l10n.retryButtonLabel,
                 onPressed: _handleRetryButtonPress,
               ),
             );
@@ -111,15 +119,15 @@ class _RocketSelectionDialogState extends State<_RocketSelectionDialog> {
       ),
       actions: [
         TextButton(
-          child: const Text('CANCEL'),
+          child: Text(l10n.cancelButtonLabel),
           onPressed: () => Navigator.pop(context),
         ),
         TextButton(
-          child: const Text('RESET'),
+          child: Text(l10n.resetButtonLabel),
           onPressed: () => _saveAndPop(reset: true),
         ),
         TextButton(
-          child: const Text('OK'),
+          child: Text(l10n.okButtonLabel),
           onPressed: () => _saveAndPop(reset: false),
         ),
       ],

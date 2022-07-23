@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spacex/l10n/l10n.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 
@@ -23,21 +24,25 @@ class LaunchSuccessfulnessChip extends StatelessWidget {
                 ? Icons.close
                 : Icons.done,
           ),
-          text: _getLabelText(state.successfulness),
+          label: _getLabelText(context, state.successfulness),
           onPressed: () => _handlePress(context),
         );
       },
     );
   }
 
-  String _getLabelText(LaunchSuccessfulness successfulness) {
+  String _getLabelText(
+    BuildContext context,
+    LaunchSuccessfulness successfulness,
+  ) {
+    final l10n = context.l10n;
     switch (successfulness) {
       case LaunchSuccessfulness.any:
-        return 'Successfulness';
+        return l10n.successfulnessChipLabel;
       case LaunchSuccessfulness.success:
-        return 'Success';
+        return l10n.successSuccessfulnessChipLabel;
       case LaunchSuccessfulness.failure:
-        return 'Failure';
+        return l10n.failureSuccessfulnessChipLabel;
     }
   }
 
@@ -60,25 +65,26 @@ class _LaunchSuccessfulnessSelectionDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return SimpleDialog(
-      title: const Text('Select Successfulness'),
+      title: Text(l10n.successfulnessSelectionDialogTitle),
       children: [
         SimpleDialogOption(
-          child: const Text('Any'),
+          child: Text(l10n.anyOptionLabel),
           onPressed: () => Navigator.pop(
             context,
             LaunchSuccessfulness.any,
           ),
         ),
         SimpleDialogOption(
-          child: const Text('Success'),
+          child: Text(l10n.successOptionLabel),
           onPressed: () => Navigator.pop(
             context,
             LaunchSuccessfulness.success,
           ),
         ),
         SimpleDialogOption(
-          child: const Text('Failure'),
+          child: Text(l10n.failureOptionLabel),
           onPressed: () => Navigator.pop(
             context,
             LaunchSuccessfulness.failure,

@@ -4,12 +4,12 @@ class IconTextButton extends StatelessWidget {
   const IconTextButton({
     super.key,
     required this.icon,
-    required this.text,
+    required this.label,
     required this.onPressed,
   });
 
   final Widget icon;
-  final String text;
+  final String label;
   final void Function()? onPressed;
 
   @override
@@ -27,7 +27,7 @@ class IconTextButton extends StatelessWidget {
         children: [
           icon,
           const SizedBox(width: 5),
-          Text(text.toUpperCase()),
+          Text(label),
         ],
       ),
     );

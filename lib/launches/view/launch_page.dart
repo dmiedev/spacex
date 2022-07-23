@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:launch_repository/launch_repository.dart';
 import 'package:rocket_repository/rocket_repository.dart';
+import 'package:spacex/l10n/l10n.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex/launch_filtering/widgets/widgets.dart';
 import 'package:spacex/launches/bloc/bloc.dart';
@@ -78,8 +79,9 @@ class _LaunchViewState extends State<_LaunchView> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
-      appBar: const SpacexAppBar(title: 'Launches'),
+      appBar: SpacexAppBar(title: l10n.launchesAppBarTitle),
       body: NestedScrollView(
         headerSliverBuilder: (context, innerBoxIsScrolled) {
           return <Widget>[
@@ -100,7 +102,7 @@ class _LaunchViewState extends State<_LaunchView> {
                     children: [
                       SearchBar(
                         controller: _searchBarController,
-                        hintText: 'Search',
+                        hintText: l10n.searchBarHintText,
                         onSubmitted: (text) =>
                             _handleSearchBarSubmit(context, text),
                       ),
