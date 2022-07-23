@@ -12,6 +12,7 @@ class SpacexAppTheme {
       scaffoldBackgroundColor: Colors.black,
       colorScheme: _colorScheme,
       checkboxTheme: _checkboxTheme,
+      textButtonTheme: _textButtonTheme,
     );
   }
 
@@ -35,6 +36,14 @@ class SpacexAppTheme {
     return CheckboxThemeData(
       fillColor: MaterialStateProperty.all(Colors.black),
       side: const BorderSide(color: Colors.white),
+    );
+  }
+
+  static TextButtonThemeData get _textButtonTheme {
+    return TextButtonThemeData(
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all(Colors.white),
+      ),
     );
   }
 }
