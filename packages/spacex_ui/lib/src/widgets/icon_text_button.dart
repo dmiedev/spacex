@@ -21,13 +21,14 @@ class IconTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return ElevatedButton(
       onPressed: onPressed,
       style: ButtonStyle(
         backgroundColor:
-            MaterialStateColor.resolveWith((states) => Colors.white),
+            MaterialStateColor.resolveWith((states) => colorScheme.secondary),
         foregroundColor:
-            MaterialStateColor.resolveWith((states) => Colors.black),
+            MaterialStateColor.resolveWith((states) => colorScheme.onSecondary),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,

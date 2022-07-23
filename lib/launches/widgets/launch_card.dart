@@ -31,9 +31,10 @@ class LaunchCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return Card(
-      shape: Border.all(color: Colors.white, width: 0.5),
-      color: Colors.black,
+      shape: Border.all(color: colorScheme.onSurface, width: 0.5),
+      color: colorScheme.surface,
       child: InkWell(
         onTap: onTap,
         child: Padding(

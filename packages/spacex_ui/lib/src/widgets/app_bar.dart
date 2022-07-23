@@ -19,7 +19,7 @@ class SpacexAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Text(
         title,
         style: GoogleFonts.orbitron(
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.onPrimary,
           fontSize: 20,
           fontWeight: FontWeight.bold,
           letterSpacing: 3,

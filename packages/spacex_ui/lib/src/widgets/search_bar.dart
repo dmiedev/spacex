@@ -21,22 +21,23 @@ class SearchBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return TextField(
       controller: controller,
       onSubmitted: onSubmitted,
       decoration: InputDecoration(
-        prefixIcon: const Icon(Icons.search, color: Colors.white),
+        prefixIcon: Icon(Icons.search, color: colorScheme.onBackground),
         hintText: hintText,
-        enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: colorScheme.onBackground),
         ),
-        focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.white),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: colorScheme.onBackground),
         ),
         suffixIcon: IconButton(
           onPressed: _handleClearButtonPress,
           icon: const Icon(Icons.clear),
-          color: Colors.grey,
+          color: colorScheme.onBackground.withOpacity(0.5),
         ),
       ),
     );

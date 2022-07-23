@@ -29,6 +29,7 @@ class FilteringChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     return ActionChip(
       label: Row(
         mainAxisSize: MainAxisSize.min,
@@ -37,7 +38,8 @@ class FilteringChip extends StatelessWidget {
             IconTheme(
               data: IconThemeData(
                 size: 20,
-                color: active ? Colors.black : Colors.white,
+                color:
+                    active ? colorScheme.onSecondary : colorScheme.onBackground,
               ),
               child: icon!,
             ),
@@ -45,12 +47,15 @@ class FilteringChip extends StatelessWidget {
           if (label != null)
             Text(
               label!,
-              style: TextStyle(color: active ? Colors.black : null),
+              style: TextStyle(
+                color:
+                    active ? colorScheme.onSecondary : colorScheme.onBackground,
+              ),
             ),
         ],
       ),
       onPressed: onPressed,
-      backgroundColor: active ? Colors.white : null,
+      backgroundColor: active ? colorScheme.secondary : null,
       tooltip: tooltip,
     );
   }
