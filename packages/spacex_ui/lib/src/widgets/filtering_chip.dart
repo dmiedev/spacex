@@ -30,18 +30,24 @@ class FilteringChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ActionChip(
-      avatar: icon != null
-          ? IconTheme(
+      label: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (icon != null)
+            IconTheme(
               data: IconThemeData(
                 size: 20,
-                color: active ? Colors.black : null,
+                color: active ? Colors.black : Colors.white,
               ),
               child: icon!,
-            )
-          : null,
-      label: Text(
-        label ?? '',
-        style: TextStyle(color: active ? Colors.black : null),
+            ),
+          if (icon != null && label != null) const SizedBox(width: 7.5),
+          if (label != null)
+            Text(
+              label!,
+              style: TextStyle(color: active ? Colors.black : null),
+            ),
+        ],
       ),
       onPressed: onPressed,
       backgroundColor: active ? Colors.white : null,
