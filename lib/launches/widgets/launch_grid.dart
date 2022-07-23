@@ -128,7 +128,7 @@ class _LaunchGridState extends State<LaunchGrid> {
 }
 
 class _LoadingIndicator extends StatelessWidget {
-  const _LoadingIndicator({super.key});
+  const _LoadingIndicator();
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +144,7 @@ class _LoadingIndicator extends StatelessWidget {
 }
 
 class _NoItemsFoundIndicator extends StatelessWidget {
-  const _NoItemsFoundIndicator({super.key});
+  const _NoItemsFoundIndicator();
 
   @override
   Widget build(BuildContext context) {
@@ -158,7 +158,6 @@ class _NoItemsFoundIndicator extends StatelessWidget {
 
 class _FirstPageErrorIndicator extends StatelessWidget {
   const _FirstPageErrorIndicator({
-    super.key,
     this.onRetryButtonPressed,
   });
 
@@ -181,7 +180,6 @@ class _FirstPageErrorIndicator extends StatelessWidget {
 
 class _NewPageErrorIndicator extends StatelessWidget {
   const _NewPageErrorIndicator({
-    super.key,
     this.onRetryButtonPressed,
   });
 

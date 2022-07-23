@@ -89,7 +89,7 @@ class LaunchSortingChip extends StatelessWidget {
 }
 
 class _LaunchSortingSelectionDialog extends StatelessWidget {
-  const _LaunchSortingSelectionDialog({super.key});
+  const _LaunchSortingSelectionDialog();
 
   @override
   Widget build(BuildContext context) {

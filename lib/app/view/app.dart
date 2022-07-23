@@ -37,7 +37,7 @@ class App extends StatelessWidget {
 }
 
 class _AppView extends StatelessWidget {
-  const _AppView({super.key});
+  const _AppView();
 
   @override
   Widget build(BuildContext context) {

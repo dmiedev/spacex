@@ -47,7 +47,6 @@ class LaunchFlightNumberChip extends StatelessWidget {
 
 class _FlightNumberDialog extends StatefulWidget {
   const _FlightNumberDialog({
-    super.key,
     this.flightNumber,
   }) : assert(
           flightNumber == null || flightNumber >= 0,

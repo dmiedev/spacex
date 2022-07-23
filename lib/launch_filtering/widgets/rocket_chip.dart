@@ -51,7 +51,7 @@ class LaunchRocketChip extends StatelessWidget {
 }
 
 class _RocketSelectionDialog extends StatefulWidget {
-  const _RocketSelectionDialog({super.key});
+  const _RocketSelectionDialog();
 
   @override
   State<_RocketSelectionDialog> createState() => _RocketSelectionDialogState();

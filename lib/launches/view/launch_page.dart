@@ -45,7 +45,7 @@ class LaunchPage extends StatelessWidget {
 }
 
 class _LaunchView extends StatefulWidget {
-  const _LaunchView({super.key});
+  const _LaunchView();
 
   @override
   State<_LaunchView> createState() => _LaunchViewState();

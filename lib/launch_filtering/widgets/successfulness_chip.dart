@@ -64,7 +64,7 @@ class LaunchSuccessfulnessChip extends StatelessWidget {
 }
 
 class _LaunchSuccessfulnessSelectionDialog extends StatelessWidget {
-  const _LaunchSuccessfulnessSelectionDialog({super.key});
+  const _LaunchSuccessfulnessSelectionDialog();
 
   @override
   Widget build(BuildContext context) {
