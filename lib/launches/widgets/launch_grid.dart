@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:spacex/l10n/l10n.dart';
+import 'package:spacex/launch_details/launch_details.dart';
 import 'package:spacex/launches/bloc/bloc.dart';
 import 'package:spacex/launches/widgets/launch_card.dart';
+import 'package:spacex_api/spacex_api.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 
 /// A [SliverGrid] of [LaunchCard]s that continuously requests launch pages from
@@ -122,7 +124,14 @@ class _LaunchGridState extends State<LaunchGrid> {
           ? DateFormat.yMMMMd().format(launch.dateUtc!).toUpperCase()
           : null,
       patchUrl: launch.links?.patch?.small,
-      onTap: () {},
+      onTap: () => _handleLaunchCardTap(launch),
+    );
+  }
+
+  void _handleLaunchCardTap(Launch launch) {
+    Navigator.push(
+      context,
+      LaunchDetailsPage.route(launch: launch),
     );
   }
 }
