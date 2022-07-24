@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
+/// A scrollable row of [Image]s.
 class ImageGallery extends StatelessWidget {
+  /// Creates a scrollable row of [Image]s.
   const ImageGallery({
     super.key,
     required this.imageUrls,
   });
 
+  /// URLs of the images displayed in this gallery.
   final List<String> imageUrls;
 
   @override

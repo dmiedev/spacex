@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:spacex/launch_details/view/launch_details_page.dart';
 
+/// A section of the [LaunchDetailsPage].
 class DetailsSection extends StatelessWidget {
+  /// Creates a section of the [LaunchDetailsPage].
   const DetailsSection({
     super.key,
     this.title,
     this.body,
-    this.bulletList,
+    this.bulletedList,
   });
 
+  /// The title of this section.
   final String? title;
+
+  /// The main body of this section.
   final String? body;
-  final List<DetailsSectionListItem>? bulletList;
+
+  /// A bulleted list of additional links or information displayed under the
+  /// [body].
+  final List<DetailsSectionBullet>? bulletedList;
 
   @override
   Widget build(BuildContext context) {
@@ -41,20 +50,26 @@ class DetailsSection extends StatelessWidget {
                 ),
               ),
             ),
-          ...?bulletList,
+          ...?bulletedList,
         ],
       ),
     );
   }
 }
 
-class DetailsSectionListItem extends StatelessWidget {
-  const DetailsSectionListItem({
+/// An item of the [DetailsSection] bulleted list.
+class DetailsSectionBullet extends StatelessWidget {
+  /// Creates an item of the [DetailsSection] bulleted list.
+  const DetailsSectionBullet({
+    super.key,
     required this.label,
     this.onTap,
   });
 
+  /// The label that is displayed on this bulleted list item.
   final String label;
+
+  /// Called when the user taps on this bulleted list item.
   final VoidCallback? onTap;
 
   @override

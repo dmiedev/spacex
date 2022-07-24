@@ -6,14 +6,20 @@ import 'package:spacex/launch_details/widgets/widgets.dart';
 import 'package:spacex_api/spacex_api.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 
+/// A page that displays launch-related details.
 class LaunchDetailsPage extends StatelessWidget {
+  /// Creates a page that displays launch-related details.
   const LaunchDetailsPage({
     super.key,
     required this.launch,
   });
 
+  /// The launch whose details are displayed.
   final Launch launch;
 
+  /// Returns a [MaterialPageRoute] that contains this page.
+  ///
+  /// The [launch] parameter is the launch that this page displays details of.
   static Route<LaunchDetailsPage> route({required Launch launch}) {
     return MaterialPageRoute(
       builder: (context) => LaunchDetailsPage(
@@ -94,24 +100,24 @@ class _LaunchDetailsView extends StatelessWidget {
                   title: 'JOIN THE DISCUSSION',
                   body:
                       'Check out Reddit threads associated with this launch: ',
-                  bulletList: [
+                  bulletedList: [
                     if (redditLinks?.campaign != null)
-                      DetailsSectionListItem(
+                      DetailsSectionBullet(
                         label: 'Campaign Thread',
                         onTap: () {},
                       ),
                     if (redditLinks?.launch != null)
-                      DetailsSectionListItem(
+                      DetailsSectionBullet(
                         label: 'Discussion and Updates Thread',
                         onTap: () {},
                       ),
                     if (redditLinks?.media != null)
-                      DetailsSectionListItem(
+                      DetailsSectionBullet(
                         label: 'Media Thread',
                         onTap: () {},
                       ),
                     if (redditLinks?.recovery != null)
-                      DetailsSectionListItem(
+                      DetailsSectionBullet(
                         label: 'Recovery Thread',
                         onTap: () {},
                       ),
