@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:spacex/l10n/l10n.dart';
 import 'package:spacex/launch_details/bloc/bloc.dart';
 import 'package:spacex/launch_details/widgets/widgets.dart';
 import 'package:spacex_api/spacex_api.dart';
@@ -44,8 +45,9 @@ class _LaunchDetailsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
-      appBar: const SpacexAppBar(title: 'LAUNCH DETAILS'),
+      appBar: SpacexAppBar(title: l10n.launchDetailsAppBarTitle),
       body: BlocBuilder<LaunchDetailsBloc, LaunchDetailsState>(
         builder: (context, state) {
           final launch = state.launch;
@@ -53,12 +55,11 @@ class _LaunchDetailsView extends StatelessWidget {
           final redditLinks = launch.links?.reddit;
           return ListView(
             children: [
-              if (images != null)
-                Container(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  height: 400,
-                  child: ImageGallery(imageUrls: images),
-                ),
+              Container(
+                padding: const EdgeInsets.only(bottom: 10),
+                height: 400,
+                child: ImageGallery(imageUrls: images ?? []),
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 15),
                 child: Column(
@@ -83,10 +84,13 @@ class _LaunchDetailsView extends StatelessWidget {
                   ],
                 ),
               ),
-              DetailsSection(body: launch.details ?? 'No details available.'),
+              DetailsSection(
+                body:
+                    launch.details ?? l10n.noLaunchDetailsAvailableSectionBody,
+              ),
               if (launch.dateUtc != null)
                 DetailsSection(
-                  title: 'LAUNCH TIME (UTC)',
+                  title: l10n.launchTimeUtcSectionTitle,
                   body: _getLaunchTimeString(
                     date: launch.dateUtc!,
                     precision: launch.datePrecision,
@@ -97,28 +101,27 @@ class _LaunchDetailsView extends StatelessWidget {
                   redditLinks?.media != null ||
                   redditLinks?.recovery != null)
                 DetailsSection(
-                  title: 'JOIN THE DISCUSSION',
-                  body:
-                      'Check out Reddit threads associated with this launch: ',
+                  title: l10n.redditLinksSectionTitle,
+                  body: l10n.redditLinksSectionBody,
                   bulletedList: [
                     if (redditLinks?.campaign != null)
                       DetailsSectionBullet(
-                        label: 'Campaign Thread',
+                        label: l10n.campaignRedditLaunchThread,
                         onTap: () {},
                       ),
                     if (redditLinks?.launch != null)
                       DetailsSectionBullet(
-                        label: 'Discussion and Updates Thread',
+                        label: l10n.discussionRedditLaunchThread,
                         onTap: () {},
                       ),
                     if (redditLinks?.media != null)
                       DetailsSectionBullet(
-                        label: 'Media Thread',
+                        label: l10n.mediaRedditLaunchThread,
                         onTap: () {},
                       ),
                     if (redditLinks?.recovery != null)
                       DetailsSectionBullet(
-                        label: 'Recovery Thread',
+                        label: l10n.recoveryRedditLaunchThread,
                         onTap: () {},
                       ),
                   ],

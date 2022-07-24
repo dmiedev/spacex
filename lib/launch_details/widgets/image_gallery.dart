@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spacex/l10n/l10n.dart';
 
 /// A scrollable row of [Image]s.
 class ImageGallery extends StatelessWidget {
@@ -13,13 +14,14 @@ class ImageGallery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return LayoutBuilder(
       builder: (context, constraints) {
         if (imageUrls.isEmpty) {
-          return const Center(
+          return Center(
             child: Text(
-              'No images available.',
-              style: TextStyle(fontSize: 20),
+              l10n.noImagesAvailableImageGalleryMessage,
+              style: const TextStyle(fontSize: 20),
             ),
           );
         } else if (constraints.maxWidth < 600) {
