@@ -1,7 +1,183 @@
 {
     "@@locale": "en",
-    "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
+
+    "launchesAppBarTitle": "LAUNCHES",
+    "@launchesAppBarTitle": {
+        "description": "Text shown in the app bar of the Launches Page."
+    },
+
+    "searchBarHintText": "Search",
+    "@searchBarHintText": {
+        "description": "Text shown as a hint in the search bar."
+    },
+
+    "unnamedLaunchCardName": "Unnamed Launch",
+    "@unnamedLaunchCardName": {
+        "description": "The LaunchCard title in case that a launch has no name."
+    },
+
+    "noLaunchesFoundMessageTitle": "No launches found",
+    "@noLaunchesFoundMessageTitle": {
+        "description": "The title of a text message indicating no launches were found."
+    },
+
+    "noLaunchesFoundMessageText": "Please try changing your search criteria.",
+    "@noLaunchesFoundMessageText": {
+        "description": "The body of a text message indicating no launches were found."
+    },
+
+    "loadingErrorMessageTitle": "An error occurred",
+    "@loadingErrorMessageTitle": {
+        "description": "The title of a text message indicating a loading error occurred."
+    },
+
+    "loadingErrorMessageTextLong": "Please check your Internet connection. If it is alright, it may be a problem on our end.\n\nYou can also try reloading the page or changing your search criteria.",
+    "@loadingErrorMessageTextLong": {
+        "description": "A long variation of the body of a text message indicating a loading error occurred."
+    },
+
+    "loadingErrorMessageTextShort": "An error occurred while loading data.\nPlease check your Internet connection.",
+    "@loadingErrorMessageTextShort": {
+        "description": "A short variation of the body of a text message indicating a loading error occurred."
+    },
+
+    "retryButtonLabel": "RETRY",
+    "@retryButtonLabel": {
+        "description": "Label for retry buttons."
+    },
+
+    "okButtonLabel": "OK",
+    "@okButtonLabel": {
+        "description": "Label for OK buttons."
+    },
+
+    "cancelButtonLabel": "CANCEL",
+    "@cancelButtonLabel": {
+        "description": "Label for cancel buttons."
+    },
+
+    "resetButtonLabel": "RESET",
+    "@resetButtonLabel": {
+        "description": "Label for reset buttons."
+    },
+
+    "flightNumberChipLabel": "Flight Number",
+    "@flightNumberChipLabel": {
+        "description": "Text shown in the flight number filtering chip."
+    },
+
+    "flightNumberDialogTitle": "Enter Flight Number",
+    "@flightNumberDialogTitle": {
+        "description": "The title of the flight number dialog."
+    },
+
+    "emptyFieldError": "This field must not be empty!",
+    "@emptyFieldError": {
+        "description": "An error message shown besides text field indicating it must not be empty."
+    },
+
+    "rocketChipLabel": "Rockets",
+    "@rocketChipLabel": {
+        "description": "Text shown in the rocket filtering chip."
+    },
+
+    "rocketSelectionDialogTitle": "Select Rockets",
+    "@rocketSelectionDialogTitle": {
+        "description": "The title of the rocket selection dialog."
+    },
+
+    "sortingOrderChipTooltip": "Sorting order",
+    "@sortingOrderChipTooltip": {
+        "description": "The tooltip of the sorting order chip."
+    },
+
+    "sortingChipLabel": "Sorting",
+    "@sortingChipLabel": {
+        "description": "Text shown in the sorting chip."
+    },
+
+    "dateSortingChipLabel": "Sorting by Date",
+    "@dateSortingChipLabel": {
+        "description": "Text shown in the sorting chip if sorting by date is selected."
+    },
+
+    "nameSortingChipLabel": "Sorting by Name",
+    "@nameSortingChipLabel": {
+        "description": "Text shown in the sorting chip if sorting by name is selected."
+    },
+
+    "flightNumberSortingChipLabel": "Sorting by Flight Number",
+    "@flightNumberSortingChipLabel": {
+        "description": "Text shown in the sorting chip if sorting by flight number is selected."
+    },
+
+    "sortingSelectionDialogTitle": "Select Sorting",
+    "@sortingSelectionDialogTitle": {
+        "description": "The title of the sorting selection dialog."
+    },
+
+    "dateOptionLabel": "Date",
+    "@dateOptionLabel": {
+        "description": "Label of an option representing date."
+    },
+
+    "nameOptionLabel": "Name",
+    "@nameOptionLabel": {
+        "description": "Label of an option representing name."
+    },
+
+    "flightNumberOptionLabel": "Flight Number",
+    "@flightNumberOptionLabel": {
+        "description": "Label of an option representing flight number."
+    },
+
+    "upcomingTimeChipLabel": "Upcoming",
+    "@upcomingTimeChipLabel": {
+        "description": "Text shown in the time chip if upcoming entities are selected."
+    },
+
+    "pastTimeChipLabel": "Past",
+    "@pastTimeChipLabel": {
+        "description": "Text shown in the time chip if past entities are selected."
+    },
+
+    "yearRangeChipLabel": "Year Range",
+    "@yearRangeChipLabel": {
+        "description": "Text shown in the year range chip."
+    },
+
+    "successfulnessChipLabel": "Successfulness",
+    "@successfulnessChipLabel": {
+        "description": "Text shown in the successfulness chip."
+    },
+
+    "successSuccessfulnessChipLabel": "Success",
+    "@successSuccessfulnessChipLabel": {
+        "description": "Text shown in the successfulness chip if successful entities are selected."
+    },
+
+    "failureSuccessfulnessChipLabel": "Failure",
+    "@failureSuccessfulnessChipLabel": {
+        "description": "Text shown in the successfulness chip if failed entities are selected."
+    },
+
+    "successfulnessSelectionDialogTitle": "Select Successfulness",
+    "@successfulnessSelectionDialogTitle": {
+        "description": "The title of the successfulness selection dialog."
+    },
+
+    "anyOptionLabel": "Any",
+    "@anyOptionLabel": {
+        "description": "Label of an option representing any filtering parameter."
+    },
+
+    "successOptionLabel": "Success",
+    "@successOptionLabel": {
+        "description": "Label of an option representing success."
+    },
+
+    "failureOptionLabel": "Failure",
+    "@failureOptionLabel": {
+        "description": "Label of an option representing failure."
     }
 }
