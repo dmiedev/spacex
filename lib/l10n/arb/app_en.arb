@@ -3,7 +3,7 @@
 
     "launchesAppBarTitle": "LAUNCHES",
     "@launchesAppBarTitle": {
-        "description": "Text shown in the app bar of the Launches Page."
+        "description": "The title of the app bar of the launches page."
     },
 
     "searchBarHintText": "Search",
@@ -179,5 +179,55 @@
     "failureOptionLabel": "Failure",
     "@failureOptionLabel": {
         "description": "Label of an option representing failure."
+    },
+
+    "launchDetailsAppBarTitle": "LAUNCH DETAILS",
+    "@launchDetailsAppBarTitle": {
+        "description": "Text title of the app bar of the launch details page."
+    },
+
+    "noLaunchDetailsAvailableSectionBody": "No details available.",
+    "@noLaunchDetailsAvailableSectionBody": {
+        "description": "Text shown in the launch details section of the launch details page if there are no details available for a launch."
+    },
+
+    "launchTimeUtcSectionTitle": "LAUNCH TIME (UTC)",
+    "@launchTimeUtcSectionTitle": {
+        "description": "The title of the launch time section of the launch details page."
+    },
+
+    "redditLinksSectionTitle": "JOIN THE DISCUSSION",
+    "@redditLinksSectionTitle": {
+        "description": "The title of the launch reddit links section of the launch details page."
+    },
+
+    "redditLinksSectionBody": "Check out Reddit threads associated with this launch:",
+    "@redditLinksSectionBody": {
+        "description": "The body of the launch reddit links section of the launch details page."
+    },
+
+    "campaignRedditLaunchThread": "Campaign Thread",
+    "@campaignRedditLaunchThread": {
+        "description": "A link label for the campaign Reddit launch thread shown in the bulleted list of the the launch reddit links section of the launch details page."
+    },
+
+    "discussionRedditLaunchThread": "Discussion and Updates Thread",
+    "@discussionRedditLaunchThread": {
+        "description": "A link label for the discussion and updates Reddit launch thread shown in the bulleted list of the the launch reddit links section of the launch details page."
+    },
+
+    "mediaRedditLaunchThread": "Media Thread",
+    "@mediaRedditLaunchThread": {
+        "description": "A link label for the media Reddit launch thread shown in the bulleted list of the the launch reddit links section of the launch details page."
+    },
+
+    "recoveryRedditLaunchThread": "Recovery Thread",
+    "@recoveryRedditLaunchThread": {
+        "description": "A link label for the recovery Reddit launch thread shown in the bulleted list of the the launch reddit links section of the launch details page."
+    },
+
+    "noImagesAvailableImageGalleryMessage": "No images available.",
+    "@noImagesAvailableImageGalleryMessage": {
+        "description": "A message that is shown in the image gallery widget when there are no provided image links."
     }
 }
