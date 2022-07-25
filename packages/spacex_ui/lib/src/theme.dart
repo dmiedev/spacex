@@ -13,6 +13,8 @@ class SpacexAppTheme {
       colorScheme: _colorScheme,
       checkboxTheme: _checkboxTheme,
       textButtonTheme: _textButtonTheme,
+      drawerTheme: _drawerTheme,
+      listTileTheme: _listTileTheme,
     );
   }
 
@@ -44,6 +46,18 @@ class SpacexAppTheme {
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.all(Colors.white),
       ),
+    );
+  }
+
+  static DrawerThemeData get _drawerTheme {
+    return const DrawerThemeData(
+      backgroundColor: Colors.black,
+    );
+  }
+
+  static ListTileThemeData get _listTileTheme {
+    return const ListTileThemeData(
+      selectedColor: Colors.grey,
     );
   }
 }

@@ -86,63 +86,61 @@ class _LaunchViewState extends State<_LaunchView> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return Scaffold(
-      appBar: SpacexAppBar(title: l10n.launchesAppBarTitle),
-      body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return <Widget>[
-            SliverOverlapAbsorber(
-              handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              sliver: SliverAppBar(
-                toolbarHeight: 110,
-                centerTitle: true,
-                floating: true,
-                snap: true,
-                forceElevated: innerBoxIsScrolled,
-                title: BlocListener<LaunchFilteringBloc, LaunchFilteringState>(
-                  listenWhen: (previous, current) =>
-                      previous.allRockets == current.allRockets,
-                  listener: _handleLaunchFilteringStateChange,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SearchBar(
-                        controller: _searchBarController,
-                        hintText: l10n.searchBarHintText,
-                        onSubmitted: (text) =>
-                            _handleSearchBarSubmit(context, text),
-                      ),
-                      const SizedBox(
-                        height: 50,
-                        child: LaunchFilteringChips(),
-                      ),
-                    ],
-                  ),
+    return NestedScrollView(
+      headerSliverBuilder: (context, innerBoxIsScrolled) {
+        return <Widget>[
+          SliverOverlapAbsorber(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+            sliver: SliverAppBar(
+              primary: false,
+              automaticallyImplyLeading: false,
+              toolbarHeight: 110,
+              centerTitle: true,
+              floating: true,
+              snap: true,
+              forceElevated: innerBoxIsScrolled,
+              title: BlocListener<LaunchFilteringBloc, LaunchFilteringState>(
+                listenWhen: (previous, current) =>
+                    previous.allRockets == current.allRockets,
+                listener: _handleLaunchFilteringStateChange,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SearchBar(
+                      controller: _searchBarController,
+                      hintText: l10n.searchBarHintText,
+                      onSubmitted: (text) =>
+                          _handleSearchBarSubmit(context, text),
+                    ),
+                    const SizedBox(
+                      height: 50,
+                      child: LaunchFilteringChips(),
+                    ),
+                  ],
                 ),
               ),
-            )
-          ];
+            ),
+          )
+        ];
+      },
+      body: Builder(
+        builder: (context) {
+          final primaryController = PrimaryScrollController.of(context)!;
+          return CustomScrollView(
+            slivers: <Widget>[
+              SliverOverlapInjector(
+                handle:
+                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              ),
+              LaunchGrid(
+                controller: primaryController,
+                onNextPageRequest: _sendNextLaunchPageRequest,
+                onFirstPageErrorRetryButtonPressed: _sendNextLaunchPageRequest,
+                onNextPageErrorRetryButtonPressed: _sendNextLaunchPageRequest,
+              ),
+            ],
+          );
         },
-        body: Builder(
-          builder: (context) {
-            final primaryController = PrimaryScrollController.of(context)!;
-            return CustomScrollView(
-              slivers: <Widget>[
-                SliverOverlapInjector(
-                  handle:
-                      NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-                ),
-                LaunchGrid(
-                  controller: primaryController,
-                  onNextPageRequest: _sendNextLaunchPageRequest,
-                  onFirstPageErrorRetryButtonPressed:
-                      _sendNextLaunchPageRequest,
-                  onNextPageErrorRetryButtonPressed: _sendNextLaunchPageRequest,
-                ),
-              ],
-            );
-          },
-        ),
       ),
     );
   }
