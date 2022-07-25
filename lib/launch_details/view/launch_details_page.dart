@@ -6,6 +6,7 @@ import 'package:spacex/launch_details/bloc/bloc.dart';
 import 'package:spacex/launch_details/widgets/widgets.dart';
 import 'package:spacex_api/spacex_api.dart';
 import 'package:spacex_ui/spacex_ui.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 /// A page that displays launch-related details.
 class LaunchDetailsPage extends StatelessWidget {
@@ -107,22 +108,22 @@ class _LaunchDetailsView extends StatelessWidget {
                     if (redditLinks?.campaign != null)
                       DetailsSectionBullet(
                         label: l10n.campaignRedditLaunchThread,
-                        onTap: () {},
+                        onTap: () => _handleLinkTap(redditLinks!.campaign!),
                       ),
                     if (redditLinks?.launch != null)
                       DetailsSectionBullet(
                         label: l10n.discussionRedditLaunchThread,
-                        onTap: () {},
+                        onTap: () => _handleLinkTap(redditLinks!.launch!),
                       ),
                     if (redditLinks?.media != null)
                       DetailsSectionBullet(
                         label: l10n.mediaRedditLaunchThread,
-                        onTap: () {},
+                        onTap: () => _handleLinkTap(redditLinks!.media!),
                       ),
                     if (redditLinks?.recovery != null)
                       DetailsSectionBullet(
                         label: l10n.recoveryRedditLaunchThread,
-                        onTap: () {},
+                        onTap: () => _handleLinkTap(redditLinks!.recovery!),
                       ),
                   ],
                 ),
@@ -143,5 +144,12 @@ class _LaunchDetailsView extends StatelessWidget {
       time += '\n${DateFormat.jm().format(date)}';
     }
     return time;
+  }
+
+  void _handleLinkTap(String link) {
+    final url = Uri.tryParse(link);
+    if (url != null) {
+      launchUrl(url);
+    }
   }
 }
