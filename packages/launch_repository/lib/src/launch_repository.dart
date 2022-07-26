@@ -16,21 +16,23 @@ class LaunchRepository {
   /// Throws a [LaunchFetchingException] if fetching fails.
   Future<List<Launch>> fetchLaunches({
     required int amount,
-    required int listNumber,
+    required int pageNumber,
     List<FilteringOption> filtering = const [],
     SortingOption? sorting,
-    String? searchedText,
+    String? searchedPhrase,
   }) async {
     final filters = filtering.map((option) => option.toFilter()).toList();
-    if (searchedText != null) {
-      filters.add(Filter.text(TextFilterParameters(search: searchedText)));
+    if (searchedPhrase != null) {
+      filters.add(
+        Filter.text(TextFilterParameters(search: '"$searchedPhrase"')),
+      );
     }
     try {
       final page = await _spacexApiClient.queryLaunches(
         filter: filters.isNotEmpty ? Filter.and(filters) : const Filter.empty(),
         options: PaginationOptions(
           limit: amount,
-          page: listNumber,
+          page: pageNumber,
           sort: sorting != null
               ? {sorting.feature.toFieldName(): sorting.order}
               : null,

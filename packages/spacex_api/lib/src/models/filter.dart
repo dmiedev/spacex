@@ -287,7 +287,7 @@ class TextFilterParameters extends Equatable {
   /// Most punctuation in the string is treated as delimiters.
   ///
   /// To match on a phrase, as opposed to individual terms, consider enclosing
-  /// the phrase in escaped double quotes (`\"`).
+  /// the phrase in double quotes (`"`).
   ///
   /// Prefixing a word with a hyphen-minus (`-`) negates a word.
   @JsonKey(name: r'$search')

@@ -78,7 +78,7 @@ void main() {
 
       test('returns correct result if there is no exception', () {
         expect(
-          repository.fetchLaunches(amount: 22, listNumber: 33),
+          repository.fetchLaunches(amount: 22, pageNumber: 33),
           completion(equals(launchPage.docs)),
         );
       });
@@ -91,14 +91,14 @@ void main() {
           ),
         ).thenThrow(Exception());
         expect(
-          repository.fetchLaunches(amount: 10, listNumber: 1),
+          repository.fetchLaunches(amount: 10, pageNumber: 1),
           throwsA(isA<LaunchFetchingException>()),
         );
       });
 
       group('makes correct request -', () {
         test('simple fetching', () {
-          repository.fetchLaunches(amount: 22, listNumber: 33);
+          repository.fetchLaunches(amount: 22, pageNumber: 33);
           verify(
             () => mockApiClient.queryLaunches(
               filter: any(named: 'filter', that: equals(const Filter.empty())),
@@ -113,7 +113,7 @@ void main() {
         test('with sorting', () {
           repository.fetchLaunches(
             amount: 22,
-            listNumber: 33,
+            pageNumber: 33,
             sorting: const SortingOption(
               feature: LaunchFeature.date,
               order: SortOrder.ascending,
@@ -154,7 +154,7 @@ void main() {
           );
           repository.fetchLaunches(
             amount: 22,
-            listNumber: 33,
+            pageNumber: 33,
             filtering: [option1, option2, option3],
           );
           verify(
@@ -177,15 +177,15 @@ void main() {
           ).called(1);
         });
 
-        test('with text search', () {
+        test('with phrase search', () {
           const option = FilteringOption.value(
             feature: LaunchFeature.isUpcoming,
             value: true,
           );
           repository.fetchLaunches(
             amount: 22,
-            listNumber: 33,
-            searchedText: 'abc',
+            pageNumber: 33,
+            searchedPhrase: 'abc',
             filtering: [option],
           );
           verify(
@@ -195,7 +195,7 @@ void main() {
                 that: equals(
                   Filter.and([
                     option.toFilter(),
-                    Filter.text(const TextFilterParameters(search: 'abc')),
+                    Filter.text(const TextFilterParameters(search: '"abc"')),
                   ]),
                 ),
               ),

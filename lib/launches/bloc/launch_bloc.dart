@@ -29,8 +29,8 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
     try {
       final launches = await _launchRepository.fetchLaunches(
         amount: _amountPerPage,
-        listNumber: event.pageNumber,
-        searchedText:
+        pageNumber: event.pageNumber,
+        searchedPhrase:
             event.searchedText != null && event.searchedText!.isNotEmpty
                 ? event.searchedText
                 : null,
