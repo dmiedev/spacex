@@ -12,6 +12,7 @@ class SpacexApiClient {
   }) : _httpClient = httpClient ?? http.Client();
 
   static const _authority = 'api.spacexdata.com';
+  static const _timeout = Duration(seconds: 15);
 
   final http.Client _httpClient;
 
@@ -22,7 +23,18 @@ class SpacexApiClient {
     PaginationOptions options = const PaginationOptions(),
   }) {
     final url = Uri.https(_authority, '/v5/launches/query');
-    return _query<Launch>(url, filter, options);
+    return _query<Launch>(
+      url: url,
+      filter: filter,
+      options: options.select != null
+          ? options.copyWith(
+              select: () => {
+                ...options.select!,
+                PageUniqueDocumentFields.launch,
+              }.toList(),
+            )
+          : options,
+    );
   }
 
   /// Queries SpaceX rockets using the specified [filter] and pagination
@@ -32,7 +44,18 @@ class SpacexApiClient {
     PaginationOptions options = const PaginationOptions(),
   }) {
     final url = Uri.https(_authority, '/v4/rockets/query');
-    return _query<Rocket>(url, filter, options);
+    return _query<Rocket>(
+      url: url,
+      filter: filter,
+      options: options.select != null
+          ? options.copyWith(
+              select: () => {
+                ...options.select!,
+                PageUniqueDocumentFields.rocket,
+              }.toList(),
+            )
+          : options,
+    );
   }
 
   /// Fetches all SpaceX rockets.
@@ -59,11 +82,11 @@ class SpacexApiClient {
     }
   }
 
-  Future<Page<T>> _query<T>(
-    Uri url,
-    Filter filter,
-    PaginationOptions options,
-  ) async {
+  Future<Page<T>> _query<T>({
+    required Uri url,
+    required Filter filter,
+    required PaginationOptions options,
+  }) async {
     final requestBody = {'query': filter, 'options': options};
     final json = await _post<Map<String, dynamic>>(url, requestBody);
     try {
@@ -92,7 +115,7 @@ class SpacexApiClient {
   ) async {
     http.Response response;
     try {
-      response = await sendCallback();
+      response = await sendCallback().timeout(_timeout);
     } on Exception {
       throw HttpException();
     }

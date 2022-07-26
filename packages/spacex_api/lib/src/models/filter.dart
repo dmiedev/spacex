@@ -253,7 +253,9 @@ class Filter extends Equatable {
       final parameters = value as TextFilterParameters;
       json[operator!] = parameters.toJson();
     } else if (operator != null) {
-      json[field!] = {operator: value};
+      json[field!] = value is DateTime
+          ? {operator: (value as DateTime).toIso8601String()}
+          : {operator: value};
     } else if (field != null) {
       json[field!] = value;
     } else if (value is Map<String, dynamic>) {

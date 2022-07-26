@@ -263,7 +263,15 @@ void main() {
       test('makes correct request', () {
         final filter = Filter.equal('country', 'USA');
         const options = PaginationOptions(select: ['name'], offset: 2, page: 3);
-        final requestBody = {'query': filter, 'options': options};
+        final requestBody = {
+          'query': filter,
+          'options': options.copyWith(
+            select: () => [
+              'name',
+              PageUniqueDocumentFields.rocket,
+            ],
+          ),
+        };
         when(
           () => mockHttpClient.post(
             queryRocketsUrl,
@@ -377,7 +385,15 @@ void main() {
       test('makes correct request', () {
         final filter = Filter.equal('name', 'CR-1');
         const options = PaginationOptions(select: ['success'], offset: 2);
-        final requestBody = {'query': filter, 'options': options};
+        final requestBody = {
+          'query': filter,
+          'options': options.copyWith(
+            select: () => [
+              'success',
+              PageUniqueDocumentFields.launch,
+            ],
+          ),
+        };
         when(
           () => mockHttpClient.post(
             queryLaunchesUrl,
