@@ -31,8 +31,10 @@ enum LaunchSuccessfulness {
   failure
 }
 
+/// A collection of filters used to match rocket launches.
 @HiveType(typeId: 2)
 class LaunchFilters extends Equatable {
+  /// Creates a collection of filters used to match rocket launches.
   const LaunchFilters({
     this.time,
     this.fromDate,
@@ -42,21 +44,27 @@ class LaunchFilters extends Equatable {
     this.rocketIds,
   });
 
+  /// Whether launches should be past or upcoming.
   @HiveField(0)
   final LaunchTime? time;
 
+  /// The date after which launches should be.
   @HiveField(1)
   final DateTime? fromDate;
 
+  /// The date before which launches should be.
   @HiveField(2)
   final DateTime? toDate;
 
+  /// The flight number launches should have.
   @HiveField(3)
   final int? flightNumber;
 
+  /// The successfulness launches should have.
   @HiveField(4)
   final LaunchSuccessfulness? successfulness;
 
+  /// IDs of rockets launches should relate to.
   @HiveField(5)
   final List<int>? rocketIds;
 
