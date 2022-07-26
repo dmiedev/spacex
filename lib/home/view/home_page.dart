@@ -5,7 +5,9 @@ import 'package:spacex/home/widgets/widgets.dart';
 import 'package:spacex/l10n/l10n.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 
+/// The main page of the app where page navigation takes place.
 class HomePage extends StatelessWidget {
+  /// Creates the home page.
   const HomePage({super.key});
 
   @override

@@ -7,7 +7,11 @@ import 'package:spacex/rockets/bloc/bloc.dart';
 import 'package:spacex_api/spacex_api.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 
+/// A page that contains a [TabBarView] with information about different
+/// rockets.
 class RocketPage extends StatelessWidget {
+  /// A page that contains a [TabBarView] with information about different
+  /// rockets.
   const RocketPage({super.key});
 
   /// Returns a [MaterialPageRoute] that contains this page.

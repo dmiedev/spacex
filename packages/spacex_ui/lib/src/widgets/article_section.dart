@@ -11,14 +11,13 @@ class ArticleSection extends StatelessWidget {
     this.bulletedList,
   });
 
-  /// The title of this article.
+  /// The title of this section.
   final String? title;
 
-  /// The main body of this article.
+  /// The main body of this section.
   final String? body;
 
-  /// A bulleted list of additional links or information displayed under the
-  /// [body].
+  /// A bulleted list of additional links or information displayed under [body].
   final List<DetailsSectionBullet>? bulletedList;
 
   @override

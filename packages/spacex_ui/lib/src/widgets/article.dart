@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:spacex_ui/src/widgets/widgets.dart';
 
+/// A scrollable widget that displays information divided into sections.
 class Article extends StatelessWidget {
+  /// Creates a scrollable widget that displays information divided into
+  /// sections.
   const Article({
     super.key,
     this.title,
@@ -12,11 +15,26 @@ class Article extends StatelessWidget {
     this.controller,
   });
 
+  /// The title of this article.
   final String? title;
+
+  /// The subtitle of this article that is displayed in a smaller font above
+  /// [title].
   final String? subtitle;
+
+  /// Longer text displayed under [title].
   final ArticleSection? description;
+
+  /// A list of URLs to images that are displayed in a [ImageGallery] above all
+  /// content.
   final List<String>? images;
+
+  /// Other information that is divided into sections and displayed under
+  /// [description].
   final List<ArticleSection>? sections;
+
+  /// An object that can be used to control the position to which this article
+  /// is scrolled.
   final ScrollController? controller;
 
   @override
