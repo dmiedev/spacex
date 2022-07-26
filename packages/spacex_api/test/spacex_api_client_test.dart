@@ -416,8 +416,6 @@ void main() {
         ).called(1);
       });
 
-      test('includes unique field when select is used', () {});
-
       test(
         'throws an HttpException when an exception '
         'from http.Client is thrown',
