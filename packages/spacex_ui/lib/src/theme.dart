@@ -15,6 +15,7 @@ class SpacexAppTheme {
       textButtonTheme: _textButtonTheme,
       drawerTheme: _drawerTheme,
       listTileTheme: _listTileTheme,
+      tabBarTheme: _tabBarTheme,
     );
   }
 
@@ -57,7 +58,22 @@ class SpacexAppTheme {
 
   static ListTileThemeData get _listTileTheme {
     return const ListTileThemeData(
-      selectedColor: Colors.grey,
+      iconColor: Colors.white70,
+      textColor: Colors.white70,
+      selectedColor: Colors.white,
+    );
+  }
+
+  static TabBarTheme get _tabBarTheme {
+    final textStyle = GoogleFonts.robotoCondensed();
+    return TabBarTheme(
+      labelStyle: textStyle,
+      unselectedLabelStyle: textStyle,
+      indicator: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Colors.white, width: 2),
+        ),
+      ),
     );
   }
 }
