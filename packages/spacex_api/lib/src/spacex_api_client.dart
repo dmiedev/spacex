@@ -12,6 +12,7 @@ class SpacexApiClient {
   }) : _httpClient = httpClient ?? http.Client();
 
   static const _authority = 'api.spacexdata.com';
+  static const _timeout = Duration(seconds: 15);
 
   final http.Client _httpClient;
 
@@ -92,7 +93,7 @@ class SpacexApiClient {
   ) async {
     http.Response response;
     try {
-      response = await sendCallback();
+      response = await sendCallback().timeout(_timeout);
     } on Exception {
       throw HttpException();
     }
