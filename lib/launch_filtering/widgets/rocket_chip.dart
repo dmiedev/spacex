@@ -95,7 +95,12 @@ class _RocketSelectionDialogState extends State<_RocketSelectionDialog> {
             previous.allRockets != current.allRockets,
         builder: (context, state) {
           if (state.allRockets == null) {
-            return const Center(child: CircularProgressIndicator());
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              children: const [
+                Center(child: CircularProgressIndicator()),
+              ],
+            );
           } else if (state.allRockets!.isEmpty) {
             return TextMessage(
               text: l10n.loadingErrorMessageTextShort,
