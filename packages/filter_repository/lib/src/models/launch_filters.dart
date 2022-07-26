@@ -66,7 +66,7 @@ class LaunchFilters extends Equatable {
 
   /// IDs of rockets launches should relate to.
   @HiveField(5)
-  final List<int>? rocketIds;
+  final List<String>? rocketIds;
 
   @override
   List<Object?> get props => [

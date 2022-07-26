@@ -22,7 +22,7 @@ class LaunchFiltersAdapter extends TypeAdapter<LaunchFilters> {
       toDate: fields[2] as DateTime?,
       flightNumber: fields[3] as int?,
       successfulness: fields[4] as LaunchSuccessfulness?,
-      rocketIds: (fields[5] as List?)?.cast<int>(),
+      rocketIds: (fields[5] as List?)?.cast<String>(),
     );
   }
 
