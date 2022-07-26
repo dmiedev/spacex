@@ -1,5 +1,6 @@
+import 'package:filter_repository/src/exceptions.dart';
+import 'package:filter_repository/src/models/launch_filters.dart';
 import 'package:hive/hive.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 /// A repository that manages the filter domain.
 class FilterRepository {
@@ -7,12 +8,30 @@ class FilterRepository {
   FilterRepository();
 
   static const _filtersBoxName = 'filters';
-  static const _launchFiltersName = 'launch';
+  static const _launchFiltersKey = 'launch';
 
   late final LazyBox _box;
 
-  // where to put this?
   Future<void> initialize() async {
+    Hive.registerAdapter(LaunchFiltersAdapter());
+
     _box = await Hive.openLazyBox(_filtersBoxName);
+  }
+
+  Future<void> saveLaunchFilters(LaunchFilters filters) {
+    try {
+      return _box.put(_launchFiltersKey, filters);
+    } on Exception {
+      throw FilterSaveLoadException();
+    }
+  }
+
+  Future<LaunchFilters?> retrieveLaunchFilters() async {
+    try {
+      final filters = await _box.get(_launchFiltersKey);
+      return filters as LaunchFilters?;
+    } on Exception {
+      throw FilterSaveLoadException();
+    }
   }
 }
