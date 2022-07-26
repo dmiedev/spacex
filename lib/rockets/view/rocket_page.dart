@@ -60,7 +60,7 @@ class _RocketView extends StatelessWidget {
             ],
           );
         }
-        final tabs = _getTabs(state as RocketLoadSuccess);
+        final tabs = _buildTabs(context, state as RocketLoadSuccess);
         return DefaultTabController(
           length: tabs.length,
           child: Scaffold(
@@ -82,13 +82,13 @@ class _RocketView extends StatelessWidget {
     );
   }
 
-  List<Tab> _getTabs(RocketLoadSuccess state) {
+  List<Tab> _buildTabs(BuildContext context, RocketLoadSuccess state) {
     return state.rockets
         .map(
           (rocket) => Tab(
             text: rocket.name != null
                 ? rocket.name!.toUpperCase()
-                : 'UNNAMED ROCKET',
+                : context.l10n.unnamedRocketTitle,
           ),
         )
         .toList();
@@ -99,60 +99,68 @@ class _RocketView extends StatelessWidget {
   }
 
   Widget _buildRocketArticle(BuildContext context, Rocket rocket) {
+    final l10n = context.l10n;
     return Article(
       // Interactive Scrollbar (such as in multiple ListViews) requires these
       // ListViews to have unique ScrollControllers.
       controller: ScrollController(),
       images: rocket.flickrImages ?? [],
-      title: rocket.name != null ? rocket.name!.toUpperCase() : null,
+      title: rocket.name != null
+          ? rocket.name!.toUpperCase()
+          : l10n.unnamedRocketTitle,
       sections: [
         if (rocket.description != null)
           ArticleSection(body: rocket.description),
         if (rocket.active != null)
           ArticleSection(
-            title: 'ACTIVE',
-            body: rocket.active! ? 'Yes' : 'No',
+            title: l10n.activeRocketSectionTitle,
+            body: rocket.active!
+                ? l10n.activeRocketSectionBodyYes
+                : l10n.activeRocketSectionBodyNo,
           ),
         if (rocket.stages != null)
           ArticleSection(
-            title: 'STAGES',
+            title: l10n.stagesRocketSectionTitle,
             body: '${rocket.stages}',
           ),
         if (rocket.boosters != null)
           ArticleSection(
-            title: 'BOOSTERS',
+            title: l10n.boostersRocketSectionTitle,
             body: '${rocket.boosters}',
           ),
         if (rocket.costPerLaunch != null)
           ArticleSection(
-            title: 'COST PER LAUNCH',
-            body: 'US \$${rocket.costPerLaunch}',
+            title: l10n.costPerLaunchRocketSectionTitle,
+            body: l10n.costPerLaunchRocketSectionBody(rocket.costPerLaunch!),
           ),
         if (rocket.successRatePct != null)
           ArticleSection(
-            title: 'SUCCESS RATE',
-            body: '${rocket.successRatePct}%',
+            title: l10n.successRateRocketSectionTitle,
+            body: l10n.successRateRocketSectionBody(rocket.successRatePct!),
           ),
         if (rocket.firstFlight != null && rocket.country != null)
           ArticleSection(
-            title: 'FIRST FLIGHT',
-            body: '${DateFormat.yMMMMd().format(rocket.firstFlight!)}\n'
-                '${rocket.country}',
+            title: l10n.firstFlightRocketSectionTitle,
+            body: l10n.firstFlightRocketSectionBody(
+              DateFormat.yMMMMd().format(rocket.firstFlight!),
+              rocket.country!,
+            ),
           ),
         if (rocket.height?.meters != null)
           ArticleSection(
-            title: 'HEIGHT',
-            body: '${rocket.height!.meters} m',
+            title: l10n.heightRocketSectionTitle,
+            body: l10n.heightRocketSectionBodyMeters(rocket.height!.meters!),
           ),
         if (rocket.diameter?.meters != null)
           ArticleSection(
-            title: 'DIAMETER',
-            body: '${rocket.diameter!.meters} m',
+            title: l10n.diameterRocketSectionTitle,
+            body:
+                l10n.diameterRocketSectionBodyMeters(rocket.diameter!.meters!),
           ),
         if (rocket.mass?.kg != null)
           ArticleSection(
-            title: 'MASS',
-            body: '${rocket.mass?.kg} kg',
+            title: l10n.massRocketSectionTitle,
+            body: l10n.massRocketSectionBodyKilograms(rocket.mass!.kg!),
           ),
       ],
     );

@@ -229,5 +229,137 @@
     "noImagesAvailableImageGalleryMessage": "No images available.",
     "@noImagesAvailableImageGalleryMessage": {
         "description": "A message that is shown in the image gallery widget when there are no provided image links."
+    },
+
+    "unnamedRocketTitle": "UNNAMED ROCKED",
+    "@unnamedRocketTitle": {
+        "description": "Text shown in the title of the rocket page if it has no name."
+    },
+
+    "activeRocketSectionTitle": "ACTIVE",
+    "@activeRocketSectionTitle": {
+        "description": "The title of the activeness section of the rocket page."
+    },
+
+    "activeRocketSectionBodyYes": "Yes",
+    "@activeRocketSectionBodyYes": {
+        "description": "The body of the activeness section of the rocket page if the rocket is active."
+    },
+
+    "activeRocketSectionBodyNo": "No",
+    "@activeRocketSectionBodyNo": {
+        "description": "The body of the activeness section of the rocket page if the rocket is not active."
+    },
+
+    "stagesRocketSectionTitle": "STAGES",
+    "@stagesRocketSectionTitle": {
+        "description": "The title of the stages section of the rocket page."
+    },
+
+    "boostersRocketSectionTitle": "BOOSTERS",
+    "@boostersRocketSectionTitle": {
+        "description": "The title of the boosters section of the rocket page."
+    },
+
+    "costPerLaunchRocketSectionTitle": "COST PER LAUNCH",
+    "@costPerLaunchRocketSectionTitle": {
+        "description": "The title of the cost per launch section of the rocket page."
+    },
+
+    "costPerLaunchRocketSectionBody": "US ${cost}", 
+    "@costPerLaunchRocketSectionBody": {
+        "description": "The body of the cost per launch section of the rocket page.",
+        "placeholders": {
+            "cost": {
+                "type": "int",
+                "example": "7000000"
+            }
+        }
+    },
+
+    "successRateRocketSectionTitle": "SUCCESS RATE",
+    "@successRateRocketSectionTitle": {
+        "description": "The title of the success rate section of the rocket page."
+    },
+
+    "successRateRocketSectionBody": "{percent}%", 
+    "@successRateRocketSectionBody": {
+        "description": "The body of the success rate section of the rocket page.",
+        "placeholders": {
+            "percent": {
+                "type": "int",
+                "example": "95"
+            }
+        }
+    },
+
+    "firstFlightRocketSectionTitle": "FIRST FLIGHT",
+    "@firstFlightRocketSectionTitle": {
+        "description": "The title of the first flight section of the rocket page."
+    },
+
+    "firstFlightRocketSectionBody": "{date}\n{country}",
+    "@firstFlightRocketSectionBody": {
+        "description": "The body of the first flight section of the rocket page.",
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "July 26, 2022"
+            },
+            "country": {
+                "type": "String",
+                "example": "Unites States of America"
+            }
+        }
+    },
+
+    "heightRocketSectionTitle": "HEIGHT",
+    "@heightRocketSectionTitle": {
+        "description": "The title of the height section of the rocket page."
+    },
+
+    "heightRocketSectionBodyMeters": "{height} m", 
+    "@heightRocketSectionBodyMeters": {
+        "description": "The body of the height section of the rocket page if meters are preferred.",
+        "placeholders": {
+            "height": {
+                "type": "double",
+                "format": "decimalPattern",
+                "example": "25.2"
+            }
+        }
+    },
+
+    "diameterRocketSectionTitle": "DIAMETER",
+    "@diameterRocketSectionTitle": {
+        "description": "The title of the diameter section of the rocket page."
+    },
+
+    "diameterRocketSectionBodyMeters": "{diameter} m", 
+    "@diameterRocketSectionBodyMeters": {
+        "description": "The body of the diameter section of the rocket page if meters are preferred.",
+        "placeholders": {
+            "diameter": {
+                "type": "double",
+                "format": "decimalPattern",
+                "example": "5.3"
+            }
+        }
+    },
+
+    "massRocketSectionTitle": "MASS",
+    "@massRocketSectionTitle": {
+        "description": "The title of the mass section of the rocket page."
+    },
+
+    "massRocketSectionBodyKilograms": "{mass} kg", 
+    "@massRocketSectionBodyKilograms": {
+        "description": "The body of the mass section of the rocket page if kilograms are preferred.",
+        "placeholders": {
+            "mass": {
+                "type": "int",
+                "example": "53489"
+            }
+        }
     }
 }
