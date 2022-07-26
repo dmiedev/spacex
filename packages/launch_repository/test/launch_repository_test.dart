@@ -195,7 +195,7 @@ void main() {
                 that: equals(
                   Filter.and([
                     option.toFilter(),
-                    Filter.text(const TextFilterParameters(search: 'abc')),
+                    Filter.text(const TextFilterParameters(search: '"abc"')),
                   ]),
                 ),
               ),

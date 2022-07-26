@@ -24,7 +24,7 @@ class LaunchRepository {
     final filters = filtering.map((option) => option.toFilter()).toList();
     if (searchedPhrase != null) {
       filters.add(
-        Filter.text(TextFilterParameters(search: searchedPhrase)),
+        Filter.text(TextFilterParameters(search: '"$searchedPhrase"')),
       );
     }
     try {
