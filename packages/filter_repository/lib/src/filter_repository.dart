@@ -1,10 +1,10 @@
 import 'package:filter_repository/src/exceptions.dart';
 import 'package:filter_repository/src/models/launch_filters.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive/hive.dart';
 
 /// A repository that manages the filter domain.
 ///
-/// The [initializeHive] method must be called before using this repository.
+/// `Hive` must be initialized before using this repository.
 class FilterRepository {
   /// Creates a repository that manages the filter domain.
   FilterRepository();
@@ -14,15 +14,8 @@ class FilterRepository {
 
   late final Box<Object> _box;
 
-  /// Initializes the Hive database this repository relies on.
-  ///
-  /// This must be called before using this repository.
-  static Future<void> initializeHive([String? subDir]) {
-    return Hive.initFlutter(subDir);
-  }
-
   /// Initializes this repository and loads all saved filters into memory.
-  Future<void> initialize() async {
+  Future<void> initialize([String? subDir]) async {
     Hive.registerAdapter(LaunchFiltersAdapter());
     _box = await Hive.openBox(_filtersBoxName);
   }
