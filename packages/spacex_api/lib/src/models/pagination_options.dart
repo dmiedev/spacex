@@ -53,6 +53,28 @@ class PaginationOptions extends Equatable {
   /// Field names must be specified in `snake_case`.
   final List<String>? populate;
 
+  /// Creates a clone of this [PaginationOptions] instance with provided
+  /// parameters overridden.
+  PaginationOptions copyWith({
+    List<String>? Function()? select,
+    Map<String, SortOrder>? Function()? sort,
+    int? Function()? offset,
+    int? Function()? page,
+    int? Function()? limit,
+    bool? Function()? pagination,
+    List<String>? Function()? populate,
+  }) {
+    return PaginationOptions(
+      select: select != null ? select() : this.select,
+      sort: sort != null ? sort() : this.sort,
+      offset: offset != null ? offset() : this.offset,
+      page: page != null ? page() : this.page,
+      limit: limit != null ? limit() : this.limit,
+      pagination: pagination != null ? pagination() : this.pagination,
+      populate: populate != null ? populate() : this.populate,
+    );
+  }
+
   /// Converts a given JSON [Map] into a [PaginationOptions] instance.
   static PaginationOptions fromJson(Map<String, dynamic> json) {
     return _$PaginationOptionsFromJson(json);

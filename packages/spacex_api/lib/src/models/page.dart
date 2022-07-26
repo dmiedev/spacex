@@ -98,15 +98,24 @@ class Page<T> extends Equatable {
   String toString() => 'Page<${T.runtimeType}>(#$page, $limit documents)';
 }
 
+/// A collection of field names that are unique to each data model.
+class PageUniqueDocumentFields {
+  /// A name of the field that is unique to the [Launch] model.
+  static const launch = 'flight_number';
+
+  /// A name of the field that is unique to the [Rocket] model.
+  static const rocket = 'success_rate_pct';
+}
+
 class _PageDocsJsonConverter<T>
     implements JsonConverter<T, Map<String, dynamic>> {
   const _PageDocsJsonConverter();
 
   @override
   T fromJson(Map<String, dynamic> json) {
-    if (json.containsKey('flight_number')) {
+    if (json.containsKey(PageUniqueDocumentFields.launch)) {
       return Launch.fromJson(json) as T;
-    } else if (json.containsKey('success_rate_pct')) {
+    } else if (json.containsKey(PageUniqueDocumentFields.rocket)) {
       return Rocket.fromJson(json) as T;
     }
     throw UnsupportedError('Conversion of this type is not supported.');
