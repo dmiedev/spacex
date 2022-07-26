@@ -54,6 +54,7 @@ class LaunchFilteringState extends Equatable {
           dateInterval: null,
           flightNumber: -1,
           successfulness: LaunchSuccessfulness.any,
+          allRockets: null,
           rockets: const [],
         );
 

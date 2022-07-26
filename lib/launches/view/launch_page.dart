@@ -101,7 +101,8 @@ class _LaunchViewState extends State<_LaunchView> {
               forceElevated: innerBoxIsScrolled,
               title: BlocListener<LaunchFilteringBloc, LaunchFilteringState>(
                 listenWhen: (previous, current) =>
-                    previous.allRockets == current.allRockets,
+                    previous.allRockets == current.allRockets &&
+                    previous != current,
                 listener: _handleLaunchFilteringStateChange,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
