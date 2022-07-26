@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:spacex/l10n/l10n.dart';
 import 'package:spacex/launch_details/bloc/bloc.dart';
-import 'package:spacex/launch_details/widgets/widgets.dart';
 import 'package:spacex_api/spacex_api.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -54,43 +53,17 @@ class _LaunchDetailsView extends StatelessWidget {
           final launch = state.launch;
           final images = launch.links?.flickr?.original;
           final redditLinks = launch.links?.reddit;
-          return ListView(
-            children: [
-              Container(
-                padding: const EdgeInsets.only(bottom: 10),
-                height: 400,
-                child: ImageGallery(imageUrls: images ?? []),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (launch.flightNumber != null)
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 5),
-                        child: Text(
-                          '#${launch.flightNumber}',
-                          style: const TextStyle(fontSize: 26),
-                        ),
-                      ),
-                    if (launch.name != null)
-                      Text(
-                        launch.name!.toUpperCase(),
-                        style: const TextStyle(
-                          fontSize: 40,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                  ],
-                ),
-              ),
-              DetailsSection(
-                body:
-                    launch.details ?? l10n.noLaunchDetailsAvailableSectionBody,
-              ),
+          return Article(
+            images: images ?? [],
+            subtitle:
+                launch.flightNumber != null ? '#${launch.flightNumber}' : null,
+            title: launch.name != null ? launch.name!.toUpperCase() : null,
+            description: ArticleSection(
+              body: launch.details ?? l10n.noLaunchDetailsAvailableSectionBody,
+            ),
+            sections: [
               if (launch.dateUtc != null)
-                DetailsSection(
+                ArticleSection(
                   title: l10n.launchTimeUtcSectionTitle,
                   body: _getLaunchTimeString(
                     date: launch.dateUtc!,
@@ -101,7 +74,7 @@ class _LaunchDetailsView extends StatelessWidget {
                   redditLinks?.launch != null ||
                   redditLinks?.media != null ||
                   redditLinks?.recovery != null)
-                DetailsSection(
+                ArticleSection(
                   title: l10n.redditLinksSectionTitle,
                   body: l10n.redditLinksSectionBody,
                   bulletedList: [
@@ -127,7 +100,6 @@ class _LaunchDetailsView extends StatelessWidget {
                       ),
                   ],
                 ),
-              const SizedBox(height: 75),
             ],
           );
         },

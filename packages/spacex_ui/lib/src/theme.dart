@@ -13,6 +13,9 @@ class SpacexAppTheme {
       colorScheme: _colorScheme,
       checkboxTheme: _checkboxTheme,
       textButtonTheme: _textButtonTheme,
+      drawerTheme: _drawerTheme,
+      listTileTheme: _listTileTheme,
+      tabBarTheme: _tabBarTheme,
     );
   }
 
@@ -43,6 +46,33 @@ class SpacexAppTheme {
     return TextButtonThemeData(
       style: ButtonStyle(
         foregroundColor: MaterialStateProperty.all(Colors.white),
+      ),
+    );
+  }
+
+  static DrawerThemeData get _drawerTheme {
+    return const DrawerThemeData(
+      backgroundColor: Colors.black,
+    );
+  }
+
+  static ListTileThemeData get _listTileTheme {
+    return const ListTileThemeData(
+      iconColor: Colors.white70,
+      textColor: Colors.white70,
+      selectedColor: Colors.white,
+    );
+  }
+
+  static TabBarTheme get _tabBarTheme {
+    final textStyle = GoogleFonts.robotoCondensed();
+    return TabBarTheme(
+      labelStyle: textStyle,
+      unselectedLabelStyle: textStyle,
+      indicator: const BoxDecoration(
+        border: Border(
+          bottom: BorderSide(color: Colors.white, width: 2),
+        ),
       ),
     );
   }

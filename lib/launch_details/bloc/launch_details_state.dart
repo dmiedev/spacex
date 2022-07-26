@@ -11,5 +11,5 @@ class LaunchDetailsState extends Equatable {
   final Launch launch;
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [launch];
 }

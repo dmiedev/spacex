@@ -5,8 +5,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:launch_repository/launch_repository.dart';
 import 'package:rocket_repository/rocket_repository.dart';
+import 'package:spacex/home/home.dart';
 import 'package:spacex/l10n/l10n.dart';
-import 'package:spacex/launches/view/launch_page.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 
 /// The SpaceX app.
@@ -49,7 +49,7 @@ class _AppView extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
       ],
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const LaunchPage(),
+      home: const HomePage(),
       scrollBehavior: _AppScrollBehavior(),
     );
   }
