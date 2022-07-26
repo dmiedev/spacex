@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:spacex/l10n/l10n.dart';
 
-/// A scrollable row of [Image]s.
+/// A widget that displays a scrollable row of provided [Image]s or just the
+/// first [Image] if the screen is not really wide.
 class ImageGallery extends StatelessWidget {
-  /// Creates a scrollable row of [Image]s.
+  /// Creates an adaptive [Image] gallery.
   const ImageGallery({
     super.key,
     required this.imageUrls,
@@ -14,14 +14,13 @@ class ImageGallery extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return LayoutBuilder(
       builder: (context, constraints) {
         if (imageUrls.isEmpty) {
-          return Center(
+          return const Center(
             child: Text(
-              l10n.noImagesAvailableImageGalleryMessage,
-              style: const TextStyle(fontSize: 20),
+              'No images available.',
+              style: TextStyle(fontSize: 20),
             ),
           );
         } else if (constraints.maxWidth < 600) {
@@ -41,6 +40,7 @@ class ImageGallery extends StatelessWidget {
           ).createShader(rect),
           child: Center(
             child: ListView.builder(
+              primary: false,
               shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemCount: imageUrls.length,

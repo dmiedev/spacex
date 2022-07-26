@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:spacex/launch_details/view/launch_details_page.dart';
+import 'package:spacex_ui/src/widgets/widgets.dart';
 
-/// A section of the [LaunchDetailsPage].
-class DetailsSection extends StatelessWidget {
-  /// Creates a section of the [LaunchDetailsPage].
-  const DetailsSection({
+/// A section of an [Article].
+class ArticleSection extends StatelessWidget {
+  /// Creates a section of an [Article].
+  const ArticleSection({
     super.key,
     this.title,
     this.body,
     this.bulletedList,
   });
 
-  /// The title of this section.
+  /// The title of this article.
   final String? title;
 
-  /// The main body of this section.
+  /// The main body of this article.
   final String? body;
 
   /// A bulleted list of additional links or information displayed under the
@@ -57,9 +57,9 @@ class DetailsSection extends StatelessWidget {
   }
 }
 
-/// An item of the [DetailsSection] bulleted list.
+/// An item of an [ArticleSection] bulleted list.
 class DetailsSectionBullet extends StatelessWidget {
-  /// Creates an item of the [DetailsSection] bulleted list.
+  /// Creates an item of an [ArticleSection] bulleted list.
   const DetailsSectionBullet({
     super.key,
     required this.label,
