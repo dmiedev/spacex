@@ -168,6 +168,17 @@ void main() {
         );
       });
 
+      test('simple operator with date', () {
+        final date = DateTime(2017, 9, 7, 17, 30);
+        final filter = Filter.equal('test_field', date);
+        expect(
+          filter.toJson(),
+          {
+            'test_field': {r'$eq': date.toIso8601String()}
+          },
+        );
+      });
+
       test('text operator', () {
         final filter = Filter.text(
           TextFilterParameters(
