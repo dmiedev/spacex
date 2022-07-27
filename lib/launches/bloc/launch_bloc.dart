@@ -1,6 +1,6 @@
-import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:bloc/bloc.dart';
+import 'package:filter_repository/filter_repository.dart';
 import 'package:launch_repository/launch_repository.dart';
-import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex/launches/bloc/bloc.dart';
 
 /// A [Bloc] that manages the launch loading and display feature.

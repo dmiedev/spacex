@@ -1,29 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:filter_repository/filter_repository.dart';
 import 'package:launch_repository/launch_repository.dart';
 import 'package:rocket_repository/rocket_repository.dart';
 import 'package:spacex/launch_filtering/bloc/launch_filtering_bloc.dart';
 import 'package:spacex_api/spacex_api.dart';
-
-/// The time of a launch.
-enum LaunchTime {
-  /// Represents launches that happened in the past.
-  past,
-
-  /// Represents launches that are going to happen in the future.
-  upcoming
-}
-
-/// Launch successfulness.
-enum LaunchSuccessfulness {
-  /// Represents launches with any successfulness.
-  any,
-
-  /// Represents successful launches.
-  success,
-
-  /// Represents failed launches.
-  failure
-}
 
 /// A state of [LaunchFilteringBloc] that contains data about currently selected
 /// launch filtering and sorting options.
@@ -38,7 +18,7 @@ class LaunchFilteringState extends Equatable {
     required this.flightNumber,
     required this.successfulness,
     this.allRockets,
-    required this.rockets,
+    required this.rocketIds,
   });
 
   /// Creates a state of [LaunchFilteringBloc] that contains default options
@@ -55,7 +35,7 @@ class LaunchFilteringState extends Equatable {
           flightNumber: -1,
           successfulness: LaunchSuccessfulness.any,
           allRockets: null,
-          rockets: const [],
+          rocketIds: const [],
         );
 
   /// Text that matches launches whose data contains it.
@@ -77,20 +57,16 @@ class LaunchFilteringState extends Equatable {
   final LaunchSuccessfulness successfulness;
 
   /// Launch rocket options to select from.
+  ///
+  /// If this list is `null`, rockets have not been loaded yet.
+  /// If it is empty, an error occurred while loading them.
   final List<RocketInfo>? allRockets;
 
-  /// The indices of [allRockets] whose launches should be displayed.
-  final List<int> rockets;
+  /// IDs of rockets whose launches should be displayed.
+  final List<String> rocketIds;
 
   /// Whether rocket options are loaded.
   bool get allRocketsAreLoaded => allRockets != null && allRockets!.isNotEmpty;
-
-  /// IDs of selected launch rockets.
-  List<String>? get rocketIds {
-    return allRockets != null
-        ? rockets.map((index) => allRockets![index].id).toList()
-        : null;
-  }
 
   /// Creates a clone of this [LaunchFilteringState] but with provided
   /// parameters overridden.
@@ -102,7 +78,7 @@ class LaunchFilteringState extends Equatable {
     int? flightNumber,
     LaunchSuccessfulness? successfulness,
     List<RocketInfo>? Function()? allRockets,
-    List<int>? rockets,
+    List<String>? rocketIds,
   }) {
     return LaunchFilteringState(
       searchedText: searchedText ?? this.searchedText,
@@ -112,7 +88,7 @@ class LaunchFilteringState extends Equatable {
       flightNumber: flightNumber ?? this.flightNumber,
       successfulness: successfulness ?? this.successfulness,
       allRockets: allRockets != null ? allRockets() : this.allRockets,
-      rockets: rockets ?? this.rockets,
+      rocketIds: rocketIds ?? this.rocketIds,
     );
   }
 
@@ -125,6 +101,6 @@ class LaunchFilteringState extends Equatable {
         flightNumber,
         successfulness,
         allRockets,
-        rockets,
+        rocketIds,
       ];
 }

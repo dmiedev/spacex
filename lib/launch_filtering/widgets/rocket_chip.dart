@@ -14,11 +14,11 @@ class LaunchRocketChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LaunchFilteringBloc, LaunchFilteringState>(
-      buildWhen: (previous, current) => previous.rockets != current.rockets,
+      buildWhen: (previous, current) => previous.rocketIds != current.rocketIds,
       builder: (context, state) => FilteringChip(
         icon: const Icon(Icons.rocket),
-        active: state.rockets.isNotEmpty,
-        label: _getLabel(context, state.allRockets, state.rockets),
+        active: state.rocketIds.isNotEmpty,
+        label: _getLabel(context, state.allRockets, state.rocketIds),
         onPressed: () => _handlePress(context),
       ),
     );
@@ -27,15 +27,13 @@ class LaunchRocketChip extends StatelessWidget {
   String _getLabel(
     BuildContext context,
     List<RocketInfo>? allRockets,
-    List<int> rockets,
+    List<String> rocketIds,
   ) {
     final l10n = context.l10n;
-    if (rockets.isEmpty) {
+    if (rocketIds.isEmpty) {
       return l10n.rocketChipLabel;
-    } else if (rockets.length == 1) {
-      return allRockets![rockets.first].name;
     } else {
-      return '${l10n.rocketChipLabel}: ${rockets.length}';
+      return '${l10n.rocketChipLabel}: ${rocketIds.length}';
     }
   }
 
@@ -65,7 +63,7 @@ class _RocketSelectionDialogState extends State<_RocketSelectionDialog> {
     super.initState();
     final bloc = context.read<LaunchFilteringBloc>();
     if (bloc.state.allRocketsAreLoaded) {
-      _initializeRocketSelection(bloc.state.allRockets!, bloc.state.rockets);
+      _initializeRocketSelection(bloc.state.allRockets!, bloc.state.rocketIds);
     } else {
       bloc.add(LaunchFilteringRocketsRequested());
     }
@@ -73,11 +71,11 @@ class _RocketSelectionDialogState extends State<_RocketSelectionDialog> {
 
   void _initializeRocketSelection(
     List<RocketInfo> rockets,
-    List<int> selectedIndices,
+    List<String> selectedRocketIds,
   ) {
     _rocketSelection = List<bool>.generate(
       rockets.length,
-      selectedIndices.contains,
+      (index) => selectedRocketIds.contains(rockets[index].id),
     );
   }
 
@@ -90,7 +88,7 @@ class _RocketSelectionDialogState extends State<_RocketSelectionDialog> {
         listenWhen: (previous, current) =>
             !previous.allRocketsAreLoaded && current.allRocketsAreLoaded,
         listener: (context, state) =>
-            _initializeRocketSelection(state.allRockets!, state.rockets),
+            _initializeRocketSelection(state.allRockets!, state.rocketIds),
         buildWhen: (previous, current) =>
             previous.allRockets != current.allRockets,
         builder: (context, state) {
@@ -153,16 +151,8 @@ class _RocketSelectionDialogState extends State<_RocketSelectionDialog> {
   }
 
   void _saveAndPop({required bool reset}) {
-    final List<int> selectedIndices;
-    if (reset) {
-      selectedIndices = [];
-    } else {
-      final indices = _rocketSelection.asMap().keys;
-      selectedIndices =
-          indices.where((index) => _rocketSelection[index]).toList();
-    }
     context.read<LaunchFilteringBloc>().add(
-          LaunchFilteringRocketsSelected(rockets: selectedIndices),
+          LaunchFilteringRocketsSelected(rocketSelection: _rocketSelection),
         );
     Navigator.pop(context);
   }

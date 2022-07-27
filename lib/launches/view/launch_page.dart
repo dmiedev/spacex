@@ -1,3 +1,4 @@
+import 'package:filter_repository/filter_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:launch_repository/launch_repository.dart';
@@ -36,6 +37,7 @@ class LaunchPage extends StatelessWidget {
         BlocProvider<LaunchFilteringBloc>(
           create: (context) => LaunchFilteringBloc(
             rocketRepository: context.read<RocketRepository>(),
+            filterRepository: context.read<FilterRepository>(),
           ),
         ),
       ],
