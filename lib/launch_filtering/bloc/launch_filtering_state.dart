@@ -6,10 +6,10 @@ import 'package:spacex/launch_filtering/bloc/launch_filtering_bloc.dart';
 import 'package:spacex_api/spacex_api.dart';
 
 /// A state of [LaunchFilteringBloc] that contains data about currently selected
-/// launch filtering and sorting options.
+/// launch filtering and sorting.
 class LaunchFilteringState extends Equatable {
   /// Creates a state of [LaunchFilteringBloc] that contains data about
-  /// currently selected launch filtering and sorting options.
+  /// currently selected launch filtering and sorting.
   const LaunchFilteringState({
     required this.searchedText,
     required this.sorting,
@@ -21,7 +21,7 @@ class LaunchFilteringState extends Equatable {
     required this.rocketIds,
   });
 
-  /// Creates a state of [LaunchFilteringBloc] that contains default options
+  /// Creates a state of [LaunchFilteringBloc] that contains default selection
   /// and no loaded filtering parameters.
   const LaunchFilteringState.initial()
       : this(
@@ -32,7 +32,7 @@ class LaunchFilteringState extends Equatable {
           ),
           time: LaunchTime.upcoming,
           dateInterval: null,
-          flightNumber: -1,
+          flightNumber: null,
           successfulness: LaunchSuccessfulness.any,
           allRockets: null,
           rocketIds: const [],
@@ -51,7 +51,7 @@ class LaunchFilteringState extends Equatable {
   final DateTimeInterval? dateInterval;
 
   /// The flight number launches should have.
-  final int flightNumber;
+  final int? flightNumber;
 
   /// The successfulness that launches should match.
   final LaunchSuccessfulness successfulness;
@@ -62,11 +62,11 @@ class LaunchFilteringState extends Equatable {
   /// If it is empty, an error occurred while loading them.
   final List<RocketInfo>? allRockets;
 
-  /// IDs of rockets whose launches should be displayed.
-  final List<String> rocketIds;
-
   /// Whether rocket options are loaded.
   bool get allRocketsAreLoaded => allRockets != null && allRockets!.isNotEmpty;
+
+  /// IDs of rockets whose launches should be displayed.
+  final List<String> rocketIds;
 
   /// Creates a clone of this [LaunchFilteringState] but with provided
   /// parameters overridden.
@@ -75,7 +75,7 @@ class LaunchFilteringState extends Equatable {
     SortingOption? sorting,
     LaunchTime? time,
     DateTimeInterval? Function()? dateInterval,
-    int? flightNumber,
+    int? Function()? flightNumber,
     LaunchSuccessfulness? successfulness,
     List<RocketInfo>? Function()? allRockets,
     List<String>? rocketIds,
@@ -85,7 +85,7 @@ class LaunchFilteringState extends Equatable {
       sorting: sorting ?? this.sorting,
       time: time ?? this.time,
       dateInterval: dateInterval != null ? dateInterval() : this.dateInterval,
-      flightNumber: flightNumber ?? this.flightNumber,
+      flightNumber: flightNumber != null ? flightNumber() : this.flightNumber,
       successfulness: successfulness ?? this.successfulness,
       allRockets: allRockets != null ? allRockets() : this.allRockets,
       rocketIds: rocketIds ?? this.rocketIds,

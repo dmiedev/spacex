@@ -18,9 +18,9 @@ class LaunchFlightNumberChip extends StatelessWidget {
       buildWhen: (previous, current) =>
           previous.flightNumber != current.flightNumber,
       builder: (context, state) => FilteringChip(
-        active: state.flightNumber != -1,
+        active: state.flightNumber != null,
         icon: const Icon(Icons.tag),
-        label: state.flightNumber != -1
+        label: state.flightNumber != null
             ? '${state.flightNumber}'
             : l10n.flightNumberChipLabel,
         onPressed: () => _handlePress(context),
@@ -31,20 +31,25 @@ class LaunchFlightNumberChip extends StatelessWidget {
   Future<void> _handlePress(BuildContext context) async {
     final launchFilteringBloc = context.read<LaunchFilteringBloc>();
     final flightNumber = launchFilteringBloc.state.flightNumber;
-    final newFlightNumber = await showDialog<int>(
+    final newFlightNumber = await showDialog<String>(
       context: context,
-      builder: (context) => _FlightNumberDialog(
-        flightNumber: flightNumber != -1 ? flightNumber : null,
+      builder: (context) => _FlightNumberDialog(flightNumber: flightNumber),
+    );
+    if (newFlightNumber == null) {
+      return;
+    }
+    launchFilteringBloc.add(
+      LaunchFilteringFlightNumberSet(
+        flightNumber: int.tryParse(newFlightNumber),
       ),
     );
-    if (newFlightNumber != null) {
-      launchFilteringBloc.add(
-        LaunchFilteringFlightNumberSet(flightNumber: newFlightNumber),
-      );
-    }
   }
 }
 
+/// Flight number dialog.
+///
+/// Pops a String with flight number if was entered, and an empty String if
+/// reset button was pressed.
 class _FlightNumberDialog extends StatefulWidget {
   const _FlightNumberDialog({
     this.flightNumber,
@@ -120,12 +125,12 @@ class _FlightNumberDialogState extends State<_FlightNumberDialog> {
   }
 
   void _handleResetButtonPress(BuildContext context) {
-    Navigator.pop(context, -1);
+    Navigator.pop(context, '');
   }
 
   void _handleOkButtonPress(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      Navigator.pop(context, int.parse(_textFieldController.text));
+      Navigator.pop(context, _textFieldController.text);
     }
   }
 

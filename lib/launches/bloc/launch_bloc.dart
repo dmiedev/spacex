@@ -21,6 +21,7 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
     Emitter<LaunchState> emit,
   ) async {
     if (event.pageNumber == 1) {
+      // Clear everything that was loaded so far.
       emit(const LaunchState.initial());
     } else {
       emit(state.copyWith(status: LaunchStateStatus.loading));
@@ -45,7 +46,7 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
               feature: LaunchFeature.date,
               interval: event.dateInterval!,
             ),
-          if (event.flightNumber != null && event.flightNumber != -1)
+          if (event.flightNumber != null)
             FilteringOption.value(
               feature: LaunchFeature.flightNumber,
               value: event.flightNumber!,

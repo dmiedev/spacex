@@ -95,7 +95,7 @@ class LaunchFilteringBloc
     LaunchFilteringFlightNumberSet event,
     Emitter<LaunchFilteringState> emit,
   ) {
-    emit(state.copyWith(flightNumber: event.flightNumber));
+    emit(state.copyWith(flightNumber: () => event.flightNumber));
   }
 
   void _handleSuccessfulnessSelected(
@@ -142,6 +142,7 @@ class LaunchFilteringBloc
     LaunchFilteringLoaded event,
     Emitter<LaunchFilteringState> emit,
   ) async {
+    // TODO: handle exception
     final parameters = _filterRepository.getLaunchFilters();
     if (parameters == null) {
       return;
@@ -155,18 +156,19 @@ class LaunchFilteringBloc
                   to: parameters.toDate!,
                 )
             : null,
-        flightNumber: parameters.flightNumber,
+        flightNumber: () => parameters.flightNumber,
         successfulness: parameters.successfulness,
         rocketIds: parameters.rocketIds,
       ),
     );
   }
 
-  Future<void> _handleSaved(
+  void _handleSaved(
     LaunchFilteringSaved event,
     Emitter<LaunchFilteringState> emit,
-  ) async {
-    await _filterRepository.saveLaunchFilters(
+  ) {
+    // TODO(dmiedev): handle exception
+    _filterRepository.saveLaunchFilters(
       LaunchFilters(
         time: state.time,
         fromDate: state.dateInterval != null ? state.dateInterval!.from : null,
@@ -176,5 +178,6 @@ class LaunchFilteringBloc
         rocketIds: state.rocketIds,
       ),
     );
+    // TODO(dmiedev): emit state?
   }
 }

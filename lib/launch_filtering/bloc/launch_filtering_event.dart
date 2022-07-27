@@ -58,7 +58,7 @@ class LaunchFilteringFlightNumberSet extends LaunchFilteringEvent {
   });
 
   /// The flight number that was set.
-  final int flightNumber;
+  final int? flightNumber;
 
   @override
   List<Object?> get props => [flightNumber];
