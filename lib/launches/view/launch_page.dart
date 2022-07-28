@@ -38,7 +38,7 @@ class LaunchPage extends StatelessWidget {
           create: (context) => LaunchFilteringBloc(
             rocketRepository: context.read<RocketRepository>(),
             filterRepository: context.read<FilterRepository>(),
-          ),
+          )..add(LaunchFilteringLoaded()),
         ),
       ],
       child: const _LaunchView(),
@@ -46,25 +46,8 @@ class LaunchPage extends StatelessWidget {
   }
 }
 
-class _LaunchView extends StatefulWidget {
+class _LaunchView extends StatelessWidget {
   const _LaunchView();
-
-  @override
-  State<_LaunchView> createState() => _LaunchViewState();
-}
-
-class _LaunchViewState extends State<_LaunchView> {
-  final _searchBarController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _sendLaunchPageRequestedEvent(
-      context: context,
-      pageNumber: 1,
-      state: context.read<LaunchFilteringBloc>().state,
-    );
-  }
 
   void _sendLaunchPageRequestedEvent({
     required BuildContext context,
@@ -110,7 +93,6 @@ class _LaunchViewState extends State<_LaunchView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SearchBar(
-                      controller: _searchBarController,
                       hintText: l10n.searchBarHintText,
                       onSubmitted: (text) =>
                           _handleSearchBarSubmit(context, text),
@@ -137,9 +119,11 @@ class _LaunchViewState extends State<_LaunchView> {
               ),
               LaunchGrid(
                 controller: primaryController,
-                onNextPageRequest: _sendNextLaunchPageRequest,
-                onFirstPageErrorRetryButtonPressed: _sendNextLaunchPageRequest,
-                onNextPageErrorRetryButtonPressed: _sendNextLaunchPageRequest,
+                onNextPageRequest: () => _sendNextLaunchPageRequest(context),
+                onFirstPageErrorRetryButtonPressed: () =>
+                    _sendNextLaunchPageRequest(context),
+                onNextPageErrorRetryButtonPressed: () =>
+                    _sendNextLaunchPageRequest(context),
               ),
             ],
           );
@@ -159,7 +143,7 @@ class _LaunchViewState extends State<_LaunchView> {
     );
   }
 
-  void _sendNextLaunchPageRequest() {
+  void _sendNextLaunchPageRequest(BuildContext context) {
     _sendLaunchPageRequestedEvent(
       context: context,
       pageNumber: context.read<LaunchBloc>().state.lastPageNumber + 1,
@@ -171,11 +155,5 @@ class _LaunchViewState extends State<_LaunchView> {
     context.read<LaunchFilteringBloc>().add(
           LaunchFilteringSearchedTextSubmitted(searchedText: text),
         );
-  }
-
-  @override
-  void dispose() {
-    _searchBarController.dispose();
-    super.dispose();
   }
 }

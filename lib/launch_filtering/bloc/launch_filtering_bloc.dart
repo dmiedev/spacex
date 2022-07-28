@@ -79,7 +79,6 @@ class LaunchFilteringBloc
         time: state.time == LaunchTime.upcoming
             ? LaunchTime.past
             : LaunchTime.upcoming,
-        successfulness: LaunchSuccessfulness.any,
       ),
     );
   }
@@ -138,11 +137,11 @@ class LaunchFilteringBloc
     emit(state.copyWith(allRockets: () => rockets));
   }
 
-  Future<void> _handleLoaded(
+  void _handleLoaded(
     LaunchFilteringLoaded event,
     Emitter<LaunchFilteringState> emit,
-  ) async {
-    // TODO: handle exception
+  ) {
+    // TODO(dmiedev): handle exception
     final parameters = _filterRepository.getLaunchFilters();
     if (parameters == null) {
       return;
