@@ -112,13 +112,13 @@ class LaunchFilteringBloc
     if (state.allRockets == null) {
       return;
     }
-    final selectedRockets = state.allRockets!.asMap()
-      ..removeWhere((index, value) => !event.rocketSelection[index]);
-    emit(
-      state.copyWith(
-        rocketIds: selectedRockets.values.map((rocket) => rocket.id).toList(),
-      ),
-    );
+    final rocketIds = <String>[];
+    for (var index = 0; index < event.rocketSelection.length; index++) {
+      if (event.rocketSelection[index]) {
+        rocketIds.add(state.allRockets![index].id);
+      }
+    }
+    emit(state.copyWith(rocketIds: rocketIds));
   }
 
   Future<void> _handleRocketsRequested(

@@ -82,60 +82,65 @@ class _RocketSelectionDialogState extends State<_RocketSelectionDialog> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
-    return AlertDialog(
-      title: Text(l10n.rocketSelectionDialogTitle),
-      content: BlocConsumer<LaunchFilteringBloc, LaunchFilteringState>(
-        listenWhen: (previous, current) =>
-            !previous.allRocketsAreLoaded && current.allRocketsAreLoaded,
-        listener: (context, state) =>
-            _initializeRocketSelection(state.allRockets!, state.rocketIds),
-        buildWhen: (previous, current) =>
-            previous.allRockets != current.allRockets,
-        builder: (context, state) {
-          if (state.allRockets == null) {
-            return Column(
-              mainAxisSize: MainAxisSize.min,
-              children: const [
-                Center(child: CircularProgressIndicator()),
-              ],
-            );
-          } else if (state.allRockets!.isEmpty) {
-            return TextMessage(
-              text: l10n.loadingErrorMessageTextShort,
-              textMaxLines: 3,
-              button: IconTextButton(
-                icon: const Icon(Icons.replay),
-                label: l10n.retryButtonLabel,
-                onPressed: _handleRetryButtonPress,
-              ),
-            );
-          }
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              for (int index = 0; index < state.allRockets!.length; index++)
-                CheckboxListTile(
-                  title: Text(state.allRockets![index].name),
-                  value: _rocketSelection[index],
-                  onChanged: (value) => _handleSelection(index, value),
-                ),
-            ],
-          );
-        },
+    return BlocConsumer<LaunchFilteringBloc, LaunchFilteringState>(
+      listenWhen: (previous, current) =>
+          !previous.allRocketsAreLoaded && current.allRocketsAreLoaded,
+      listener: (context, state) =>
+          _initializeRocketSelection(state.allRockets!, state.rocketIds),
+      buildWhen: (previous, current) =>
+          previous.allRockets != current.allRockets,
+      builder: (context, state) => AlertDialog(
+        title: Text(l10n.rocketSelectionDialogTitle),
+        content: _buildBody(context, state),
+        actions: [
+          TextButton(
+            child: Text(l10n.cancelButtonLabel),
+            onPressed: () => Navigator.pop(context),
+          ),
+          if (state.allRocketsAreLoaded)
+            TextButton(
+              child: Text(l10n.resetButtonLabel),
+              onPressed: () => _saveAndPop(reset: true),
+            ),
+          if (state.allRocketsAreLoaded)
+            TextButton(
+              child: Text(l10n.okButtonLabel),
+              onPressed: () => _saveAndPop(reset: false),
+            ),
+        ],
       ),
-      actions: [
-        TextButton(
-          child: Text(l10n.cancelButtonLabel),
-          onPressed: () => Navigator.pop(context),
+    );
+  }
+
+  Widget _buildBody(BuildContext context, LaunchFilteringState state) {
+    final l10n = context.l10n;
+    if (state.allRockets == null) {
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: const [
+          Center(child: CircularProgressIndicator()),
+        ],
+      );
+    } else if (state.allRockets!.isEmpty) {
+      return TextMessage(
+        text: l10n.loadingErrorMessageTextShort,
+        textMaxLines: 3,
+        button: IconTextButton(
+          icon: const Icon(Icons.replay),
+          label: l10n.retryButtonLabel,
+          onPressed: _handleRetryButtonPress,
         ),
-        TextButton(
-          child: Text(l10n.resetButtonLabel),
-          onPressed: () => _saveAndPop(reset: true),
-        ),
-        TextButton(
-          child: Text(l10n.okButtonLabel),
-          onPressed: () => _saveAndPop(reset: false),
-        ),
+      );
+    }
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        for (int index = 0; index < state.allRockets!.length; index++)
+          CheckboxListTile(
+            title: Text(state.allRockets![index].name),
+            value: _rocketSelection[index],
+            onChanged: (value) => _handleSelection(index, value),
+          ),
       ],
     );
   }
@@ -152,7 +157,11 @@ class _RocketSelectionDialogState extends State<_RocketSelectionDialog> {
 
   void _saveAndPop({required bool reset}) {
     context.read<LaunchFilteringBloc>().add(
-          LaunchFilteringRocketsSelected(rocketSelection: _rocketSelection),
+          LaunchFilteringRocketsSelected(
+            rocketSelection: reset
+                ? List.filled(_rocketSelection.length, false)
+                : _rocketSelection,
+          ),
         );
     Navigator.pop(context);
   }
