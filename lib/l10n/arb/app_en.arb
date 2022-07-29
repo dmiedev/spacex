@@ -361,5 +361,25 @@
                 "example": "53489"
             }
         }
+    },
+
+    "filterSaveChipLabel": "Save filters",
+    "@filterSaveChipLabel": {
+        "description": "The label of the filter save chip."
+    },
+
+    "filterSaveFailureMessage": "Failed to save filters.",
+    "@filterSaveFailureMessage": {
+        "description": "Message shown when there was a failure to save filters."
+    },
+
+    "filterSaveSuccessMessage": "Filters have been saved.",
+    "@filterSaveSuccessMessage": {
+        "description": "Message shown when filters have been saved."
+    },
+
+    "filterLoadFailureMessage": "Failed to load filters.",
+    "@filterLoadFailureMessage": {
+        "description": "Message shown when there was a failure to load filters."
     }
 }

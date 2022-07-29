@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:spacex/l10n/l10n.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 
@@ -12,7 +13,7 @@ class LaunchFilterSaveChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return FilteringChip(
       active: false,
-      label: 'Save filters',
+      label: context.l10n.filterSaveChipLabel,
       onPressed: () => _handlePress(context),
     );
   }

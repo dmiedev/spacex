@@ -145,7 +145,7 @@ class _LaunchView extends StatelessWidget {
     BuildContext context,
     LaunchFilteringState state,
   ) {
-    final message = _getStatusSnackBarMessage(state.status);
+    final message = _getStatusSnackBarMessage(context, state.status);
     if (message == null) {
       return;
     }
@@ -154,14 +154,18 @@ class _LaunchView extends StatelessWidget {
     );
   }
 
-  String? _getStatusSnackBarMessage(LaunchFilteringSaveLoadStatus status) {
+  String? _getStatusSnackBarMessage(
+    BuildContext context,
+    LaunchFilteringSaveLoadStatus status,
+  ) {
+    final l10n = context.l10n;
     switch (status) {
       case LaunchFilteringSaveLoadStatus.saveFailure:
-        return 'Failed to save filters';
+        return l10n.filterSaveFailureMessage;
       case LaunchFilteringSaveLoadStatus.saveSuccess:
-        return 'Filters have been saved.';
+        return l10n.filterSaveSuccessMessage;
       case LaunchFilteringSaveLoadStatus.loadFailure:
-        return 'Failed to load filters.';
+        return l10n.filterLoadFailureMessage;
       default:
         return null;
     }
