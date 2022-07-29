@@ -116,6 +116,8 @@ class LaunchFilteringRocketsSelected extends LaunchFilteringEvent {
   List<Object?> get props => [rocketSelection];
 }
 
+/// An event to [LaunchFilteringBloc] indicating filtering options were loaded.
 class LaunchFilteringLoaded extends LaunchFilteringEvent {}
 
+/// An event to [LaunchFilteringBloc] indicating filtering options were saved.
 class LaunchFilteringSaved extends LaunchFilteringEvent {}

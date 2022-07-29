@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex_ui/spacex_ui.dart';
 
+/// A chip that saves current launch filters on user click.
 class LaunchFilterSaveChip extends StatelessWidget {
-  const LaunchFilterSaveChip({Key? key}) : super(key: key);
+  /// Creates a chip that saves current launch filters on user click.
+  const LaunchFilterSaveChip({super.key});
 
   @override
   Widget build(BuildContext context) {

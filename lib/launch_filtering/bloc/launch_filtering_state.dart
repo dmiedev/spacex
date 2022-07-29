@@ -5,12 +5,25 @@ import 'package:rocket_repository/rocket_repository.dart';
 import 'package:spacex/launch_filtering/bloc/launch_filtering_bloc.dart';
 import 'package:spacex_api/spacex_api.dart';
 
+/// Status of saving or loading filtering options.
 enum LaunchFilteringSaveLoadStatus {
+  /// A status indicating nothing has been done so far.
   none,
+
+  /// A status indicating that nothing was loaded because options had not been
+  /// saved yet.
   loadedNothing,
+
+  /// A status indicating that there was a failure to load filtering options
   saveFailure,
+
+  /// A status indicating filters have been saved successfully.
   saveSuccess,
+
+  /// A status indicating filters have not been loaded due to a failure.
   loadFailure,
+
+  /// A status indicating filters have been loaded successfully.
   loadSuccess,
 }
 
@@ -79,6 +92,7 @@ class LaunchFilteringState extends Equatable {
   /// IDs of rockets whose launches should be displayed.
   final List<String> rocketIds;
 
+  /// The last status of saving or loading filtering options.
   final LaunchFilteringSaveLoadStatus status;
 
   /// Creates a clone of this [LaunchFilteringState] but with provided
