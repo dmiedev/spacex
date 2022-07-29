@@ -37,7 +37,9 @@ class LaunchFilteringBloc
     LaunchFilteringSearchedTextSubmitted event,
     Emitter<LaunchFilteringState> emit,
   ) {
-    emit(state.copyWith(searchedText: event.searchedText));
+    emit(
+      state.copyWith(searchedText: event.searchedText),
+    );
   }
 
   void _handleSortingSelected(
@@ -141,42 +143,53 @@ class LaunchFilteringBloc
     LaunchFilteringLoaded event,
     Emitter<LaunchFilteringState> emit,
   ) {
-    // TODO(dmiedev): handle exception
-    final parameters = _filterRepository.getLaunchFilters();
-    if (parameters == null) {
-      return;
+    try {
+      final parameters = _filterRepository.getLaunchFilters();
+      if (parameters == null) {
+        emit(
+          state.copyWith(status: LaunchFilteringSaveLoadStatus.loadedNothing),
+        );
+        return;
+      }
+      emit(
+        state.copyWith(
+          time: parameters.time,
+          dateInterval: parameters.fromDate != null && parameters.toDate != null
+              ? () => DateTimeInterval(
+                    from: parameters.fromDate!,
+                    to: parameters.toDate!,
+                  )
+              : null,
+          flightNumber: () => parameters.flightNumber,
+          successfulness: parameters.successfulness,
+          rocketIds: parameters.rocketIds,
+          status: LaunchFilteringSaveLoadStatus.loadSuccess,
+        ),
+      );
+    } on Exception {
+      emit(state.copyWith(status: LaunchFilteringSaveLoadStatus.loadFailure));
     }
-    emit(
-      state.copyWith(
-        time: parameters.time,
-        dateInterval: parameters.fromDate != null && parameters.toDate != null
-            ? () => DateTimeInterval(
-                  from: parameters.fromDate!,
-                  to: parameters.toDate!,
-                )
-            : null,
-        flightNumber: () => parameters.flightNumber,
-        successfulness: parameters.successfulness,
-        rocketIds: parameters.rocketIds,
-      ),
-    );
   }
 
   void _handleSaved(
     LaunchFilteringSaved event,
     Emitter<LaunchFilteringState> emit,
   ) {
-    // TODO(dmiedev): handle exception
-    _filterRepository.saveLaunchFilters(
-      LaunchFilters(
-        time: state.time,
-        fromDate: state.dateInterval != null ? state.dateInterval!.from : null,
-        toDate: state.dateInterval != null ? state.dateInterval!.to : null,
-        flightNumber: state.flightNumber,
-        successfulness: state.successfulness,
-        rocketIds: state.rocketIds,
-      ),
-    );
-    // TODO(dmiedev): emit state?
+    try {
+      _filterRepository.saveLaunchFilters(
+        LaunchFilters(
+          time: state.time,
+          fromDate:
+              state.dateInterval != null ? state.dateInterval!.from : null,
+          toDate: state.dateInterval != null ? state.dateInterval!.to : null,
+          flightNumber: state.flightNumber,
+          successfulness: state.successfulness,
+          rocketIds: state.rocketIds,
+        ),
+      );
+      emit(state.copyWith(status: LaunchFilteringSaveLoadStatus.saveSuccess));
+    } on Exception {
+      emit(state.copyWith(status: LaunchFilteringSaveLoadStatus.saveFailure));
+    }
   }
 }

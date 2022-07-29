@@ -5,6 +5,15 @@ import 'package:rocket_repository/rocket_repository.dart';
 import 'package:spacex/launch_filtering/bloc/launch_filtering_bloc.dart';
 import 'package:spacex_api/spacex_api.dart';
 
+enum LaunchFilteringSaveLoadStatus {
+  none,
+  loadedNothing,
+  saveFailure,
+  saveSuccess,
+  loadFailure,
+  loadSuccess,
+}
+
 /// A state of [LaunchFilteringBloc] that contains data about currently selected
 /// launch filtering and sorting.
 class LaunchFilteringState extends Equatable {
@@ -19,6 +28,7 @@ class LaunchFilteringState extends Equatable {
     required this.successfulness,
     this.allRockets,
     required this.rocketIds,
+    required this.status,
   });
 
   /// Creates a state of [LaunchFilteringBloc] that contains default selection
@@ -36,6 +46,7 @@ class LaunchFilteringState extends Equatable {
           successfulness: LaunchSuccessfulness.any,
           allRockets: null,
           rocketIds: const [],
+          status: LaunchFilteringSaveLoadStatus.none,
         );
 
   /// Text that matches launches whose data contains it.
@@ -68,6 +79,8 @@ class LaunchFilteringState extends Equatable {
   /// IDs of rockets whose launches should be displayed.
   final List<String> rocketIds;
 
+  final LaunchFilteringSaveLoadStatus status;
+
   /// Creates a clone of this [LaunchFilteringState] but with provided
   /// parameters overridden.
   LaunchFilteringState copyWith({
@@ -79,6 +92,7 @@ class LaunchFilteringState extends Equatable {
     LaunchSuccessfulness? successfulness,
     List<RocketInfo>? Function()? allRockets,
     List<String>? rocketIds,
+    LaunchFilteringSaveLoadStatus? status,
   }) {
     return LaunchFilteringState(
       searchedText: searchedText ?? this.searchedText,
@@ -89,6 +103,7 @@ class LaunchFilteringState extends Equatable {
       successfulness: successfulness ?? this.successfulness,
       allRockets: allRockets != null ? allRockets() : this.allRockets,
       rocketIds: rocketIds ?? this.rocketIds,
+      status: status ?? this.status,
     );
   }
 
@@ -102,5 +117,6 @@ class LaunchFilteringState extends Equatable {
         successfulness,
         allRockets,
         rocketIds,
+        status,
       ];
 }

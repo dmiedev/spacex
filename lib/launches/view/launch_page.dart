@@ -85,23 +85,32 @@ class _LaunchView extends StatelessWidget {
               snap: true,
               forceElevated: innerBoxIsScrolled,
               title: BlocListener<LaunchFilteringBloc, LaunchFilteringState>(
-                listenWhen: (previous, current) =>
-                    previous.allRockets == current.allRockets &&
-                    previous != current,
-                listener: _handleLaunchFilteringStateChange,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SearchBar(
-                      hintText: l10n.searchBarHintText,
-                      onSubmitted: (text) =>
-                          _handleSearchBarSubmit(context, text),
-                    ),
-                    const SizedBox(
-                      height: 50,
-                      child: LaunchFilteringChips(),
-                    ),
-                  ],
+                listener: _handleLaunchFilteringStatusChange,
+                child: BlocListener<LaunchFilteringBloc, LaunchFilteringState>(
+                  listenWhen: (previous, current) =>
+                      // TODO(dmiedev): refactor
+                      previous.searchedText != current.searchedText ||
+                      previous.sorting != current.sorting ||
+                      previous.time != current.time ||
+                      previous.dateInterval != current.dateInterval ||
+                      previous.flightNumber != current.flightNumber ||
+                      previous.successfulness != current.successfulness ||
+                      previous.rocketIds != current.rocketIds,
+                  listener: _handleLaunchFilteringOptionsChange,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SearchBar(
+                        hintText: l10n.searchBarHintText,
+                        onSubmitted: (text) =>
+                            _handleSearchBarSubmit(context, text),
+                      ),
+                      const SizedBox(
+                        height: 50,
+                        child: LaunchFilteringChips(),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -132,7 +141,33 @@ class _LaunchView extends StatelessWidget {
     );
   }
 
-  void _handleLaunchFilteringStateChange(
+  void _handleLaunchFilteringStatusChange(
+    BuildContext context,
+    LaunchFilteringState state,
+  ) {
+    final message = _getStatusSnackBarMessage(state.status);
+    if (message == null) {
+      return;
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
+  String? _getStatusSnackBarMessage(LaunchFilteringSaveLoadStatus status) {
+    switch (status) {
+      case LaunchFilteringSaveLoadStatus.saveFailure:
+        return 'Failed to save filters';
+      case LaunchFilteringSaveLoadStatus.saveSuccess:
+        return 'Filters have been saved.';
+      case LaunchFilteringSaveLoadStatus.loadFailure:
+        return 'Failed to load filters.';
+      default:
+        return null;
+    }
+  }
+
+  void _handleLaunchFilteringOptionsChange(
     BuildContext context,
     LaunchFilteringState state,
   ) {

@@ -4,6 +4,7 @@ linter:
     no_leading_underscores_for_library_prefixes: true
     no_leading_underscores_for_local_identifiers: true
     depend_on_referenced_packages: true
+    no_default_cases: false
 
 analyzer:
   exclude:
