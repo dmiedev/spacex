@@ -225,6 +225,13 @@ packages:
       relative: true
     source: path
     version: "1.0.0+1"
+  filtered_repository:
+    dependency: transitive
+    description:
+      path: "packages/filtered_repository"
+      relative: true
+    source: path
+    version: "1.0.0+1"
   fixnum:
     dependency: transitive
     description:

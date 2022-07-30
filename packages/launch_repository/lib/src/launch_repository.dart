@@ -29,8 +29,8 @@ class LaunchRepository {
         ),
       );
     }
+    final sorting = parameters.sorting;
     try {
-      final sorting = parameters.sorting;
       final page = await _spacexApiClient.queryLaunches(
         filter: filters.isNotEmpty ? Filter.and(filters) : const Filter.empty(),
         options: PaginationOptions(
