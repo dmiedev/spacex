@@ -11,26 +11,37 @@ class LaunchFilteringChips extends StatelessWidget {
     const padding = SizedBox(width: 10);
     return ListView(
       scrollDirection: Axis.horizontal,
-      children: [
-        const LaunchSortingOrderChip(),
+      children: const [
+        LaunchSortingOrderChip(),
         padding,
-        const LaunchSortingChip(),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5),
-          child: VerticalDivider(
-            color: Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
-          ),
-        ),
-        const LaunchTimeChip(),
+        LaunchSortingChip(),
+        _Divider(),
+        LaunchTimeChip(),
         padding,
-        const LaunchRocketChip(),
+        LaunchRocketChip(),
         padding,
-        const LaunchYearRangeChip(),
+        LaunchYearRangeChip(),
         padding,
-        const LaunchFlightNumberChip(),
+        LaunchFlightNumberChip(),
         padding,
-        const LaunchSuccessfulnessChip(),
+        LaunchSuccessfulnessChip(),
+        _Divider(),
+        LaunchFilterSaveChip(),
       ],
+    );
+  }
+}
+
+class _Divider extends StatelessWidget {
+  const _Divider();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      child: VerticalDivider(
+        color: Theme.of(context).colorScheme.onBackground.withOpacity(0.5),
+      ),
     );
   }
 }

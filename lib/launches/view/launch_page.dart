@@ -1,3 +1,4 @@
+import 'package:filter_repository/filter_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:launch_repository/launch_repository.dart';
@@ -28,14 +29,15 @@ class LaunchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<LaunchBloc>(
-          create: (context) => LaunchBloc(
-            launchRepository: context.read<LaunchRepository>(),
-          ),
-        ),
         BlocProvider<LaunchFilteringBloc>(
           create: (context) => LaunchFilteringBloc(
             rocketRepository: context.read<RocketRepository>(),
+            filterRepository: context.read<FilterRepository>(),
+          )..add(LaunchFilteringLoaded()),
+        ),
+        BlocProvider<LaunchBloc>(
+          create: (context) => LaunchBloc(
+            launchRepository: context.read<LaunchRepository>(),
           ),
         ),
       ],
@@ -44,22 +46,133 @@ class LaunchPage extends StatelessWidget {
   }
 }
 
-class _LaunchView extends StatefulWidget {
+class _LaunchView extends StatelessWidget {
   const _LaunchView();
 
   @override
-  State<_LaunchView> createState() => _LaunchViewState();
-}
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    return NestedScrollView(
+      headerSliverBuilder: (context, innerBoxIsScrolled) {
+        return <Widget>[
+          SliverOverlapAbsorber(
+            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+            sliver: SliverAppBar(
+              primary: false,
+              automaticallyImplyLeading: false,
+              toolbarHeight: 110,
+              centerTitle: true,
+              floating: true,
+              snap: true,
+              forceElevated: innerBoxIsScrolled,
+              title: BlocListener<LaunchFilteringBloc, LaunchFilteringState>(
+                listenWhen: (previous, current) =>
+                    previous.status != current.status,
+                listener: _handleLaunchFilteringStatusChange,
+                child: BlocListener<LaunchFilteringBloc, LaunchFilteringState>(
+                  listenWhen: _shouldSendFirstPageRequest,
+                  listener: (context, state) =>
+                      _sendFirstLaunchPageRequest(context),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SearchBar(
+                        hintText: l10n.searchBarHintText,
+                        onSubmitted: (text) =>
+                            _handleSearchBarSubmit(context, text),
+                      ),
+                      const SizedBox(
+                        height: 50,
+                        child: LaunchFilteringChips(),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          )
+        ];
+      },
+      body: Builder(
+        builder: (context) {
+          final primaryController = PrimaryScrollController.of(context)!;
+          return CustomScrollView(
+            slivers: <Widget>[
+              SliverOverlapInjector(
+                handle:
+                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
+              ),
+              LaunchGrid(
+                controller: primaryController,
+                onFirstPageRequest: () => _sendFirstLaunchPageRequest(context),
+                onNextPageRequest: () => _sendNextPageRequest(context),
+                onFirstPageErrorRetryButtonPressed: () =>
+                    _sendNextPageRequest(context),
+                onNextPageErrorRetryButtonPressed: () =>
+                    _sendNextPageRequest(context),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
 
-class _LaunchViewState extends State<_LaunchView> {
-  final _searchBarController = TextEditingController();
+  bool _shouldSendFirstPageRequest(
+    LaunchFilteringState previous,
+    LaunchFilteringState current,
+  ) {
+    return previous.searchedText != current.searchedText ||
+        previous.sorting != current.sorting ||
+        previous.time != current.time ||
+        previous.dateInterval != current.dateInterval ||
+        previous.flightNumber != current.flightNumber ||
+        previous.successfulness != current.successfulness ||
+        previous.rocketIds != current.rocketIds;
+  }
 
-  @override
-  void initState() {
-    super.initState();
+  void _handleLaunchFilteringStatusChange(
+    BuildContext context,
+    LaunchFilteringState state,
+  ) {
+    final message = _getStatusSnackBarMessage(context, state.status);
+    if (message == null) {
+      return;
+    }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
+  String? _getStatusSnackBarMessage(
+    BuildContext context,
+    LaunchFilteringSaveLoadStatus status,
+  ) {
+    final l10n = context.l10n;
+    switch (status) {
+      case LaunchFilteringSaveLoadStatus.saveFailure:
+        return l10n.filterSaveFailureMessage;
+      case LaunchFilteringSaveLoadStatus.saveSuccess:
+        return l10n.filterSaveSuccessMessage;
+      case LaunchFilteringSaveLoadStatus.loadFailure:
+        return l10n.filterLoadFailureMessage;
+      default:
+        return null;
+    }
+  }
+
+  void _sendFirstLaunchPageRequest(BuildContext context) {
     _sendLaunchPageRequestedEvent(
       context: context,
       pageNumber: 1,
+      state: context.read<LaunchFilteringBloc>().state,
+    );
+  }
+
+  void _sendNextPageRequest(BuildContext context) {
+    _sendLaunchPageRequestedEvent(
+      context: context,
+      pageNumber: context.read<LaunchBloc>().state.lastPageNumber + 1,
       state: context.read<LaunchFilteringBloc>().state,
     );
   }
@@ -83,97 +196,9 @@ class _LaunchViewState extends State<_LaunchView> {
         );
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    return NestedScrollView(
-      headerSliverBuilder: (context, innerBoxIsScrolled) {
-        return <Widget>[
-          SliverOverlapAbsorber(
-            handle: NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-            sliver: SliverAppBar(
-              primary: false,
-              automaticallyImplyLeading: false,
-              toolbarHeight: 110,
-              centerTitle: true,
-              floating: true,
-              snap: true,
-              forceElevated: innerBoxIsScrolled,
-              title: BlocListener<LaunchFilteringBloc, LaunchFilteringState>(
-                listenWhen: (previous, current) =>
-                    previous.allRockets == current.allRockets &&
-                    previous != current,
-                listener: _handleLaunchFilteringStateChange,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SearchBar(
-                      controller: _searchBarController,
-                      hintText: l10n.searchBarHintText,
-                      onSubmitted: (text) =>
-                          _handleSearchBarSubmit(context, text),
-                    ),
-                    const SizedBox(
-                      height: 50,
-                      child: LaunchFilteringChips(),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          )
-        ];
-      },
-      body: Builder(
-        builder: (context) {
-          final primaryController = PrimaryScrollController.of(context)!;
-          return CustomScrollView(
-            slivers: <Widget>[
-              SliverOverlapInjector(
-                handle:
-                    NestedScrollView.sliverOverlapAbsorberHandleFor(context),
-              ),
-              LaunchGrid(
-                controller: primaryController,
-                onNextPageRequest: _sendNextLaunchPageRequest,
-                onFirstPageErrorRetryButtonPressed: _sendNextLaunchPageRequest,
-                onNextPageErrorRetryButtonPressed: _sendNextLaunchPageRequest,
-              ),
-            ],
-          );
-        },
-      ),
-    );
-  }
-
-  void _handleLaunchFilteringStateChange(
-    BuildContext context,
-    LaunchFilteringState state,
-  ) {
-    _sendLaunchPageRequestedEvent(
-      context: context,
-      pageNumber: 1,
-      state: state,
-    );
-  }
-
-  void _sendNextLaunchPageRequest() {
-    _sendLaunchPageRequestedEvent(
-      context: context,
-      pageNumber: context.read<LaunchBloc>().state.lastPageNumber + 1,
-      state: context.read<LaunchFilteringBloc>().state,
-    );
-  }
-
   void _handleSearchBarSubmit(BuildContext context, String text) {
     context.read<LaunchFilteringBloc>().add(
           LaunchFilteringSearchedTextSubmitted(searchedText: text),
         );
-  }
-
-  @override
-  void dispose() {
-    _searchBarController.dispose();
-    super.dispose();
   }
 }

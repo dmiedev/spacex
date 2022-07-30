@@ -1,35 +1,37 @@
 import 'package:equatable/equatable.dart';
+import 'package:filter_repository/filter_repository.dart';
 import 'package:launch_repository/launch_repository.dart';
 import 'package:rocket_repository/rocket_repository.dart';
 import 'package:spacex/launch_filtering/bloc/launch_filtering_bloc.dart';
 import 'package:spacex_api/spacex_api.dart';
 
-/// The time of a launch.
-enum LaunchTime {
-  /// Represents launches that happened in the past.
-  past,
+/// Status of saving or loading filtering options.
+enum LaunchFilteringSaveLoadStatus {
+  /// A status indicating nothing has been done so far.
+  none,
 
-  /// Represents launches that are going to happen in the future.
-  upcoming
-}
+  /// A status indicating that nothing was loaded because options had not been
+  /// saved yet.
+  loadedNothing,
 
-/// Launch successfulness.
-enum LaunchSuccessfulness {
-  /// Represents launches with any successfulness.
-  any,
+  /// A status indicating that there was a failure to load filtering options
+  saveFailure,
 
-  /// Represents successful launches.
-  success,
+  /// A status indicating filters have been saved successfully.
+  saveSuccess,
 
-  /// Represents failed launches.
-  failure
+  /// A status indicating filters have not been loaded due to a failure.
+  loadFailure,
+
+  /// A status indicating filters have been loaded successfully.
+  loadSuccess,
 }
 
 /// A state of [LaunchFilteringBloc] that contains data about currently selected
-/// launch filtering and sorting options.
+/// launch filtering and sorting.
 class LaunchFilteringState extends Equatable {
   /// Creates a state of [LaunchFilteringBloc] that contains data about
-  /// currently selected launch filtering and sorting options.
+  /// currently selected launch filtering and sorting.
   const LaunchFilteringState({
     required this.searchedText,
     required this.sorting,
@@ -38,10 +40,11 @@ class LaunchFilteringState extends Equatable {
     required this.flightNumber,
     required this.successfulness,
     this.allRockets,
-    required this.rockets,
+    required this.rocketIds,
+    required this.status,
   });
 
-  /// Creates a state of [LaunchFilteringBloc] that contains default options
+  /// Creates a state of [LaunchFilteringBloc] that contains default selection
   /// and no loaded filtering parameters.
   const LaunchFilteringState.initial()
       : this(
@@ -52,10 +55,11 @@ class LaunchFilteringState extends Equatable {
           ),
           time: LaunchTime.upcoming,
           dateInterval: null,
-          flightNumber: -1,
+          flightNumber: null,
           successfulness: LaunchSuccessfulness.any,
           allRockets: null,
-          rockets: const [],
+          rocketIds: const [],
+          status: LaunchFilteringSaveLoadStatus.none,
         );
 
   /// Text that matches launches whose data contains it.
@@ -71,26 +75,25 @@ class LaunchFilteringState extends Equatable {
   final DateTimeInterval? dateInterval;
 
   /// The flight number launches should have.
-  final int flightNumber;
+  final int? flightNumber;
 
   /// The successfulness that launches should match.
   final LaunchSuccessfulness successfulness;
 
   /// Launch rocket options to select from.
+  ///
+  /// If this list is `null`, rockets have not been loaded yet.
+  /// If it is empty, an error occurred while loading them.
   final List<RocketInfo>? allRockets;
-
-  /// The indices of [allRockets] whose launches should be displayed.
-  final List<int> rockets;
 
   /// Whether rocket options are loaded.
   bool get allRocketsAreLoaded => allRockets != null && allRockets!.isNotEmpty;
 
-  /// IDs of selected launch rockets.
-  List<String>? get rocketIds {
-    return allRockets != null
-        ? rockets.map((index) => allRockets![index].id).toList()
-        : null;
-  }
+  /// IDs of rockets whose launches should be displayed.
+  final List<String> rocketIds;
+
+  /// The last status of saving or loading filtering options.
+  final LaunchFilteringSaveLoadStatus status;
 
   /// Creates a clone of this [LaunchFilteringState] but with provided
   /// parameters overridden.
@@ -99,20 +102,22 @@ class LaunchFilteringState extends Equatable {
     SortingOption? sorting,
     LaunchTime? time,
     DateTimeInterval? Function()? dateInterval,
-    int? flightNumber,
+    int? Function()? flightNumber,
     LaunchSuccessfulness? successfulness,
     List<RocketInfo>? Function()? allRockets,
-    List<int>? rockets,
+    List<String>? rocketIds,
+    LaunchFilteringSaveLoadStatus? status,
   }) {
     return LaunchFilteringState(
       searchedText: searchedText ?? this.searchedText,
       sorting: sorting ?? this.sorting,
       time: time ?? this.time,
       dateInterval: dateInterval != null ? dateInterval() : this.dateInterval,
-      flightNumber: flightNumber ?? this.flightNumber,
+      flightNumber: flightNumber != null ? flightNumber() : this.flightNumber,
       successfulness: successfulness ?? this.successfulness,
       allRockets: allRockets != null ? allRockets() : this.allRockets,
-      rockets: rockets ?? this.rockets,
+      rocketIds: rocketIds ?? this.rocketIds,
+      status: status ?? this.status,
     );
   }
 
@@ -125,6 +130,7 @@ class LaunchFilteringState extends Equatable {
         flightNumber,
         successfulness,
         allRockets,
-        rockets,
+        rocketIds,
+        status,
       ];
 }

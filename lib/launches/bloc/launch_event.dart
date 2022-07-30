@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
+import 'package:filter_repository/filter_repository.dart';
 import 'package:launch_repository/launch_repository.dart';
 import 'package:meta/meta.dart';
-import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex/launches/bloc/bloc.dart';
 
 /// An event to [LaunchBloc].

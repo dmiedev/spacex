@@ -69,7 +69,6 @@ class LaunchSortingChip extends StatelessWidget {
         return l10n.nameSortingChipLabel;
       case LaunchFeature.flightNumber:
         return l10n.flightNumberSortingChipLabel;
-      // ignore: no_default_cases
       default:
         break;
     }

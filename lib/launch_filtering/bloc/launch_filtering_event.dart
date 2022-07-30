@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:filter_repository/filter_repository.dart';
 import 'package:launch_repository/launch_repository.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 
@@ -57,7 +58,7 @@ class LaunchFilteringFlightNumberSet extends LaunchFilteringEvent {
   });
 
   /// The flight number that was set.
-  final int flightNumber;
+  final int? flightNumber;
 
   @override
   List<Object?> get props => [flightNumber];
@@ -104,13 +105,19 @@ class LaunchFilteringRocketsSelected extends LaunchFilteringEvent {
   /// Creates an event to [LaunchFilteringBloc] indicating that launch rockets
   /// were selected.
   const LaunchFilteringRocketsSelected({
-    required this.rockets,
+    required this.rocketSelection,
   });
 
-  /// The indices of [LaunchFilteringState.allRockets] of rockets that were
-  /// selected.
-  final List<int> rockets;
+  /// A list that indicates whether a particular rocket from
+  /// [LaunchFilteringState.allRockets] was selected.
+  final List<bool> rocketSelection;
 
   @override
-  List<Object?> get props => [rockets];
+  List<Object?> get props => [rocketSelection];
 }
+
+/// An event to [LaunchFilteringBloc] indicating filtering options were loaded.
+class LaunchFilteringLoaded extends LaunchFilteringEvent {}
+
+/// An event to [LaunchFilteringBloc] indicating filtering options were saved.
+class LaunchFilteringSaved extends LaunchFilteringEvent {}

@@ -1,6 +1,6 @@
-import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:bloc/bloc.dart';
+import 'package:filter_repository/filter_repository.dart';
 import 'package:launch_repository/launch_repository.dart';
-import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex/launches/bloc/bloc.dart';
 
 /// A [Bloc] that manages the launch loading and display feature.
@@ -21,6 +21,7 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
     Emitter<LaunchState> emit,
   ) async {
     if (event.pageNumber == 1) {
+      // Clear everything that was loaded so far.
       emit(const LaunchState.initial());
     } else {
       emit(state.copyWith(status: LaunchStateStatus.loading));
@@ -45,7 +46,7 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
               feature: LaunchFeature.date,
               interval: event.dateInterval!,
             ),
-          if (event.flightNumber != null && event.flightNumber != -1)
+          if (event.flightNumber != null)
             FilteringOption.value(
               feature: LaunchFeature.flightNumber,
               value: event.flightNumber!,
