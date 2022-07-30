@@ -7,16 +7,18 @@ import 'package:hive/hive.dart';
 /// `Hive` must be initialized before using this repository.
 class FilterRepository {
   /// Creates a repository that manages the filter domain.
-  FilterRepository({Box<Object>? box}) : _box = box {
+  FilterRepository({LazyBox<Object>? box}) : _box = box {
     _registerAdapters();
   }
 
   static const _filtersBoxName = 'filters';
   static const _launchFiltersKey = 'launch';
 
-  Box<Object>? _box;
+  LazyBox<Object>? _box;
 
   void _registerAdapters() {
+    _registerAdapter(LaunchTimeAdapter());
+    _registerAdapter(LaunchSuccessfulnessAdapter());
     _registerAdapter(LaunchFiltersAdapter());
   }
 
@@ -28,7 +30,7 @@ class FilterRepository {
 
   /// Initializes this repository and loads all saved filters into memory.
   Future<void> initialize() async {
-    _box = await Hive.openBox(_filtersBoxName);
+    _box = await Hive.openLazyBox(_filtersBoxName);
   }
 
   void _checkIsInitialized() {
@@ -53,10 +55,11 @@ class FilterRepository {
   /// saved.
   ///
   /// Throws a [FilterSaveLoadException] if retrieving fails.
-  LaunchFilters? getLaunchFilters() {
+  Future<LaunchFilters?> getLaunchFilters() async {
     _checkIsInitialized();
     try {
-      return _box!.get(_launchFiltersKey) as LaunchFilters?;
+      final filters = await _box!.get(_launchFiltersKey);
+      return filters as LaunchFilters?;
     } on Exception {
       throw FilterSaveLoadException();
     }
