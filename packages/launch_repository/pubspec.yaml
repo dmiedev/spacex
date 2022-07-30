@@ -8,6 +8,8 @@ environment:
 
 dependencies:
   equatable: ^2.0.3
+  filtered_repository:
+    path: ../filtered_repository
   spacex_api:
     path: ../spacex_api
 

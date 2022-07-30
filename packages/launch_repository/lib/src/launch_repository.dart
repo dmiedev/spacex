@@ -1,3 +1,4 @@
+import 'package:filtered_repository/filtered_repository.dart';
 import 'package:launch_repository/src/exceptions.dart';
 import 'package:launch_repository/src/models/models.dart';
 import 'package:spacex_api/spacex_api.dart';
@@ -17,17 +18,19 @@ class LaunchRepository {
   Future<List<Launch>> fetchLaunches({
     required int amount,
     required int pageNumber,
-    List<FilteringOption> filtering = const [],
-    SortingOption? sorting,
-    String? searchedPhrase,
+    FilterParameters<LaunchFeature> parameters = const FilterParameters(),
   }) async {
-    final filters = filtering.map((option) => option.toFilter()).toList();
-    if (searchedPhrase != null) {
+    final filters =
+        parameters.filtering.map((option) => option.toFilter()).toList();
+    if (parameters.searchedPhrase != null) {
       filters.add(
-        Filter.text(TextFilterParameters(search: '"$searchedPhrase"')),
+        Filter.text(
+          TextFilterParameters(search: '"${parameters.searchedPhrase}"'),
+        ),
       );
     }
     try {
+      final sorting = parameters.sorting;
       final page = await _spacexApiClient.queryLaunches(
         filter: filters.isNotEmpty ? Filter.and(filters) : const Filter.empty(),
         options: PaginationOptions(

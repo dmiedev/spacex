@@ -1,3 +1,4 @@
+import 'package:filtered_repository/filtered_repository.dart';
 import 'package:launch_repository/launch_repository.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:spacex_api/spacex_api.dart';
@@ -114,9 +115,11 @@ void main() {
           repository.fetchLaunches(
             amount: 22,
             pageNumber: 33,
-            sorting: const SortingOption(
-              feature: LaunchFeature.date,
-              order: SortOrder.ascending,
+            parameters: const FilterParameters(
+              sorting: SortingOption(
+                feature: LaunchFeature.date,
+                order: SortOrder.ascending,
+              ),
             ),
           );
           verify(
@@ -155,7 +158,9 @@ void main() {
           repository.fetchLaunches(
             amount: 22,
             pageNumber: 33,
-            filtering: [option1, option2, option3],
+            parameters: FilterParameters(
+              filtering: [option1, option2, option3],
+            ),
           );
           verify(
             () => mockApiClient.queryLaunches(
@@ -185,8 +190,10 @@ void main() {
           repository.fetchLaunches(
             amount: 22,
             pageNumber: 33,
-            searchedPhrase: 'abc',
-            filtering: [option],
+            parameters: const FilterParameters(
+              searchedPhrase: 'abc',
+              filtering: [option],
+            ),
           );
           verify(
             () => mockApiClient.queryLaunches(
