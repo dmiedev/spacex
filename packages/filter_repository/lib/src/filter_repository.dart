@@ -17,6 +17,8 @@ class FilterRepository {
   Box<Object>? _box;
 
   void _registerAdapters() {
+    _registerAdapter(LaunchTimeAdapter());
+    _registerAdapter(LaunchSuccessfulnessAdapter());
     _registerAdapter(LaunchFiltersAdapter());
   }
 
