@@ -28,6 +28,15 @@ void main() {
       expect(FilterRepository.new, returnsNormally);
     });
 
+    test('adapters are registered', () {
+      expect(Hive.isAdapterRegistered(LaunchTimeAdapter().typeId), true);
+      expect(
+        Hive.isAdapterRegistered(LaunchSuccessfulnessAdapter().typeId),
+        true,
+      );
+      expect(Hive.isAdapterRegistered(LaunchFiltersAdapter().typeId), true);
+    });
+
     group('.saveLaunchFilters()', () {
       test(
         'throws FilterRepositoryNotInitializedException if '
