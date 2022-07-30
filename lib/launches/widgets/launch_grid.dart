@@ -16,6 +16,7 @@ class LaunchGrid extends StatefulWidget {
   const LaunchGrid({
     super.key,
     required this.controller,
+    required this.onFirstPageRequest,
     required this.onNextPageRequest,
     this.onFirstPageErrorRetryButtonPressed,
     this.onNextPageErrorRetryButtonPressed,
@@ -24,6 +25,9 @@ class LaunchGrid extends StatefulWidget {
   /// The controller of the [CustomScrollView] that this grid is contained
   /// within.
   final ScrollController controller;
+
+  /// Called on the first launch page request.
+  final void Function() onFirstPageRequest;
 
   /// Called on a next launch page request.
   final void Function() onNextPageRequest;
@@ -48,6 +52,7 @@ class _LaunchGridState extends State<LaunchGrid> {
   void initState() {
     super.initState();
     widget.controller.addListener(_handleScrollChange);
+    widget.onFirstPageRequest();
   }
 
   void _handleScrollChange() {

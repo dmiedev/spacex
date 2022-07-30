@@ -139,12 +139,12 @@ class LaunchFilteringBloc
     emit(state.copyWith(allRockets: () => rockets));
   }
 
-  void _handleLoaded(
+  Future<void> _handleLoaded(
     LaunchFilteringLoaded event,
     Emitter<LaunchFilteringState> emit,
-  ) {
+  ) async {
     try {
-      final parameters = _filterRepository.getLaunchFilters();
+      final parameters = await _filterRepository.getLaunchFilters();
       if (parameters == null) {
         emit(
           state.copyWith(status: LaunchFilteringSaveLoadStatus.loadedNothing),
@@ -171,12 +171,12 @@ class LaunchFilteringBloc
     }
   }
 
-  void _handleSaved(
+  Future<void> _handleSaved(
     LaunchFilteringSaved event,
     Emitter<LaunchFilteringState> emit,
-  ) {
+  ) async {
     try {
-      _filterRepository.saveLaunchFilters(
+      await _filterRepository.saveLaunchFilters(
         LaunchFilters(
           time: state.time,
           fromDate:

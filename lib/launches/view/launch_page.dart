@@ -29,16 +29,16 @@ class LaunchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<LaunchBloc>(
-          create: (context) => LaunchBloc(
-            launchRepository: context.read<LaunchRepository>(),
-          ),
-        ),
         BlocProvider<LaunchFilteringBloc>(
           create: (context) => LaunchFilteringBloc(
             rocketRepository: context.read<RocketRepository>(),
             filterRepository: context.read<FilterRepository>(),
           )..add(LaunchFilteringLoaded()),
+        ),
+        BlocProvider<LaunchBloc>(
+          create: (context) => LaunchBloc(
+            launchRepository: context.read<LaunchRepository>(),
+          ),
         ),
       ],
       child: const _LaunchView(),
@@ -48,25 +48,6 @@ class LaunchPage extends StatelessWidget {
 
 class _LaunchView extends StatelessWidget {
   const _LaunchView();
-
-  void _sendLaunchPageRequestedEvent({
-    required BuildContext context,
-    required int pageNumber,
-    required LaunchFilteringState state,
-  }) {
-    context.read<LaunchBloc>().add(
-          LaunchPageRequested(
-            pageNumber: pageNumber,
-            searchedText: state.searchedText,
-            sorting: state.sorting,
-            time: state.time,
-            dateInterval: state.dateInterval,
-            flightNumber: state.flightNumber,
-            successfulness: state.successfulness,
-            rocketIds: state.rocketIds,
-          ),
-        );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -85,18 +66,13 @@ class _LaunchView extends StatelessWidget {
               snap: true,
               forceElevated: innerBoxIsScrolled,
               title: BlocListener<LaunchFilteringBloc, LaunchFilteringState>(
+                listenWhen: (previous, current) =>
+                    previous.status != current.status,
                 listener: _handleLaunchFilteringStatusChange,
                 child: BlocListener<LaunchFilteringBloc, LaunchFilteringState>(
-                  listenWhen: (previous, current) =>
-                      // TODO(dmiedev): refactor
-                      previous.searchedText != current.searchedText ||
-                      previous.sorting != current.sorting ||
-                      previous.time != current.time ||
-                      previous.dateInterval != current.dateInterval ||
-                      previous.flightNumber != current.flightNumber ||
-                      previous.successfulness != current.successfulness ||
-                      previous.rocketIds != current.rocketIds,
-                  listener: _handleLaunchFilteringOptionsChange,
+                  listenWhen: _shouldSendFirstPageRequest,
+                  listener: (context, state) =>
+                      _sendFirstLaunchPageRequest(context),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -128,17 +104,31 @@ class _LaunchView extends StatelessWidget {
               ),
               LaunchGrid(
                 controller: primaryController,
-                onNextPageRequest: () => _sendNextLaunchPageRequest(context),
+                onFirstPageRequest: () => _sendFirstLaunchPageRequest(context),
+                onNextPageRequest: () => _sendNextPageRequest(context),
                 onFirstPageErrorRetryButtonPressed: () =>
-                    _sendNextLaunchPageRequest(context),
+                    _sendNextPageRequest(context),
                 onNextPageErrorRetryButtonPressed: () =>
-                    _sendNextLaunchPageRequest(context),
+                    _sendNextPageRequest(context),
               ),
             ],
           );
         },
       ),
     );
+  }
+
+  bool _shouldSendFirstPageRequest(
+    LaunchFilteringState previous,
+    LaunchFilteringState current,
+  ) {
+    return previous.searchedText != current.searchedText ||
+        previous.sorting != current.sorting ||
+        previous.time != current.time ||
+        previous.dateInterval != current.dateInterval ||
+        previous.flightNumber != current.flightNumber ||
+        previous.successfulness != current.successfulness ||
+        previous.rocketIds != current.rocketIds;
   }
 
   void _handleLaunchFilteringStatusChange(
@@ -171,23 +161,39 @@ class _LaunchView extends StatelessWidget {
     }
   }
 
-  void _handleLaunchFilteringOptionsChange(
-    BuildContext context,
-    LaunchFilteringState state,
-  ) {
+  void _sendFirstLaunchPageRequest(BuildContext context) {
     _sendLaunchPageRequestedEvent(
       context: context,
       pageNumber: 1,
-      state: state,
+      state: context.read<LaunchFilteringBloc>().state,
     );
   }
 
-  void _sendNextLaunchPageRequest(BuildContext context) {
+  void _sendNextPageRequest(BuildContext context) {
     _sendLaunchPageRequestedEvent(
       context: context,
       pageNumber: context.read<LaunchBloc>().state.lastPageNumber + 1,
       state: context.read<LaunchFilteringBloc>().state,
     );
+  }
+
+  void _sendLaunchPageRequestedEvent({
+    required BuildContext context,
+    required int pageNumber,
+    required LaunchFilteringState state,
+  }) {
+    context.read<LaunchBloc>().add(
+          LaunchPageRequested(
+            pageNumber: pageNumber,
+            searchedText: state.searchedText,
+            sorting: state.sorting,
+            time: state.time,
+            dateInterval: state.dateInterval,
+            flightNumber: state.flightNumber,
+            successfulness: state.successfulness,
+            rocketIds: state.rocketIds,
+          ),
+        );
   }
 
   void _handleSearchBarSubmit(BuildContext context, String text) {
