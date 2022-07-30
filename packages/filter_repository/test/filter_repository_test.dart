@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:test/test.dart';
 
-class MockBox extends Mock implements Box<Object> {}
+class MockBox extends Mock implements LazyBox<Object> {}
 
 void main() {
   final filters = LaunchFilters(
@@ -83,7 +83,7 @@ void main() {
       });
 
       test('makes correct request', () {
-        when(() => mockBox.get(any<String>())).thenReturn(filters);
+        when(() => mockBox.get(any<String>())).thenAnswer((_) async => filters);
         repository.getLaunchFilters();
         verify(
           () => mockBox.get(any<String>(that: equals('launch'))),
