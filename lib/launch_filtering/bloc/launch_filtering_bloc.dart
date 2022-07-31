@@ -12,7 +12,9 @@ class LaunchFilteringBloc
   /// Creates a [Bloc] that manages the launch filtering feature.
   LaunchFilteringBloc({
     required RocketRepository rocketRepository,
+    required LaunchRepository launchRepository,
   })  : _rocketRepository = rocketRepository,
+        _launchRepository = launchRepository,
         super(const LaunchFilteringState.initial()) {
     on<LaunchFilteringSearchedTextSubmitted>(_handleSearchedTextSubmitted);
     on<LaunchFilteringSortingSelected>(_handleSortingSelected);
@@ -23,9 +25,12 @@ class LaunchFilteringBloc
     on<LaunchFilteringSuccessfulnessSelected>(_handleSuccessfulnessSelected);
     on<LaunchFilteringRocketsRequested>(_handleRocketsRequested);
     on<LaunchFilteringRocketsSelected>(_handleRocketsSelected);
+    on<LaunchFilteringSaved>(_handleSaved);
+    on<LaunchFilteringLoaded>(_handleLoaded);
   }
 
   final RocketRepository _rocketRepository;
+  final LaunchRepository _launchRepository;
 
   void _handleSearchedTextSubmitted(
     LaunchFilteringSearchedTextSubmitted event,
@@ -45,7 +50,7 @@ class LaunchFilteringBloc
   ) {
     emit(
       state.copyWith(
-        sorting: Sorting<LaunchSortingParameter>(
+        sorting: LaunchSorting(
           parameter: event.sortingParameter,
           order: state.sorting.order,
         ),
@@ -59,7 +64,7 @@ class LaunchFilteringBloc
   ) {
     emit(
       state.copyWith(
-        sorting: Sorting<LaunchSortingParameter>(
+        sorting: LaunchSorting(
           parameter: state.sorting.parameter,
           order: state.sorting.order == SortOrder.ascending
               ? SortOrder.descending
@@ -152,5 +157,34 @@ class LaunchFilteringBloc
       rockets = [];
     }
     emit(state.copyWith(allRockets: () => rockets));
+  }
+
+  Future<void> _handleSaved(
+    LaunchFilteringSaved event,
+    Emitter<LaunchFilteringState> emit,
+  ) async {
+    try {
+      await _launchRepository.saveFiltering(state.filtering);
+      emit(state.copyWith(status: LaunchFilteringSaveLoadStatus.saveSuccess));
+    } on Exception {
+      emit(state.copyWith(status: LaunchFilteringSaveLoadStatus.saveFailure));
+    }
+  }
+
+  void _handleLoaded(
+    LaunchFilteringLoaded event,
+    Emitter<LaunchFilteringState> emit,
+  ) {
+    try {
+      final filtering = _launchRepository.loadFiltering();
+      emit(
+        state.copyWith(
+          filtering: filtering,
+          status: LaunchFilteringSaveLoadStatus.loadSuccess,
+        ),
+      );
+    } on Exception {
+      emit(state.copyWith(status: LaunchFilteringSaveLoadStatus.loadFailure));
+    }
   }
 }

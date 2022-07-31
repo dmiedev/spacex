@@ -42,7 +42,7 @@ class LaunchFilteringState extends Equatable {
   /// and no loaded filtering parameters.
   const LaunchFilteringState.initial()
       : this(
-          sorting: const Sorting<LaunchSortingParameter>(
+          sorting: const LaunchSorting(
             parameter: LaunchSortingParameter.date,
             order: SortOrder.ascending,
           ),
@@ -51,7 +51,7 @@ class LaunchFilteringState extends Equatable {
         );
 
   /// The sorting option to use while displaying matched launches.
-  final Sorting<LaunchSortingParameter> sorting;
+  final LaunchSorting sorting;
 
   /// Filtering options to match specific launches.
   final LaunchFiltering filtering;
@@ -71,7 +71,7 @@ class LaunchFilteringState extends Equatable {
   /// Creates a clone of this [LaunchFilteringState] but with provided
   /// parameters overridden.
   LaunchFilteringState copyWith({
-    Sorting<LaunchSortingParameter>? sorting,
+    LaunchSorting? sorting,
     LaunchFiltering? filtering,
     List<RocketInfo>? Function()? allRockets,
     LaunchFilteringSaveLoadStatus? status,

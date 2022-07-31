@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:filter_repository/filter_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -17,7 +16,6 @@ class App extends StatelessWidget {
     super.key,
     required this.launchRepository,
     required this.rocketRepository,
-    required this.filterRepository,
   });
 
   /// Launch repository for this app to use.
@@ -26,16 +24,12 @@ class App extends StatelessWidget {
   /// Rocket repository for this app to use.
   final RocketRepository rocketRepository;
 
-  /// Filter repository for this app to use.
-  final FilterRepository filterRepository;
-
   @override
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider.value(value: launchRepository),
         RepositoryProvider.value(value: rocketRepository),
-        RepositoryProvider.value(value: filterRepository),
       ],
       child: const _AppView(),
     );

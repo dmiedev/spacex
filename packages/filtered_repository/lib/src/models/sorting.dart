@@ -11,7 +11,7 @@ abstract class SortingParameter {
 }
 
 /// A sorting option to be used for fetching objects.
-class Sorting<T extends SortingParameter> extends Equatable {
+abstract class Sorting<T extends SortingParameter> extends Equatable {
   /// Creates a sorting option to be used for fetching objects.
   const Sorting({
     required this.parameter,

@@ -1,18 +1,24 @@
 import 'package:filtered_repository/filtered_repository.dart';
 import 'package:launch_repository/src/exceptions.dart';
 import 'package:launch_repository/src/models/models.dart';
+import 'package:local_settings_api/local_settings_api.dart';
 import 'package:spacex_api/spacex_api.dart';
 
 /// A repository that manages the rocket launch domain.
 class LaunchRepository
-    implements
-        FilteredRepository<Launch, LaunchSortingParameter, LaunchFiltering> {
+    implements FilteredRepository<Launch, LaunchSorting, LaunchFiltering> {
   /// Creates a repository that manages the rocket launch domain.
   LaunchRepository({
     SpacexApiClient? spacexApiClient,
-  }) : _spacexApiClient = spacexApiClient ?? SpacexApiClient();
+    required LocalSettingsApi localSettingsApi,
+  })  : _spacexApiClient = spacexApiClient ?? SpacexApiClient(),
+        _localSettingsApi = localSettingsApi;
+
+  static const _filteringSettingName = 'launch_filtering';
+  static const _sortingSettingName = 'launch_sorting';
 
   final SpacexApiClient _spacexApiClient;
+  final LocalSettingsApi _localSettingsApi;
 
   /// Fetches SpaceX rocket launches that meet the specified parameters.
   ///
@@ -41,6 +47,54 @@ class LaunchRepository
       return page.docs;
     } on Exception {
       throw LaunchFetchingException();
+    }
+  }
+
+  @override
+  LaunchSorting? loadSorting() {
+    try {
+      return _localSettingsApi.loadSetting<LaunchSorting>(
+        name: _sortingSettingName,
+        fromJson: LaunchSorting.fromJson,
+      );
+    } on Exception {
+      throw LaunchSortingException();
+    }
+  }
+
+  @override
+  Future<void> saveSorting(LaunchSorting sorting) {
+    try {
+      return _localSettingsApi.saveSetting<LaunchSorting>(
+        name: _sortingSettingName,
+        object: sorting,
+      );
+    } on Exception {
+      throw LaunchSortingException();
+    }
+  }
+
+  @override
+  LaunchFiltering? loadFiltering() {
+    try {
+      return _localSettingsApi.loadSetting<LaunchFiltering>(
+        name: _filteringSettingName,
+        fromJson: LaunchFiltering.fromJson,
+      );
+    } on Exception {
+      throw LaunchFilteringException();
+    }
+  }
+
+  @override
+  Future<void> saveFiltering(LaunchFiltering filtering) {
+    try {
+      return _localSettingsApi.saveSetting<LaunchFiltering>(
+        name: _filteringSettingName,
+        object: filtering,
+      );
+    } on Exception {
+      throw LaunchFilteringException();
     }
   }
 }
