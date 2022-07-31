@@ -16,12 +16,12 @@ class LaunchFlightNumberChip extends StatelessWidget {
     final l10n = context.l10n;
     return BlocBuilder<LaunchFilteringBloc, LaunchFilteringState>(
       buildWhen: (previous, current) =>
-          previous.flightNumber != current.flightNumber,
+          previous.filtering.flightNumber != current.filtering.flightNumber,
       builder: (context, state) => FilteringChip(
-        active: state.flightNumber != null,
+        active: state.filtering.flightNumber != null,
         icon: const Icon(Icons.tag),
-        label: state.flightNumber != null
-            ? '${state.flightNumber}'
+        label: state.filtering.flightNumber != null
+            ? '${state.filtering.flightNumber}'
             : l10n.flightNumberChipLabel,
         onPressed: () => _handlePress(context),
       ),
@@ -30,7 +30,7 @@ class LaunchFlightNumberChip extends StatelessWidget {
 
   Future<void> _handlePress(BuildContext context) async {
     final launchFilteringBloc = context.read<LaunchFilteringBloc>();
-    final flightNumber = launchFilteringBloc.state.flightNumber;
+    final flightNumber = launchFilteringBloc.state.filtering.flightNumber;
     final newFlightNumber = await showDialog<String>(
       context: context,
       builder: (context) => _FlightNumberDialog(flightNumber: flightNumber),

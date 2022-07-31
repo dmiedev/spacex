@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:filter_repository/filter_repository.dart';
 import 'package:launch_repository/launch_repository.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 
@@ -12,19 +11,19 @@ abstract class LaunchFilteringEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// An event to [LaunchFilteringBloc] indicating searched text was submitted.
+/// An event to [LaunchFilteringBloc] indicating searched phrase was submitted.
 class LaunchFilteringSearchedTextSubmitted extends LaunchFilteringEvent {
-  /// Creates an event to [LaunchFilteringBloc] indicating searched text was
+  /// Creates an event to [LaunchFilteringBloc] indicating searched phrase was
   /// submitted.
   const LaunchFilteringSearchedTextSubmitted({
-    required this.searchedText,
+    required this.searchedPhrase,
   });
 
-  /// Submitted searched text.
-  final String searchedText;
+  /// Submitted searched phrase.
+  final String searchedPhrase;
 
   @override
-  List<Object?> get props => [searchedText];
+  List<Object?> get props => [searchedPhrase];
 }
 
 /// An event to [LaunchFilteringBloc] indicating launch sorting was selected.
@@ -32,14 +31,14 @@ class LaunchFilteringSortingSelected extends LaunchFilteringEvent {
   /// Creates an event to [LaunchFilteringBloc] indicating launch sorting was
   /// selected.
   const LaunchFilteringSortingSelected({
-    required this.feature,
+    required this.sortingParameter,
   });
 
-  /// The launch feature that the sorting is related to.
-  final LaunchFeature feature;
+  /// The launch parameter that the sorting is related to.
+  final LaunchSortingParameter sortingParameter;
 
   @override
-  List<Object?> get props => [feature];
+  List<Object?> get props => [sortingParameter];
 }
 
 /// An event to [LaunchFilteringBloc] indicating launch sorting order was

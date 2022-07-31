@@ -26,12 +26,12 @@ class LaunchYearRangeChip extends StatelessWidget {
     final l10n = context.l10n;
     return BlocBuilder<LaunchFilteringBloc, LaunchFilteringState>(
       buildWhen: (previous, current) =>
-          previous.dateInterval != current.dateInterval,
+          previous.filtering.dateInterval != current.filtering.dateInterval,
       builder: (context, state) => FilteringChip(
-        active: state.dateInterval != null,
+        active: state.filtering.dateInterval != null,
         icon: const Icon(Icons.date_range),
-        label: state.dateInterval != null
-            ? _getIntervalLabelText(state.dateInterval!)
+        label: state.filtering.dateInterval != null
+            ? _getIntervalLabelText(state.filtering.dateInterval!)
             : l10n.yearRangeChipLabel,
         onPressed: () => _handlePress(context),
       ),
@@ -48,7 +48,7 @@ class LaunchYearRangeChip extends StatelessWidget {
 
   Future<void> _handlePress(BuildContext context) async {
     final launchFilteringBloc = context.read<LaunchFilteringBloc>();
-    final currentInterval = launchFilteringBloc.state.dateInterval;
+    final currentInterval = launchFilteringBloc.state.filtering.dateInterval;
 
     final now = DateTime.now();
     final start = DateTime(2006);

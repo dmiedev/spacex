@@ -1,6 +1,6 @@
-import 'package:filter_repository/filter_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:launch_repository/launch_repository.dart';
 import 'package:spacex/l10n/l10n.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 import 'package:spacex_ui/spacex_ui.dart';
@@ -15,20 +15,21 @@ class LaunchSuccessfulnessChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LaunchFilteringBloc, LaunchFilteringState>(
       buildWhen: (previous, current) =>
-          previous.successfulness != current.successfulness ||
-          previous.time != current.time,
+          previous.filtering.successfulness !=
+              current.filtering.successfulness ||
+          previous.filtering.time != current.filtering.time,
       builder: (context, state) {
-        if (state.time == LaunchTime.upcoming) {
+        if (state.filtering.time == LaunchTime.upcoming) {
           return Container();
         }
         return FilteringChip(
-          active: state.successfulness != LaunchSuccessfulness.any,
+          active: state.filtering.successfulness != LaunchSuccessfulness.any,
           icon: Icon(
-            state.successfulness == LaunchSuccessfulness.failure
+            state.filtering.successfulness == LaunchSuccessfulness.failure
                 ? Icons.close
                 : Icons.done,
           ),
-          label: _getLabelText(context, state.successfulness),
+          label: _getLabelText(context, state.filtering.successfulness),
           onPressed: () => _handlePress(context),
         );
       },

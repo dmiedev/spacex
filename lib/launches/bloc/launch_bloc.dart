@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:filter_repository/filter_repository.dart';
 import 'package:launch_repository/launch_repository.dart';
 import 'package:spacex/launches/bloc/bloc.dart';
 
@@ -31,40 +30,8 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
       final launches = await _launchRepository.fetchFiltered(
         amount: _amountPerPage,
         pageNumber: event.pageNumber,
-        parameters: FilterParameters(
-          searchedPhrase:
-              event.searchedText != null && event.searchedText!.isNotEmpty
-                  ? event.searchedText
-                  : null,
-          sorting: event.sorting,
-          filtering: [
-            FilteringOption.value(
-              feature: LaunchFeature.isUpcoming,
-              value: event.time == LaunchTime.upcoming,
-            ),
-            if (event.dateInterval != null)
-              FilteringOption.interval(
-                feature: LaunchFeature.date,
-                interval: event.dateInterval!,
-              ),
-            if (event.flightNumber != null)
-              FilteringOption.value(
-                feature: LaunchFeature.flightNumber,
-                value: event.flightNumber!,
-              ),
-            if (event.successfulness != LaunchSuccessfulness.any &&
-                event.time == LaunchTime.past)
-              FilteringOption.value(
-                feature: LaunchFeature.isSuccessful,
-                value: event.successfulness == LaunchSuccessfulness.success,
-              ),
-            if (event.rocketIds != null && event.rocketIds!.isNotEmpty)
-              FilteringOption.anyFromValues(
-                feature: LaunchFeature.rocketId,
-                values: event.rocketIds!,
-              ),
-          ],
-        ),
+        sorting: event.sorting,
+        filtering: event.filtering,
       );
       if (launches.isEmpty) {
         newState = LaunchState(

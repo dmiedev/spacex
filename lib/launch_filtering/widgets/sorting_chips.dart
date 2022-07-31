@@ -51,23 +51,26 @@ class LaunchSortingChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<LaunchFilteringBloc, LaunchFilteringState>(
       buildWhen: (previous, current) =>
-          previous.sorting.feature != current.sorting.feature,
+          previous.sorting.parameter != current.sorting.parameter,
       builder: (context, state) => FilteringChip(
         active: true,
-        label: _mapLaunchFeatureToLabel(context, state.sorting.feature),
+        label: _mapLaunchFeatureToLabel(context, state.sorting.parameter),
         onPressed: () => _handlePress(context),
       ),
     );
   }
 
-  String _mapLaunchFeatureToLabel(BuildContext context, LaunchFeature feature) {
+  String _mapLaunchFeatureToLabel(
+    BuildContext context,
+    LaunchSortingParameter sorting,
+  ) {
     final l10n = context.l10n;
-    switch (feature) {
-      case LaunchFeature.date:
+    switch (sorting) {
+      case LaunchSortingParameter.date:
         return l10n.dateSortingChipLabel;
-      case LaunchFeature.name:
+      case LaunchSortingParameter.name:
         return l10n.nameSortingChipLabel;
-      case LaunchFeature.flightNumber:
+      case LaunchSortingParameter.flightNumber:
         return l10n.flightNumberSortingChipLabel;
       default:
         break;
@@ -77,12 +80,14 @@ class LaunchSortingChip extends StatelessWidget {
 
   Future<void> _handlePress(BuildContext context) async {
     final launchFilteringBloc = context.read<LaunchFilteringBloc>();
-    final feature = await showDialog<LaunchFeature>(
+    final parameter = await showDialog<LaunchSortingParameter>(
       context: context,
       builder: (context) => const _LaunchSortingSelectionDialog(),
     );
-    if (feature != null) {
-      launchFilteringBloc.add(LaunchFilteringSortingSelected(feature: feature));
+    if (parameter != null) {
+      launchFilteringBloc.add(
+        LaunchFilteringSortingSelected(sortingParameter: parameter),
+      );
     }
   }
 }
@@ -98,15 +103,18 @@ class _LaunchSortingSelectionDialog extends StatelessWidget {
       children: [
         SimpleDialogOption(
           child: Text(l10n.dateOptionLabel),
-          onPressed: () => Navigator.pop(context, LaunchFeature.date),
+          onPressed: () => Navigator.pop(context, LaunchSortingParameter.date),
         ),
         SimpleDialogOption(
           child: Text(l10n.nameOptionLabel),
-          onPressed: () => Navigator.pop(context, LaunchFeature.name),
+          onPressed: () => Navigator.pop(context, LaunchSortingParameter.name),
         ),
         SimpleDialogOption(
           child: Text(l10n.flightNumberOptionLabel),
-          onPressed: () => Navigator.pop(context, LaunchFeature.flightNumber),
+          onPressed: () => Navigator.pop(
+            context,
+            LaunchSortingParameter.flightNumber,
+          ),
         ),
       ],
     );
