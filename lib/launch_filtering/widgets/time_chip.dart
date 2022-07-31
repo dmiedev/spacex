@@ -32,8 +32,8 @@ class LaunchTimeChip extends StatelessWidget {
   }
 
   void _handlePress(BuildContext context) {
-    context
-        .read<LaunchFilteringBloc>()
-        .add(const LaunchFilteringTimeSwitched());
+    context.read<LaunchFilteringBloc>().add(
+          const LaunchFilteringTimeSwitched(),
+        );
   }
 }

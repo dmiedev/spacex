@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -38,7 +36,7 @@ class LaunchSortingOrderChip extends StatelessWidget {
 
   void _handlePress(BuildContext context) {
     context.read<LaunchFilteringBloc>().add(
-          LaunchFilteringSortingOrderSwitched(),
+          const LaunchFilteringSortingOrderSwitched(),
         );
   }
 }
