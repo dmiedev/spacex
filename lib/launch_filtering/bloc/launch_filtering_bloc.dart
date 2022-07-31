@@ -16,6 +16,8 @@ class LaunchFilteringBloc
   })  : _rocketRepository = rocketRepository,
         _launchRepository = launchRepository,
         super(const LaunchFilteringState.initial()) {
+    on<LaunchFilteringLoaded>(_handleLoaded);
+    on<LaunchFilteringSaved>(_handleSaved);
     on<LaunchFilteringSearchedTextSubmitted>(_handleSearchedTextSubmitted);
     on<LaunchFilteringSortingSelected>(_handleSortingSelected);
     on<LaunchFilteringSortingOrderSwitched>(_handleSortingOrderSwitched);
@@ -25,12 +27,41 @@ class LaunchFilteringBloc
     on<LaunchFilteringSuccessfulnessSelected>(_handleSuccessfulnessSelected);
     on<LaunchFilteringRocketsRequested>(_handleRocketsRequested);
     on<LaunchFilteringRocketsSelected>(_handleRocketsSelected);
-    on<LaunchFilteringSaved>(_handleSaved);
-    on<LaunchFilteringLoaded>(_handleLoaded);
   }
 
   final RocketRepository _rocketRepository;
   final LaunchRepository _launchRepository;
+
+  void _handleLoaded(
+    LaunchFilteringLoaded event,
+    Emitter<LaunchFilteringState> emit,
+  ) {
+    try {
+      final filtering = _launchRepository.loadFiltering();
+      emit(
+        state.copyWith(
+          filtering: filtering,
+          status: filtering != null
+              ? LaunchFilteringSaveLoadStatus.loadSuccess
+              : LaunchFilteringSaveLoadStatus.loadedNothing,
+        ),
+      );
+    } on Exception {
+      emit(state.copyWith(status: LaunchFilteringSaveLoadStatus.loadFailure));
+    }
+  }
+
+  Future<void> _handleSaved(
+    LaunchFilteringSaved event,
+    Emitter<LaunchFilteringState> emit,
+  ) async {
+    try {
+      await _launchRepository.saveFiltering(state.filtering);
+      emit(state.copyWith(status: LaunchFilteringSaveLoadStatus.saveSuccess));
+    } on Exception {
+      emit(state.copyWith(status: LaunchFilteringSaveLoadStatus.saveFailure));
+    }
+  }
 
   void _handleSearchedTextSubmitted(
     LaunchFilteringSearchedTextSubmitted event,
@@ -38,8 +69,9 @@ class LaunchFilteringBloc
   ) {
     emit(
       state.copyWith(
-        filtering:
-            state.filtering.copyWith(searchedPhrase: event.searchedPhrase),
+        filtering: state.filtering.copyWith(
+          searchedPhrase: event.searchedPhrase,
+        ),
       ),
     );
   }
@@ -157,34 +189,5 @@ class LaunchFilteringBloc
       rockets = [];
     }
     emit(state.copyWith(allRockets: () => rockets));
-  }
-
-  Future<void> _handleSaved(
-    LaunchFilteringSaved event,
-    Emitter<LaunchFilteringState> emit,
-  ) async {
-    try {
-      await _launchRepository.saveFiltering(state.filtering);
-      emit(state.copyWith(status: LaunchFilteringSaveLoadStatus.saveSuccess));
-    } on Exception {
-      emit(state.copyWith(status: LaunchFilteringSaveLoadStatus.saveFailure));
-    }
-  }
-
-  void _handleLoaded(
-    LaunchFilteringLoaded event,
-    Emitter<LaunchFilteringState> emit,
-  ) {
-    try {
-      final filtering = _launchRepository.loadFiltering();
-      emit(
-        state.copyWith(
-          filtering: filtering,
-          status: LaunchFilteringSaveLoadStatus.loadSuccess,
-        ),
-      );
-    } on Exception {
-      emit(state.copyWith(status: LaunchFilteringSaveLoadStatus.loadFailure));
-    }
   }
 }

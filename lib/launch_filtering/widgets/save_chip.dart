@@ -19,6 +19,6 @@ class LaunchFilterSaveChip extends StatelessWidget {
   }
 
   void _handlePress(BuildContext context) {
-    context.read<LaunchFilteringBloc>().add(LaunchFilteringSaved());
+    context.read<LaunchFilteringBloc>().add(const LaunchFilteringSaved());
   }
 }

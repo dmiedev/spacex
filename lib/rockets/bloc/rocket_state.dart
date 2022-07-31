@@ -12,10 +12,17 @@ abstract class RocketState extends Equatable {
 }
 
 /// A state of [RocketBloc] that is empty and considered initial.
-class RocketInitial extends RocketState {}
+class RocketInitial extends RocketState {
+  /// Creates a state of [RocketBloc] that is empty and considered initial.
+  const RocketInitial();
+}
 
 /// A state of [RocketBloc] indicating that loading of rockets is in progress.
-class RocketLoadInProgress extends RocketState {}
+class RocketLoadInProgress extends RocketState {
+  /// Creates a state of [RocketBloc] indicating that loading of rockets is in
+  /// progress.
+  const RocketLoadInProgress();
+}
 
 /// A state of [RocketBloc] indicating that rockets has been loaded
 /// successfully.
@@ -32,4 +39,8 @@ class RocketLoadSuccess extends RocketState {
 }
 
 /// A state of [RocketBloc] indicating that there was a failure to load rockets.
-class RocketLoadFailure extends RocketState {}
+class RocketLoadFailure extends RocketState {
+  /// Creates a state of [RocketBloc] indicating that there was a failure to
+  /// load rockets.
+  const RocketLoadFailure();
+}

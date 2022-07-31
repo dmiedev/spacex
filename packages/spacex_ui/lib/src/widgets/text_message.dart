@@ -8,6 +8,7 @@ class TextMessage extends StatelessWidget {
     super.key,
     this.title,
     this.text,
+    this.useAutoSizeText = true,
     this.textMaxLines,
     this.button,
   });
@@ -17,6 +18,9 @@ class TextMessage extends StatelessWidget {
 
   /// The main body of this message.
   final String? text;
+
+  /// Whether to use [AutoSizeText] for the main body.
+  final bool useAutoSizeText;
 
   /// A maximum number of lines for the message text to span.
   final int? textMaxLines;
@@ -29,6 +33,7 @@ class TextMessage extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(30),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           if (title != null)
             Padding(
@@ -44,12 +49,19 @@ class TextMessage extends StatelessWidget {
           if (text != null)
             Padding(
               padding: const EdgeInsets.only(bottom: 20),
-              child: AutoSizeText(
-                text!,
-                textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 16),
-                maxLines: textMaxLines,
-              ),
+              child: useAutoSizeText
+                  ? AutoSizeText(
+                      text!,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 16),
+                      maxLines: textMaxLines,
+                    )
+                  : Text(
+                      text!,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontSize: 16),
+                      maxLines: textMaxLines,
+                    ),
             ),
           if (button != null) button!,
         ],

@@ -26,7 +26,7 @@ class RocketPage extends StatelessWidget {
     return BlocProvider(
       create: (context) => RocketBloc(
         rocketRepository: context.read<RocketRepository>(),
-      )..add(RocketLoadRequested()),
+      )..add(const RocketLoadRequested()),
       child: const _RocketView(),
     );
   }
@@ -99,7 +99,7 @@ class _RocketView extends StatelessWidget {
   }
 
   void _handleRetryButtonPress(BuildContext context) {
-    context.read<RocketBloc>().add(RocketLoadRequested());
+    context.read<RocketBloc>().add(const RocketLoadRequested());
   }
 
   Widget _buildRocketArticle(BuildContext context, Rocket rocket) {

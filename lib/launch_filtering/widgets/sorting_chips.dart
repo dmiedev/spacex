@@ -36,7 +36,7 @@ class LaunchSortingOrderChip extends StatelessWidget {
 
   void _handlePress(BuildContext context) {
     context.read<LaunchFilteringBloc>().add(
-          LaunchFilteringSortingOrderSwitched(),
+          const LaunchFilteringSortingOrderSwitched(),
         );
   }
 }

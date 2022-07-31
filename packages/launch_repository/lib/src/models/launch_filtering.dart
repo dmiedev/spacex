@@ -69,7 +69,7 @@ class LaunchFiltering extends Equatable implements Filtering {
           Filter.greaterThanOrEqual('date_utc', dateInterval!.from),
           Filter.lessThanOrEqual('date_utc', dateInterval!.to),
         ]),
-      if (successfulness != LaunchSuccessfulness.any)
+      if (successfulness != LaunchSuccessfulness.any && time == LaunchTime.past)
         Filter.equal('success', successfulness == LaunchSuccessfulness.success),
       if (rocketIds.isNotEmpty) Filter.in_('rocket', rocketIds),
     ];
