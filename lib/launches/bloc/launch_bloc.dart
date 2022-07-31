@@ -28,7 +28,7 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
     }
     late final LaunchState newState;
     try {
-      final launches = await _launchRepository.fetchLaunches(
+      final launches = await _launchRepository.fetchFiltered(
         amount: _amountPerPage,
         pageNumber: event.pageNumber,
         parameters: FilterParameters(

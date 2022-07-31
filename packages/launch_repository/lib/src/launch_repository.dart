@@ -4,7 +4,7 @@ import 'package:launch_repository/src/models/models.dart';
 import 'package:spacex_api/spacex_api.dart';
 
 /// A repository that manages the rocket launch domain.
-class LaunchRepository {
+class LaunchRepository implements FilteredRepository<Launch, LaunchFeature> {
   /// Creates a repository that manages the rocket launch domain.
   LaunchRepository({
     SpacexApiClient? spacexApiClient,
@@ -12,10 +12,11 @@ class LaunchRepository {
 
   final SpacexApiClient _spacexApiClient;
 
-  /// Fetches SpaceX rocket launches that meet the specified parameters.
+  /// Fetches SpaceX rocket launches that meet the specified [parameters].
   ///
   /// Throws a [LaunchFetchingException] if fetching fails.
-  Future<List<Launch>> fetchLaunches({
+  @override
+  Future<List<Launch>> fetchFiltered({
     required int amount,
     required int pageNumber,
     FilterParameters<LaunchFeature> parameters = const FilterParameters(),
