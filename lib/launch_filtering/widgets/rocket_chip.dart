@@ -133,6 +133,7 @@ class _RocketSelectionDialogState extends State<_RocketSelectionDialog> {
       return TextMessage(
         text: l10n.loadingErrorMessageTextShort,
         textMaxLines: 3,
+        useAutoSizeText: false,
         button: IconTextButton(
           icon: const Icon(Icons.replay),
           label: l10n.retryButtonLabel,
