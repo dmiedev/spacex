@@ -1,8 +1,14 @@
 import 'package:filtered_repository/filtered_repository.dart';
 
+/// A parameter for sorting rocket launches.
 enum LaunchSortingParameter implements SortingParameter {
+  /// Launch date.
   date,
+
+  /// Launch name.
   name,
+
+  /// Launch flight number.
   flightNumber;
 
   @override

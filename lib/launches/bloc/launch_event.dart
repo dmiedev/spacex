@@ -30,6 +30,7 @@ class LaunchPageRequested extends LaunchEvent {
   /// The sorting option to use while displaying matched launches.
   final Sorting<LaunchSortingParameter>? sorting;
 
+  /// Filtering options to use to match specific launches.
   final LaunchFiltering? filtering;
 
   @override

@@ -1,9 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:spacex_api/spacex_api.dart';
 
+/// A parameter of a sorting option.
 abstract class SortingParameter {
+  /// An abstract constructor of a [SortingParameter] instance.
   const SortingParameter();
 
+  /// Converts this parameter to an object's field name in `snake_case`.
   String toFieldName();
 }
 

@@ -2,21 +2,32 @@ import 'package:equatable/equatable.dart';
 import 'package:filtered_repository/filtered_repository.dart';
 import 'package:spacex_api/spacex_api.dart';
 
+/// Launch successfulness.
 enum LaunchSuccessfulness {
+  /// Represents launches with any successfulness.
   any,
+
+  /// Represents successful launches.
   success,
+
+  /// Represents failed launches.
   failure,
 }
 
+/// The time of a launch.
 enum LaunchTime {
+  /// Represents launches that happened in the past.
   past,
+
+  /// Represents launches that are going to happen in the future.
   upcoming,
 }
 
+/// A collection of options used to match [Launch] objects.
 class LaunchFiltering extends Equatable implements Filtering {
+  /// Creates a collection of options used to match [Launch] objects.
   const LaunchFiltering({
     this.searchedPhrase = '',
-    this.name,
     this.time = LaunchTime.upcoming,
     this.flightNumber,
     this.dateInterval,
@@ -24,12 +35,22 @@ class LaunchFiltering extends Equatable implements Filtering {
     this.rocketIds = const [],
   });
 
+  /// A phrase to search in String fields of a [Launch].
   final String searchedPhrase;
-  final String? name;
+
+  /// Whether launches should be past or upcoming.
   final LaunchTime? time;
+
+  /// The flight number launches should have.
   final int? flightNumber;
+
+  /// A date interval in which the launch date should be.
   final DateTimeInterval? dateInterval;
+
+  /// The successfulness launches should have.
   final LaunchSuccessfulness successfulness;
+
+  /// IDs of rockets launches should relate to.
   final List<String> rocketIds;
 
   @override
@@ -50,6 +71,8 @@ class LaunchFiltering extends Equatable implements Filtering {
     ];
   }
 
+  /// Creates a clone of this [LaunchFiltering] instance with the provided
+  /// parameters overridden.
   LaunchFiltering copyWith({
     String? searchedPhrase,
     LaunchTime? Function()? time,

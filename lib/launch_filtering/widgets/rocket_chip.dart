@@ -90,7 +90,9 @@ class _RocketSelectionDialogState extends State<_RocketSelectionDialog> {
       listenWhen: (previous, current) =>
           !previous.allRocketsAreLoaded && current.allRocketsAreLoaded,
       listener: (context, state) => _initializeRocketSelection(
-          state.allRockets!, state.filtering.rocketIds),
+        state.allRockets!,
+        state.filtering.rocketIds,
+      ),
       buildWhen: (previous, current) =>
           previous.allRockets != current.allRockets,
       builder: (context, state) => AlertDialog(

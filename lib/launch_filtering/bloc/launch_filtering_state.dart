@@ -53,6 +53,7 @@ class LaunchFilteringState extends Equatable {
   /// The sorting option to use while displaying matched launches.
   final Sorting<LaunchSortingParameter> sorting;
 
+  /// Filtering options to match specific launches.
   final LaunchFiltering filtering;
 
   /// Launch rocket options to select from.
