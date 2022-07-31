@@ -78,7 +78,7 @@ void main() {
 
       test('returns correct result if there is no exception', () {
         expect(
-          repository.fetchLaunches(amount: 22, pageNumber: 33),
+          repository.fetchFiltered(amount: 22, pageNumber: 33),
           completion(equals(launchPage.docs)),
         );
       });
@@ -91,14 +91,14 @@ void main() {
           ),
         ).thenThrow(Exception());
         expect(
-          repository.fetchLaunches(amount: 10, pageNumber: 1),
+          repository.fetchFiltered(amount: 10, pageNumber: 1),
           throwsA(isA<LaunchFetchingException>()),
         );
       });
 
       group('makes correct request -', () {
         test('simple fetching', () {
-          repository.fetchLaunches(amount: 22, pageNumber: 33);
+          repository.fetchFiltered(amount: 22, pageNumber: 33);
           verify(
             () => mockApiClient.queryLaunches(
               filter: any(named: 'filter', that: equals(const Filter.empty())),
@@ -111,7 +111,7 @@ void main() {
         });
 
         test('with sorting', () {
-          repository.fetchLaunches(
+          repository.fetchFiltered(
             amount: 22,
             pageNumber: 33,
             parameters: const FilterParameters(
@@ -154,7 +154,7 @@ void main() {
               to: DateTime(2018, 3, 31),
             ),
           );
-          repository.fetchLaunches(
+          repository.fetchFiltered(
             amount: 22,
             pageNumber: 33,
             parameters: FilterParameters(
@@ -186,7 +186,7 @@ void main() {
             feature: LaunchFeature.isUpcoming,
             value: true,
           );
-          repository.fetchLaunches(
+          repository.fetchFiltered(
             amount: 22,
             pageNumber: 33,
             parameters: const FilterParameters(
