@@ -1,6 +1,7 @@
 import 'package:filtered_repository/filtered_repository.dart';
 import 'package:launch_repository/src/exceptions.dart';
 import 'package:launch_repository/src/models/models.dart';
+import 'package:local_settings_api/local_settings_api.dart';
 import 'package:spacex_api/spacex_api.dart';
 
 /// A repository that manages the rocket launch domain.
@@ -10,9 +11,15 @@ class LaunchRepository
   /// Creates a repository that manages the rocket launch domain.
   LaunchRepository({
     SpacexApiClient? spacexApiClient,
-  }) : _spacexApiClient = spacexApiClient ?? SpacexApiClient();
+    required LocalSettingsApi localSettingsApi,
+  })  : _spacexApiClient = spacexApiClient ?? SpacexApiClient(),
+        _localSettingsApi = localSettingsApi;
+
+  static const _filteringSettingName = 'launch_filtering';
+  static const _sortingSettingName = 'launch_sorting';
 
   final SpacexApiClient _spacexApiClient;
+  final LocalSettingsApi _localSettingsApi;
 
   /// Fetches SpaceX rocket launches that meet the specified parameters.
   ///
@@ -41,6 +48,42 @@ class LaunchRepository
       return page.docs;
     } on Exception {
       throw LaunchFetchingException();
+    }
+  }
+
+  @override
+  Sorting<LaunchSortingParameter>? loadSorting() {
+    try {
+      return _localSettingsApi.loadSetting(_sortingSettingName);
+    } on Exception {
+      throw LaunchSortingException();
+    }
+  }
+
+  @override
+  Future<void> saveSorting(Sorting<LaunchSortingParameter> sorting) {
+    try {
+      return _localSettingsApi.saveSetting(_sortingSettingName, sorting);
+    } on Exception {
+      throw LaunchSortingException();
+    }
+  }
+
+  @override
+  LaunchFiltering? loadFiltering() {
+    try {
+      return _localSettingsApi.loadSetting(_filteringSettingName);
+    } on Exception {
+      throw LaunchFilteringException();
+    }
+  }
+
+  @override
+  Future<void> saveFiltering(LaunchFiltering filtering) {
+    try {
+      return _localSettingsApi.saveSetting(_filteringSettingName, filtering);
+    } on Exception {
+      throw LaunchFilteringException();
     }
   }
 }

@@ -10,6 +10,8 @@ dependencies:
   equatable: ^2.0.3
   filtered_repository:
     path: ../filtered_repository
+  local_settings_api:
+    path: ../local_settings_api
   spacex_api:
     path: ../spacex_api
 
