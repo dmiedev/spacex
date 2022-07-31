@@ -14,11 +14,12 @@ class LaunchRocketChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LaunchFilteringBloc, LaunchFilteringState>(
-      buildWhen: (previous, current) => previous.rocketIds != current.rocketIds,
+      buildWhen: (previous, current) =>
+          previous.filtering.rocketIds != current.filtering.rocketIds,
       builder: (context, state) => FilteringChip(
         icon: const Icon(Icons.rocket),
-        active: state.rocketIds.isNotEmpty,
-        label: _getLabel(context, state.allRockets, state.rocketIds),
+        active: state.filtering.rocketIds.isNotEmpty,
+        label: _getLabel(context, state.allRockets, state.filtering.rocketIds),
         onPressed: () => _handlePress(context),
       ),
     );
@@ -63,7 +64,10 @@ class _RocketSelectionDialogState extends State<_RocketSelectionDialog> {
     super.initState();
     final bloc = context.read<LaunchFilteringBloc>();
     if (bloc.state.allRocketsAreLoaded) {
-      _initializeRocketSelection(bloc.state.allRockets!, bloc.state.rocketIds);
+      _initializeRocketSelection(
+        bloc.state.allRockets!,
+        bloc.state.filtering.rocketIds,
+      );
     } else {
       bloc.add(LaunchFilteringRocketsRequested());
     }
@@ -85,8 +89,8 @@ class _RocketSelectionDialogState extends State<_RocketSelectionDialog> {
     return BlocConsumer<LaunchFilteringBloc, LaunchFilteringState>(
       listenWhen: (previous, current) =>
           !previous.allRocketsAreLoaded && current.allRocketsAreLoaded,
-      listener: (context, state) =>
-          _initializeRocketSelection(state.allRockets!, state.rocketIds),
+      listener: (context, state) => _initializeRocketSelection(
+          state.allRockets!, state.filtering.rocketIds),
       buildWhen: (previous, current) =>
           previous.allRockets != current.allRockets,
       builder: (context, state) => AlertDialog(

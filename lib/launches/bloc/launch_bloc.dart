@@ -31,14 +31,7 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
         amount: _amountPerPage,
         pageNumber: event.pageNumber,
         sorting: event.sorting,
-        filtering: LaunchFiltering(
-          searchedPhrase: event.searchedPhrase,
-          time: event.time,
-          dateInterval: event.dateInterval,
-          flightNumber: event.flightNumber,
-          successfulness: event.successfulness,
-          rocketIds: event.rocketIds,
-        ),
+        filtering: event.filtering,
       );
       if (launches.isEmpty) {
         newState = LaunchState(

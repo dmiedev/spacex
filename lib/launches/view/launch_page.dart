@@ -68,7 +68,9 @@ class _LaunchView extends StatelessWidget {
                     previous.status != current.status,
                 listener: _handleLaunchFilteringStatusChange,
                 child: BlocListener<LaunchFilteringBloc, LaunchFilteringState>(
-                  listenWhen: _shouldSendFirstPageRequest,
+                  listenWhen: (previous, current) =>
+                      previous.sorting != current.sorting ||
+                      previous.filtering != current.filtering,
                   listener: (context, state) =>
                       _sendFirstLaunchPageRequest(context),
                   child: Column(
@@ -114,19 +116,6 @@ class _LaunchView extends StatelessWidget {
         },
       ),
     );
-  }
-
-  bool _shouldSendFirstPageRequest(
-    LaunchFilteringState previous,
-    LaunchFilteringState current,
-  ) {
-    return previous.searchedText != current.searchedText ||
-        previous.sorting != current.sorting ||
-        previous.time != current.time ||
-        previous.dateInterval != current.dateInterval ||
-        previous.flightNumber != current.flightNumber ||
-        previous.successfulness != current.successfulness ||
-        previous.rocketIds != current.rocketIds;
   }
 
   void _handleLaunchFilteringStatusChange(
@@ -183,20 +172,15 @@ class _LaunchView extends StatelessWidget {
     context.read<LaunchBloc>().add(
           LaunchPageRequested(
             pageNumber: pageNumber,
-            searchedPhrase: state.searchedText,
             sorting: state.sorting,
-            time: state.time,
-            dateInterval: state.dateInterval,
-            flightNumber: state.flightNumber,
-            successfulness: state.successfulness,
-            rocketIds: state.rocketIds,
+            filtering: state.filtering,
           ),
         );
   }
 
   void _handleSearchBarSubmit(BuildContext context, String text) {
     context.read<LaunchFilteringBloc>().add(
-          LaunchFilteringSearchedTextSubmitted(searchedText: text),
+          LaunchFilteringSearchedTextSubmitted(searchedPhrase: text),
         );
   }
 }

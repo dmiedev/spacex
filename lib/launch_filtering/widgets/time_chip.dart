@@ -14,16 +14,17 @@ class LaunchTimeChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return BlocBuilder<LaunchFilteringBloc, LaunchFilteringState>(
-      buildWhen: (previous, current) => previous.time != current.time,
+      buildWhen: (previous, current) =>
+          previous.filtering.time != current.filtering.time,
       builder: (context, state) => FilteringChip(
         active: true,
         icon: Icon(
-          state.time == LaunchTime.upcoming
+          state.filtering.time == LaunchTime.upcoming
               ? Icons.history_toggle_off
               : Icons.schedule,
         ),
         onPressed: () => _handlePress(context),
-        label: state.time == LaunchTime.upcoming
+        label: state.filtering.time == LaunchTime.upcoming
             ? l10n.upcomingTimeChipLabel
             : l10n.pastTimeChipLabel,
       ),

@@ -16,14 +16,14 @@ class LaunchFilteringSearchedTextSubmitted extends LaunchFilteringEvent {
   /// Creates an event to [LaunchFilteringBloc] indicating searched text was
   /// submitted.
   const LaunchFilteringSearchedTextSubmitted({
-    required this.searchedText,
+    required this.searchedPhrase,
   });
 
   /// Submitted searched text.
-  final String searchedText;
+  final String searchedPhrase;
 
   @override
-  List<Object?> get props => [searchedText];
+  List<Object?> get props => [searchedPhrase];
 }
 
 /// An event to [LaunchFilteringBloc] indicating launch sorting was selected.

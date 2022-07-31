@@ -20,48 +20,18 @@ class LaunchPageRequested extends LaunchEvent {
   /// containing launches that match specified filtering criteria.
   const LaunchPageRequested({
     required this.pageNumber,
-    this.searchedPhrase,
     this.sorting,
-    this.time,
-    this.dateInterval,
-    this.flightNumber,
-    this.successfulness,
-    this.rocketIds,
+    this.filtering,
   });
 
   /// The number of the page that was requested.
   final int pageNumber;
 
-  /// Text that matches launches whose data contains it.
-  final String? searchedPhrase;
-
   /// The sorting option to use while displaying matched launches.
   final Sorting<LaunchSortingParameter>? sorting;
 
-  /// Time that launches should match.
-  final LaunchTime? time;
-
-  /// The date interval that launch date should match.
-  final DateTimeInterval? dateInterval;
-
-  /// The flight number launches should have.
-  final int? flightNumber;
-
-  /// The successfulness that launches should match.
-  final LaunchSuccessfulness? successfulness;
-
-  /// IDs of rockets whose launches are requested.
-  final List<String>? rocketIds;
+  final LaunchFiltering? filtering;
 
   @override
-  List<Object?> get props => [
-        pageNumber,
-        searchedPhrase,
-        sorting,
-        time,
-        dateInterval,
-        flightNumber,
-        successfulness,
-        rocketIds,
-      ];
+  List<Object?> get props => [pageNumber, sorting, filtering];
 }
