@@ -11,15 +11,15 @@ abstract class LaunchFilteringEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-/// An event to [LaunchFilteringBloc] indicating searched text was submitted.
+/// An event to [LaunchFilteringBloc] indicating searched phrase was submitted.
 class LaunchFilteringSearchedTextSubmitted extends LaunchFilteringEvent {
-  /// Creates an event to [LaunchFilteringBloc] indicating searched text was
+  /// Creates an event to [LaunchFilteringBloc] indicating searched phrase was
   /// submitted.
   const LaunchFilteringSearchedTextSubmitted({
     required this.searchedPhrase,
   });
 
-  /// Submitted searched text.
+  /// Submitted searched phrase.
   final String searchedPhrase;
 
   @override
@@ -34,7 +34,7 @@ class LaunchFilteringSortingSelected extends LaunchFilteringEvent {
     required this.sortingParameter,
   });
 
-  /// The launch feature that the sorting is related to.
+  /// The launch parameter that the sorting is related to.
   final LaunchSortingParameter sortingParameter;
 
   @override
