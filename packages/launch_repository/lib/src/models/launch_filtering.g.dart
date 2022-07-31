@@ -30,7 +30,7 @@ Map<String, dynamic> _$LaunchFilteringToJson(LaunchFiltering instance) =>
       'searchedPhrase': instance.searchedPhrase,
       'time': _$LaunchTimeEnumMap[instance.time],
       'flightNumber': instance.flightNumber,
-      'dateInterval': instance.dateInterval,
+      'dateInterval': instance.dateInterval?.toJson(),
       'successfulness': _$LaunchSuccessfulnessEnumMap[instance.successfulness]!,
       'rocketIds': instance.rocketIds,
     };

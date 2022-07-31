@@ -28,7 +28,7 @@ class LaunchPageRequested extends LaunchEvent {
   final int pageNumber;
 
   /// The sorting option to use while displaying matched launches.
-  final Sorting<LaunchSortingParameter>? sorting;
+  final LaunchSorting? sorting;
 
   /// Filtering options to use to match specific launches.
   final LaunchFiltering? filtering;

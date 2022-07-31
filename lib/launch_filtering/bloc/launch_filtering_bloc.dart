@@ -50,7 +50,7 @@ class LaunchFilteringBloc
   ) {
     emit(
       state.copyWith(
-        sorting: Sorting<LaunchSortingParameter>(
+        sorting: LaunchSorting(
           parameter: event.sortingParameter,
           order: state.sorting.order,
         ),
@@ -64,7 +64,7 @@ class LaunchFilteringBloc
   ) {
     emit(
       state.copyWith(
-        sorting: Sorting<LaunchSortingParameter>(
+        sorting: LaunchSorting(
           parameter: state.sorting.parameter,
           order: state.sorting.order == SortOrder.ascending
               ? SortOrder.descending
