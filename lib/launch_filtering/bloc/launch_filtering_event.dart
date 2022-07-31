@@ -11,6 +11,16 @@ abstract class LaunchFilteringEvent extends Equatable {
   List<Object?> get props => [];
 }
 
+/// An event to [LaunchFilteringBloc] indicating filtering options were loaded.
+class LaunchFilteringLoaded extends LaunchFilteringEvent {
+  const LaunchFilteringLoaded();
+}
+
+/// An event to [LaunchFilteringBloc] indicating filtering options were saved.
+class LaunchFilteringSaved extends LaunchFilteringEvent {
+  const LaunchFilteringSaved();
+}
+
 /// An event to [LaunchFilteringBloc] indicating searched phrase was submitted.
 class LaunchFilteringSearchedTextSubmitted extends LaunchFilteringEvent {
   /// Creates an event to [LaunchFilteringBloc] indicating searched phrase was
@@ -43,10 +53,14 @@ class LaunchFilteringSortingSelected extends LaunchFilteringEvent {
 
 /// An event to [LaunchFilteringBloc] indicating launch sorting order was
 /// switched.
-class LaunchFilteringSortingOrderSwitched extends LaunchFilteringEvent {}
+class LaunchFilteringSortingOrderSwitched extends LaunchFilteringEvent {
+  const LaunchFilteringSortingOrderSwitched();
+}
 
 /// An event to [LaunchFilteringBloc] indicating launch time was switched.
-class LaunchFilteringTimeSwitched extends LaunchFilteringEvent {}
+class LaunchFilteringTimeSwitched extends LaunchFilteringEvent {
+  const LaunchFilteringTimeSwitched();
+}
 
 /// An event to [LaunchFilteringBloc] indicating launch flight number was set.
 class LaunchFilteringFlightNumberSet extends LaunchFilteringEvent {
@@ -96,7 +110,9 @@ class LaunchFilteringSuccessfulnessSelected extends LaunchFilteringEvent {
 
 /// An event to [LaunchFilteringBloc] indicating that a list of rockets was
 /// requested.
-class LaunchFilteringRocketsRequested extends LaunchFilteringEvent {}
+class LaunchFilteringRocketsRequested extends LaunchFilteringEvent {
+  const LaunchFilteringRocketsRequested();
+}
 
 /// An event to [LaunchFilteringBloc] indicating that launch rockets were
 /// selected.
@@ -114,9 +130,3 @@ class LaunchFilteringRocketsSelected extends LaunchFilteringEvent {
   @override
   List<Object?> get props => [rocketSelection];
 }
-
-/// An event to [LaunchFilteringBloc] indicating filtering options were loaded.
-class LaunchFilteringLoaded extends LaunchFilteringEvent {}
-
-/// An event to [LaunchFilteringBloc] indicating filtering options were saved.
-class LaunchFilteringSaved extends LaunchFilteringEvent {}

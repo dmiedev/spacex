@@ -32,7 +32,7 @@ class LaunchPage extends StatelessWidget {
           create: (context) => LaunchFilteringBloc(
             rocketRepository: context.read<RocketRepository>(),
             launchRepository: context.read<LaunchRepository>(),
-          )..add(LaunchFilteringLoaded()),
+          ),
         ),
         BlocProvider<LaunchBloc>(
           create: (context) => LaunchBloc(
@@ -56,6 +56,16 @@ class _LaunchViewState extends State<_LaunchView> {
   final _searchBarController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    // Making sure BlocListeners are built before the event is sent so they
+    // could react.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<LaunchFilteringBloc>().add(const LaunchFilteringLoaded());
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return NestedScrollView(
@@ -73,28 +83,36 @@ class _LaunchViewState extends State<_LaunchView> {
               forceElevated: innerBoxIsScrolled,
               title: BlocListener<LaunchFilteringBloc, LaunchFilteringState>(
                 listenWhen: (previous, current) =>
-                    previous.status != current.status,
-                listener: _handleLaunchFilteringStatusChange,
+                    previous.status == LaunchFilteringSaveLoadStatus.none &&
+                    current.status != LaunchFilteringSaveLoadStatus.none,
+                listener: (context, state) =>
+                    _sendFirstLaunchPageRequest(context),
                 child: BlocListener<LaunchFilteringBloc, LaunchFilteringState>(
                   listenWhen: (previous, current) =>
-                      previous.sorting != current.sorting ||
-                      previous.filtering != current.filtering,
-                  listener: (context, state) =>
-                      _sendFirstLaunchPageRequest(context),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SearchBar(
-                        controller: _searchBarController,
-                        hintText: l10n.searchBarHintText,
-                        onSubmitted: (text) =>
-                            _handleSearchBarSubmit(context, text),
-                      ),
-                      const SizedBox(
-                        height: 50,
-                        child: LaunchFilteringChips(),
-                      ),
-                    ],
+                      previous.status != current.status,
+                  listener: _handleLaunchFilteringStatusChange,
+                  child:
+                      BlocListener<LaunchFilteringBloc, LaunchFilteringState>(
+                    listenWhen: (previous, current) =>
+                        previous.sorting != current.sorting ||
+                        previous.filtering != current.filtering,
+                    listener: (context, state) =>
+                        _sendFirstLaunchPageRequest(context),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        SearchBar(
+                          controller: _searchBarController,
+                          hintText: l10n.searchBarHintText,
+                          onSubmitted: (text) =>
+                              _handleSearchBarSubmit(context, text),
+                        ),
+                        const SizedBox(
+                          height: 50,
+                          child: LaunchFilteringChips(),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -113,7 +131,6 @@ class _LaunchViewState extends State<_LaunchView> {
               ),
               LaunchGrid(
                 controller: primaryController,
-                onFirstPageRequest: () => _sendFirstLaunchPageRequest(context),
                 onNextPageRequest: () => _sendNextPageRequest(context),
                 onFirstPageErrorRetryButtonPressed: () =>
                     _sendNextPageRequest(context),
@@ -158,33 +175,30 @@ class _LaunchViewState extends State<_LaunchView> {
   }
 
   void _sendFirstLaunchPageRequest(BuildContext context) {
-    _sendLaunchPageRequestedEvent(
-      context: context,
-      pageNumber: 1,
-      state: context.read<LaunchFilteringBloc>().state,
-    );
-  }
-
-  void _sendNextPageRequest(BuildContext context) {
-    _sendLaunchPageRequestedEvent(
-      context: context,
-      pageNumber: context.read<LaunchBloc>().state.lastPageNumber + 1,
-      state: context.read<LaunchFilteringBloc>().state,
-    );
-  }
-
-  void _sendLaunchPageRequestedEvent({
-    required BuildContext context,
-    required int pageNumber,
-    required LaunchFilteringState state,
-  }) {
+    final filteringBloc = context.read<LaunchFilteringBloc>();
+    final state = filteringBloc.state;
+    // Making sure the search bar displays the correct content after the loading
+    // of filtering options.
+    _searchBarController.text = state.filtering.searchedPhrase;
     context.read<LaunchBloc>().add(
           LaunchPageRequested(
-            pageNumber: pageNumber,
+            pageNumber: 1,
             sorting: state.sorting,
             filtering: state.filtering,
           ),
         );
+  }
+
+  void _sendNextPageRequest(BuildContext context) {
+    final filteringBlocState = context.read<LaunchFilteringBloc>().state;
+    final launchBloc = context.read<LaunchBloc>();
+    launchBloc.add(
+      LaunchPageRequested(
+        pageNumber: launchBloc.state.lastPageNumber + 1,
+        sorting: filteringBlocState.sorting,
+        filtering: filteringBlocState.filtering,
+      ),
+    );
   }
 
   void _handleSearchBarSubmit(BuildContext context, String text) {
