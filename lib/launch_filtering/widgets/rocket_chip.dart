@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rocket_repository/rocket_repository.dart';
@@ -69,7 +71,7 @@ class _RocketSelectionDialogState extends State<_RocketSelectionDialog> {
         bloc.state.filtering.rocketIds,
       );
     } else {
-      bloc.add(LaunchFilteringRocketsRequested());
+      bloc.add(const LaunchFilteringRocketsRequested());
     }
   }
 

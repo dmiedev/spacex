@@ -11,4 +11,6 @@ abstract class RocketEvent extends Equatable {
 }
 
 /// An event to [RocketBloc] indicating that loading of rockets was requested.
-class RocketLoadRequested extends RocketEvent {}
+class RocketLoadRequested extends RocketEvent {
+  const RocketLoadRequested();
+}

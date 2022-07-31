@@ -7,7 +7,7 @@ class RocketBloc extends Bloc<RocketEvent, RocketState> {
   /// Creates a [Bloc] that manages the rocket display feature.
   RocketBloc({required RocketRepository rocketRepository})
       : _rocketRepository = rocketRepository,
-        super(RocketInitial()) {
+        super(const RocketInitial()) {
     on<RocketLoadRequested>(_handleLoadRequested);
   }
 
@@ -17,12 +17,12 @@ class RocketBloc extends Bloc<RocketEvent, RocketState> {
     RocketLoadRequested event,
     Emitter<RocketState> emit,
   ) async {
-    emit(RocketLoadInProgress());
+    emit(const RocketLoadInProgress());
     try {
       final rockets = await _rocketRepository.fetchAllRockets();
       emit(RocketLoadSuccess(rockets: rockets));
     } on Exception {
-      emit(RocketLoadFailure());
+      emit(const RocketLoadFailure());
     }
   }
 }
