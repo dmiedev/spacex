@@ -65,7 +65,7 @@ class LaunchRepository
   @override
   Future<void> saveSorting(LaunchSorting sorting) {
     try {
-      return _localSettingsApi.saveSetting(
+      return _localSettingsApi.saveSetting<LaunchSorting>(
         name: _sortingSettingName,
         object: sorting,
       );
@@ -77,7 +77,7 @@ class LaunchRepository
   @override
   LaunchFiltering? loadFiltering() {
     try {
-      return _localSettingsApi.loadSetting(
+      return _localSettingsApi.loadSetting<LaunchFiltering>(
         name: _filteringSettingName,
         fromJson: LaunchFiltering.fromJson,
       );
@@ -89,7 +89,7 @@ class LaunchRepository
   @override
   Future<void> saveFiltering(LaunchFiltering filtering) {
     try {
-      return _localSettingsApi.saveSetting(
+      return _localSettingsApi.saveSetting<LaunchFiltering>(
         name: _filteringSettingName,
         object: filtering,
       );
