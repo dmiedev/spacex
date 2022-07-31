@@ -10,6 +10,7 @@ class SearchBar extends StatelessWidget {
     this.hintText,
   });
 
+  /// Controls the text being edited.
   final TextEditingController controller;
 
   /// Called on keyboard submission or clear button press.

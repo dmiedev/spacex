@@ -13,11 +13,15 @@ abstract class LaunchFilteringEvent extends Equatable {
 
 /// An event to [LaunchFilteringBloc] indicating filtering options were loaded.
 class LaunchFilteringLoaded extends LaunchFilteringEvent {
+  /// Creates an event to [LaunchFilteringBloc] indicating filtering options
+  /// were loaded.
   const LaunchFilteringLoaded();
 }
 
 /// An event to [LaunchFilteringBloc] indicating filtering options were saved.
 class LaunchFilteringSaved extends LaunchFilteringEvent {
+  /// Creates an event to [LaunchFilteringBloc] indicating filtering options
+  /// were saved.
   const LaunchFilteringSaved();
 }
 
@@ -54,11 +58,15 @@ class LaunchFilteringSortingSelected extends LaunchFilteringEvent {
 /// An event to [LaunchFilteringBloc] indicating launch sorting order was
 /// switched.
 class LaunchFilteringSortingOrderSwitched extends LaunchFilteringEvent {
+  /// Creates an event to [LaunchFilteringBloc] indicating launch sorting order
+  /// was switched.
   const LaunchFilteringSortingOrderSwitched();
 }
 
 /// An event to [LaunchFilteringBloc] indicating launch time was switched.
 class LaunchFilteringTimeSwitched extends LaunchFilteringEvent {
+  /// Creates an event to [LaunchFilteringBloc] indicating launch time was
+  /// switched.
   const LaunchFilteringTimeSwitched();
 }
 
@@ -111,6 +119,8 @@ class LaunchFilteringSuccessfulnessSelected extends LaunchFilteringEvent {
 /// An event to [LaunchFilteringBloc] indicating that a list of rockets was
 /// requested.
 class LaunchFilteringRocketsRequested extends LaunchFilteringEvent {
+  /// Creates an event to [LaunchFilteringBloc] indicating that a list of
+  /// rockets was requested.
   const LaunchFilteringRocketsRequested();
 }
 
