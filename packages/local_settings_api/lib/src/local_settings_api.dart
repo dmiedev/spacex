@@ -15,8 +15,13 @@ class LocalSettingsApi {
 
   /// Saves an object of type [T] as a setting with the provided [name].
   ///
+  /// The object must be JSON-serializable.
+  ///
   /// Throws [SettingSaveException] if saving fails.
-  Future<void> saveSetting<T>(String name, T object) async {
+  Future<void> saveSetting<T>({
+    required String name,
+    required T object,
+  }) async {
     bool saved;
     try {
       saved = await _sharedPreferences.setString(name, jsonEncode(object));
@@ -32,10 +37,15 @@ class LocalSettingsApi {
   /// or `null` if the setting has not been saved yet.
   ///
   /// Throws [SettingLoadException] if loading fails.
-  T? loadSetting<T>(String name) {
+  T? loadSetting<T>({
+    required String name,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) {
     try {
       final json = _sharedPreferences.getString(name);
-      return json != null ? jsonDecode(json) as T : null;
+      return json != null
+          ? fromJson(jsonDecode(json) as Map<String, dynamic>)
+          : null;
     } on Exception {
       throw SettingLoadException();
     }

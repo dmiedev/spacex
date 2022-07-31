@@ -1,6 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:filtered_repository/filtered_repository.dart';
+import 'package:json_annotation/json_annotation.dart';
 import 'package:spacex_api/spacex_api.dart';
+
+part 'launch_filtering.g.dart';
 
 /// Launch successfulness.
 enum LaunchSuccessfulness {
@@ -24,6 +27,7 @@ enum LaunchTime {
 }
 
 /// A collection of options used to match [Launch] objects.
+@JsonSerializable()
 class LaunchFiltering extends Equatable implements Filtering {
   /// Creates a collection of options used to match [Launch] objects.
   const LaunchFiltering({
@@ -90,6 +94,14 @@ class LaunchFiltering extends Equatable implements Filtering {
       rocketIds: rocketIds ?? this.rocketIds,
     );
   }
+
+  /// Converts a given JSON [Map] into a [LaunchFiltering] instance.
+  static LaunchFiltering fromJson(Map<String, dynamic> json) {
+    return _$LaunchFilteringFromJson(json);
+  }
+
+  /// Converts this [LaunchFiltering] instance into a JSON [Map].
+  Map<String, dynamic> toJson() => _$LaunchFilteringToJson(this);
 
   @override
   List<Object?> get props => [
