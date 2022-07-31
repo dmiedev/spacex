@@ -1,7 +1,8 @@
+import 'package:filtered_repository/filtered_repository.dart';
 import 'package:spacex_api/spacex_api.dart';
 
 /// A feature of a rocket launch.
-enum LaunchFeature {
+enum LaunchFeature implements Feature {
   /// The serial number of the launch.
   flightNumber,
 
@@ -37,6 +38,7 @@ enum LaunchFeature {
 
   /// Converts this [LaunchFeature] instance into a [Launch] field name in
   /// `snake_case`.
+  @override
   String toFieldName() {
     switch (this) {
       case flightNumber:

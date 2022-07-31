@@ -1,9 +1,12 @@
 // ignore_for_file: prefer_const_constructors
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
-import 'package:launch_repository/launch_repository.dart';
+import 'package:filtered_repository/filtered_repository.dart';
+import 'package:mocktail/mocktail.dart';
 import 'package:spacex_api/spacex_api.dart';
 import 'package:test/test.dart';
+
+class _MockFeature extends Mock implements Feature {}
 
 void main() {
   final interval = DateTimeInterval(
@@ -24,16 +27,25 @@ void main() {
   });
 
   group('FilteringOption', () {
+    final valueFeature = _MockFeature();
+    final anyFromValuesFeature = _MockFeature();
+    final intervalFeature = _MockFeature();
+
+    when(valueFeature.toFieldName).thenReturn('value_feature');
+    when(anyFromValuesFeature.toFieldName)
+        .thenReturn('any_from_values_feature');
+    when(intervalFeature.toFieldName).thenReturn('interval_feature');
+
     final valueOption = FilteringOption.value(
-      feature: LaunchFeature.isSuccessful,
+      feature: valueFeature,
       value: true,
     );
     final anyFromValuesOption = FilteringOption.anyFromValues(
-      feature: LaunchFeature.capsuleId,
+      feature: anyFromValuesFeature,
       values: ['id1', 'id2'],
     );
     final intervalOption = FilteringOption.interval(
-      feature: LaunchFeature.date,
+      feature: intervalFeature,
       interval: DateTimeInterval(
         from: DateTime(2017, 3, 2),
         to: DateTime(2018, 3, 31),
@@ -43,22 +55,19 @@ void main() {
     test('supports value comparisons', () {
       expect(
         valueOption,
-        FilteringOption.value(
-          feature: LaunchFeature.isSuccessful,
-          value: true,
-        ),
+        FilteringOption.value(feature: valueFeature, value: true),
       );
       expect(
         anyFromValuesOption,
         FilteringOption.anyFromValues(
-          feature: LaunchFeature.capsuleId,
+          feature: anyFromValuesFeature,
           values: ['id1', 'id2'],
         ),
       );
       expect(
         intervalOption,
         FilteringOption.interval(
-          feature: LaunchFeature.date,
+          feature: intervalFeature,
           interval: DateTimeInterval(
             from: DateTime(2017, 3, 2),
             to: DateTime(2018, 3, 31),
@@ -68,15 +77,15 @@ void main() {
     });
 
     test('has correctly set fields', () {
-      expect(valueOption.feature, LaunchFeature.isSuccessful);
+      expect(valueOption.feature, valueFeature);
       expect(valueOption.type, FilteringType.value);
       expect(valueOption.value, true);
 
-      expect(anyFromValuesOption.feature, LaunchFeature.capsuleId);
+      expect(anyFromValuesOption.feature, anyFromValuesFeature);
       expect(anyFromValuesOption.type, FilteringType.anyFromValues);
       expect(anyFromValuesOption.value, ['id1', 'id2']);
 
-      expect(intervalOption.feature, LaunchFeature.date);
+      expect(intervalOption.feature, intervalFeature);
       expect(intervalOption.type, FilteringType.dateTimeInterval);
       expect(
         intervalOption.value,
@@ -90,23 +99,17 @@ void main() {
     test('.toFilter() returns correct result', () {
       expect(
         valueOption.toFilter(),
-        Filter.equal(LaunchFeature.isSuccessful.toFieldName(), true),
+        Filter.equal('value_feature', true),
       );
       expect(
         anyFromValuesOption.toFilter(),
-        Filter.in_(LaunchFeature.capsuleId.toFieldName(), ['id1', 'id2']),
+        Filter.in_('any_from_values_feature', ['id1', 'id2']),
       );
       expect(
         intervalOption.toFilter(),
         Filter.and([
-          Filter.greaterThanOrEqual(
-            LaunchFeature.date.toFieldName(),
-            DateTime(2017, 3, 2),
-          ),
-          Filter.lessThanOrEqual(
-            LaunchFeature.date.toFieldName(),
-            DateTime(2018, 3, 31),
-          ),
+          Filter.greaterThanOrEqual('interval_feature', DateTime(2017, 3, 2)),
+          Filter.lessThanOrEqual('interval_feature', DateTime(2018, 3, 31)),
         ]),
       );
     });

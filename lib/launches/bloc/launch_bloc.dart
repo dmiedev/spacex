@@ -31,38 +31,40 @@ class LaunchBloc extends Bloc<LaunchEvent, LaunchState> {
       final launches = await _launchRepository.fetchLaunches(
         amount: _amountPerPage,
         pageNumber: event.pageNumber,
-        searchedPhrase:
-            event.searchedText != null && event.searchedText!.isNotEmpty
-                ? event.searchedText
-                : null,
-        sorting: event.sorting,
-        filtering: [
-          FilteringOption.value(
-            feature: LaunchFeature.isUpcoming,
-            value: event.time == LaunchTime.upcoming,
-          ),
-          if (event.dateInterval != null)
-            FilteringOption.interval(
-              feature: LaunchFeature.date,
-              interval: event.dateInterval!,
-            ),
-          if (event.flightNumber != null)
+        parameters: FilterParameters(
+          searchedPhrase:
+              event.searchedText != null && event.searchedText!.isNotEmpty
+                  ? event.searchedText
+                  : null,
+          sorting: event.sorting,
+          filtering: [
             FilteringOption.value(
-              feature: LaunchFeature.flightNumber,
-              value: event.flightNumber!,
+              feature: LaunchFeature.isUpcoming,
+              value: event.time == LaunchTime.upcoming,
             ),
-          if (event.successfulness != LaunchSuccessfulness.any &&
-              event.time == LaunchTime.past)
-            FilteringOption.value(
-              feature: LaunchFeature.isSuccessful,
-              value: event.successfulness == LaunchSuccessfulness.success,
-            ),
-          if (event.rocketIds != null && event.rocketIds!.isNotEmpty)
-            FilteringOption.anyFromValues(
-              feature: LaunchFeature.rocketId,
-              values: event.rocketIds!,
-            ),
-        ],
+            if (event.dateInterval != null)
+              FilteringOption.interval(
+                feature: LaunchFeature.date,
+                interval: event.dateInterval!,
+              ),
+            if (event.flightNumber != null)
+              FilteringOption.value(
+                feature: LaunchFeature.flightNumber,
+                value: event.flightNumber!,
+              ),
+            if (event.successfulness != LaunchSuccessfulness.any &&
+                event.time == LaunchTime.past)
+              FilteringOption.value(
+                feature: LaunchFeature.isSuccessful,
+                value: event.successfulness == LaunchSuccessfulness.success,
+              ),
+            if (event.rocketIds != null && event.rocketIds!.isNotEmpty)
+              FilteringOption.anyFromValues(
+                feature: LaunchFeature.rocketId,
+                values: event.rocketIds!,
+              ),
+          ],
+        ),
       );
       if (launches.isEmpty) {
         newState = LaunchState(

@@ -37,7 +37,7 @@ class LaunchPageRequested extends LaunchEvent {
   final String? searchedText;
 
   /// The sorting option to use while displaying matched launches.
-  final SortingOption? sorting;
+  final SortingOption<LaunchFeature>? sorting;
 
   /// Time that launches should match.
   final LaunchTime? time;

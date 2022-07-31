@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:launch_repository/src/models/launch_feature.dart';
+import 'package:filtered_repository/src/models/feature.dart';
 import 'package:spacex_api/spacex_api.dart';
 
 /// A type of filtering.
@@ -35,16 +35,16 @@ class DateTimeInterval extends Equatable {
   List<Object?> get props => [from, to];
 }
 
-/// A filtering option to be used for fetching launches.
-class FilteringOption extends Equatable {
-  /// Creates a filtering option that matches launches with the [feature] equal
+/// A filtering option to be used for fetching objects.
+class FilteringOption<T extends Feature> extends Equatable {
+  /// Creates a filtering option that matches objects with the [feature] equal
   /// to the specified [value].
   const FilteringOption.value({
     required this.feature,
     required this.value,
   }) : type = FilteringType.value;
 
-  /// Creates a filtering option that matches launches with the [feature] equal
+  /// Creates a filtering option that matches objects with the [feature] equal
   /// to any of the specified [values].
   const FilteringOption.anyFromValues({
     required this.feature,
@@ -52,7 +52,7 @@ class FilteringOption extends Equatable {
   })  : value = values,
         type = FilteringType.anyFromValues;
 
-  /// Creates a filtering option that matches launches with the date-related
+  /// Creates a filtering option that matches objects with the date-related
   /// [feature] in the specified [interval].
   const FilteringOption.interval({
     required this.feature,
@@ -64,7 +64,7 @@ class FilteringOption extends Equatable {
   final FilteringType type;
 
   /// A launch feature this filtering option relates to.
-  final LaunchFeature feature;
+  final T feature;
 
   /// The value this filtering option should match.
   final Object value;

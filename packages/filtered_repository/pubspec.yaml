@@ -1,5 +1,5 @@
-name: launch_repository
-description: A Dart package that manages the rocket launch domain.
+name: filtered_repository
+description: A collection of classes for a SpacexApiClient repository using filters.
 version: 1.0.0+1
 publish_to: none
 
@@ -8,11 +8,9 @@ environment:
 
 dependencies:
   equatable: ^2.0.3
-  filtered_repository:
-    path: ../filtered_repository
   spacex_api:
     path: ../spacex_api
-
+  
 dev_dependencies:
   mocktail: ^0.3.0
   test: ^1.19.2
