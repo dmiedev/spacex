@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:filter_repository/filter_repository.dart';
 import 'package:launch_repository/launch_repository.dart';
 import 'package:meta/meta.dart';
 import 'package:spacex/launches/bloc/bloc.dart';
@@ -21,7 +20,7 @@ class LaunchPageRequested extends LaunchEvent {
   /// containing launches that match specified filtering criteria.
   const LaunchPageRequested({
     required this.pageNumber,
-    this.searchedText,
+    this.searchedPhrase,
     this.sorting,
     this.time,
     this.dateInterval,
@@ -34,10 +33,10 @@ class LaunchPageRequested extends LaunchEvent {
   final int pageNumber;
 
   /// Text that matches launches whose data contains it.
-  final String? searchedText;
+  final String? searchedPhrase;
 
   /// The sorting option to use while displaying matched launches.
-  final SortingOption<LaunchFeature>? sorting;
+  final Sorting<LaunchSortingParameter>? sorting;
 
   /// Time that launches should match.
   final LaunchTime? time;
@@ -57,7 +56,7 @@ class LaunchPageRequested extends LaunchEvent {
   @override
   List<Object?> get props => [
         pageNumber,
-        searchedText,
+        searchedPhrase,
         sorting,
         time,
         dateInterval,

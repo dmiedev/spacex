@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:filter_repository/filter_repository.dart';
 import 'package:launch_repository/launch_repository.dart';
 import 'package:rocket_repository/rocket_repository.dart';
 import 'package:spacex/launch_filtering/bloc/launch_filtering_bloc.dart';
@@ -49,8 +48,8 @@ class LaunchFilteringState extends Equatable {
   const LaunchFilteringState.initial()
       : this(
           searchedText: '',
-          sorting: const SortingOption(
-            feature: LaunchFeature.date,
+          sorting: const Sorting<LaunchSortingParameter>(
+            parameter: LaunchSortingParameter.date,
             order: SortOrder.ascending,
           ),
           time: LaunchTime.upcoming,
@@ -66,7 +65,7 @@ class LaunchFilteringState extends Equatable {
   final String searchedText;
 
   /// The sorting option to use while displaying matched launches.
-  final SortingOption<LaunchFeature> sorting;
+  final Sorting<LaunchSortingParameter> sorting;
 
   /// Time that launches should match.
   final LaunchTime time;
@@ -99,7 +98,7 @@ class LaunchFilteringState extends Equatable {
   /// parameters overridden.
   LaunchFilteringState copyWith({
     String? searchedText,
-    SortingOption<LaunchFeature>? sorting,
+    Sorting<LaunchSortingParameter>? sorting,
     LaunchTime? time,
     DateTimeInterval? Function()? dateInterval,
     int? Function()? flightNumber,

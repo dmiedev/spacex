@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:filter_repository/filter_repository.dart';
 import 'package:launch_repository/launch_repository.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
 
@@ -32,14 +31,14 @@ class LaunchFilteringSortingSelected extends LaunchFilteringEvent {
   /// Creates an event to [LaunchFilteringBloc] indicating launch sorting was
   /// selected.
   const LaunchFilteringSortingSelected({
-    required this.feature,
+    required this.sortingParameter,
   });
 
   /// The launch feature that the sorting is related to.
-  final LaunchFeature feature;
+  final LaunchSortingParameter sortingParameter;
 
   @override
-  List<Object?> get props => [feature];
+  List<Object?> get props => [sortingParameter];
 }
 
 /// An event to [LaunchFilteringBloc] indicating launch sorting order was

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:filter_repository/filter_repository.dart';
 import 'package:launch_repository/launch_repository.dart';
 import 'package:rocket_repository/rocket_repository.dart';
 import 'package:spacex/launch_filtering/bloc/bloc.dart';
@@ -13,9 +12,9 @@ class LaunchFilteringBloc
   /// Creates a [Bloc] that manages the launch filtering feature.
   LaunchFilteringBloc({
     required RocketRepository rocketRepository,
-    required FilterRepository filterRepository,
+    // required FilterRepository filterRepository,
   })  : _rocketRepository = rocketRepository,
-        _filterRepository = filterRepository,
+        // _filterRepository = filterRepository,
         super(const LaunchFilteringState.initial()) {
     on<LaunchFilteringSearchedTextSubmitted>(_handleSearchedTextSubmitted);
     on<LaunchFilteringSortingSelected>(_handleSortingSelected);
@@ -31,7 +30,7 @@ class LaunchFilteringBloc
   }
 
   final RocketRepository _rocketRepository;
-  final FilterRepository _filterRepository;
+  // final FilterRepository _filterRepository;
 
   void _handleSearchedTextSubmitted(
     LaunchFilteringSearchedTextSubmitted event,
@@ -48,8 +47,8 @@ class LaunchFilteringBloc
   ) {
     emit(
       state.copyWith(
-        sorting: SortingOption(
-          feature: event.feature,
+        sorting: Sorting<LaunchSortingParameter>(
+          parameter: event.sortingParameter,
           order: state.sorting.order,
         ),
       ),
@@ -62,8 +61,8 @@ class LaunchFilteringBloc
   ) {
     emit(
       state.copyWith(
-        sorting: SortingOption(
-          feature: state.sorting.feature,
+        sorting: Sorting<LaunchSortingParameter>(
+          parameter: state.sorting.parameter,
           order: state.sorting.order == SortOrder.ascending
               ? SortOrder.descending
               : SortOrder.ascending,
@@ -143,53 +142,53 @@ class LaunchFilteringBloc
     LaunchFilteringLoaded event,
     Emitter<LaunchFilteringState> emit,
   ) async {
-    try {
-      final parameters = await _filterRepository.getLaunchFilters();
-      if (parameters == null) {
-        emit(
-          state.copyWith(status: LaunchFilteringSaveLoadStatus.loadedNothing),
-        );
-        return;
-      }
-      emit(
-        state.copyWith(
-          time: parameters.time,
-          dateInterval: parameters.fromDate != null && parameters.toDate != null
-              ? () => DateTimeInterval(
-                    from: parameters.fromDate!,
-                    to: parameters.toDate!,
-                  )
-              : null,
-          flightNumber: () => parameters.flightNumber,
-          successfulness: parameters.successfulness,
-          rocketIds: parameters.rocketIds,
-          status: LaunchFilteringSaveLoadStatus.loadSuccess,
-        ),
-      );
-    } on Exception {
-      emit(state.copyWith(status: LaunchFilteringSaveLoadStatus.loadFailure));
-    }
+    // try {
+    //   final parameters = await _filterRepository.getLaunchFilters();
+    //   if (parameters == null) {
+    //     emit(
+    //       state.copyWith(status: LaunchFilteringSaveLoadStatus.loadedNothing),
+    //     );
+    //     return;
+    //   }
+    //   emit(
+    //     state.copyWith(
+    //       time: parameters.time,
+    //       dateInterval: parameters.fromDate != null && parameters.toDate != null
+    //           ? () => DateTimeInterval(
+    //                 from: parameters.fromDate!,
+    //                 to: parameters.toDate!,
+    //               )
+    //           : null,
+    //       flightNumber: () => parameters.flightNumber,
+    //       successfulness: parameters.successfulness,
+    //       rocketIds: parameters.rocketIds,
+    //       status: LaunchFilteringSaveLoadStatus.loadSuccess,
+    //     ),
+    //   );
+    // } on Exception {
+    //   emit(state.copyWith(status: LaunchFilteringSaveLoadStatus.loadFailure));
+    // }
   }
 
   Future<void> _handleSaved(
     LaunchFilteringSaved event,
     Emitter<LaunchFilteringState> emit,
   ) async {
-    try {
-      await _filterRepository.saveLaunchFilters(
-        LaunchFilters(
-          time: state.time,
-          fromDate:
-              state.dateInterval != null ? state.dateInterval!.from : null,
-          toDate: state.dateInterval != null ? state.dateInterval!.to : null,
-          flightNumber: state.flightNumber,
-          successfulness: state.successfulness,
-          rocketIds: state.rocketIds,
-        ),
-      );
-      emit(state.copyWith(status: LaunchFilteringSaveLoadStatus.saveSuccess));
-    } on Exception {
-      emit(state.copyWith(status: LaunchFilteringSaveLoadStatus.saveFailure));
-    }
+    // try {
+    //   await _filterRepository.saveLaunchFilters(
+    //     LaunchFilters(
+    //       time: state.time,
+    //       fromDate:
+    //           state.dateInterval != null ? state.dateInterval!.from : null,
+    //       toDate: state.dateInterval != null ? state.dateInterval!.to : null,
+    //       flightNumber: state.flightNumber,
+    //       successfulness: state.successfulness,
+    //       rocketIds: state.rocketIds,
+    //     ),
+    //   );
+    //   emit(state.copyWith(status: LaunchFilteringSaveLoadStatus.saveSuccess));
+    // } on Exception {
+    //   emit(state.copyWith(status: LaunchFilteringSaveLoadStatus.saveFailure));
+    // }
   }
 }
