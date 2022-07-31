@@ -10,15 +10,11 @@ dependencies:
   auto_size_text: ^3.0.0
   bloc: ^8.0.3
   equatable: ^2.0.3
-  filter_repository:
-    path: packages/filter_repository
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
   flutter_localizations:
     sdk: flutter
-  hive_flutter: ^1.1.0
-  hydrated_bloc: ^8.1.0
   intl: ^0.17.0
   json_annotation: ^4.6.0
   launch_repository:
