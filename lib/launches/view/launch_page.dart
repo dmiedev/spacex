@@ -45,8 +45,15 @@ class LaunchPage extends StatelessWidget {
   }
 }
 
-class _LaunchView extends StatelessWidget {
+class _LaunchView extends StatefulWidget {
   const _LaunchView();
+
+  @override
+  State<_LaunchView> createState() => _LaunchViewState();
+}
+
+class _LaunchViewState extends State<_LaunchView> {
+  final _searchBarController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +85,7 @@ class _LaunchView extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SearchBar(
+                        controller: _searchBarController,
                         hintText: l10n.searchBarHintText,
                         onSubmitted: (text) =>
                             _handleSearchBarSubmit(context, text),
@@ -183,5 +191,11 @@ class _LaunchView extends StatelessWidget {
     context.read<LaunchFilteringBloc>().add(
           LaunchFilteringSearchedTextSubmitted(searchedPhrase: text),
         );
+  }
+
+  @override
+  void dispose() {
+    _searchBarController.dispose();
+    super.dispose();
   }
 }
