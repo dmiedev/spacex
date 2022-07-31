@@ -1,21 +1,26 @@
 import 'package:equatable/equatable.dart';
-import 'package:filtered_repository/src/models/feature.dart';
 import 'package:spacex_api/spacex_api.dart';
 
+abstract class SortingParameter {
+  const SortingParameter();
+
+  String toFieldName();
+}
+
 /// A sorting option to be used for fetching objects.
-class SortingOption<T extends Feature> extends Equatable {
+class Sorting<T extends SortingParameter> extends Equatable {
   /// Creates a sorting option to be used for fetching objects.
-  const SortingOption({
-    required this.feature,
+  const Sorting({
+    required this.parameter,
     required this.order,
   });
 
-  /// A feature to apply sorting at.
-  final T feature;
+  /// A sorting parameter.
+  final T parameter;
 
   /// The order in which to sort.
   final SortOrder order;
 
   @override
-  List<Object?> get props => [feature, order];
+  List<Object?> get props => [parameter, order];
 }

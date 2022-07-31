@@ -1,4 +1,3 @@
-export 'feature.dart';
+export 'date_time_interval.dart';
 export 'filter_parameters.dart';
-export 'filtering_option.dart';
 export 'sorting_option.dart';

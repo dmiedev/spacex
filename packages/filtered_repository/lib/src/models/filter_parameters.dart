@@ -1,24 +1,8 @@
-import 'package:equatable/equatable.dart';
-import 'package:filtered_repository/src/models/models.dart';
+import 'package:spacex_api/spacex_api.dart';
 
 /// A collections of parameters used to filter queried objects.
-class FilterParameters<T extends Feature> extends Equatable {
-  /// Creates a collections of parameters used to filter queried objects.
-  const FilterParameters({
-    this.filtering = const [],
-    this.sorting,
-    this.searchedPhrase,
-  });
+abstract class Filtering {
+  const Filtering();
 
-  /// A list of filtering options to use.
-  final List<FilteringOption<T>> filtering;
-
-  /// A sorting option to use.
-  final SortingOption<T>? sorting;
-
-  /// A phrase to search in objects' String fields.
-  final String? searchedPhrase;
-
-  @override
-  List<Object?> get props => [filtering, sorting, searchedPhrase];
+  List<Filter> toFilters();
 }
