@@ -31,6 +31,7 @@ class LaunchPage extends StatelessWidget {
         BlocProvider<LaunchFilteringBloc>(
           create: (context) => LaunchFilteringBloc(
             rocketRepository: context.read<RocketRepository>(),
+            launchRepository: context.read<LaunchRepository>(),
           )..add(LaunchFilteringLoaded()),
         ),
         BlocProvider<LaunchBloc>(
