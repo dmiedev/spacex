@@ -14,8 +14,8 @@ class LaunchRepository
   })  : _spacexApiClient = spacexApiClient ?? SpacexApiClient(),
         _localSettingsApi = localSettingsApi;
 
-  static const _filteringSettingName = 'launch_filtering';
   static const _sortingSettingName = 'launch_sorting';
+  static const _filteringSettingName = 'launch_filtering';
 
   final SpacexApiClient _spacexApiClient;
   final LocalSettingsApi _localSettingsApi;
@@ -27,7 +27,7 @@ class LaunchRepository
   Future<List<Launch>> fetchFiltered({
     required int amount,
     required int pageNumber,
-    Sorting<LaunchSortingParameter>? sorting,
+    LaunchSorting? sorting,
     LaunchFiltering? filtering,
   }) async {
     final filters = filtering?.toFilters();
