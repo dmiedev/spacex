@@ -1,7 +1,385 @@
 {
     "@@locale": "en",
-    "counterAppBarTitle": "Counter",
-    "@counterAppBarTitle": {
-        "description": "Text shown in the AppBar of the Counter Page"
+
+    "launchesAppBarTitle": "LAUNCHES",
+    "@launchesAppBarTitle": {
+        "description": "The title of the app bar of the launches page."
+    },
+
+    "searchBarHintText": "Search",
+    "@searchBarHintText": {
+        "description": "Text shown as a hint in the search bar."
+    },
+
+    "unnamedLaunchCardName": "Unnamed Launch",
+    "@unnamedLaunchCardName": {
+        "description": "The LaunchCard title in case that a launch has no name."
+    },
+
+    "noLaunchesFoundMessageTitle": "No launches found",
+    "@noLaunchesFoundMessageTitle": {
+        "description": "The title of a text message indicating no launches were found."
+    },
+
+    "noLaunchesFoundMessageText": "Please try changing your search criteria.",
+    "@noLaunchesFoundMessageText": {
+        "description": "The body of a text message indicating no launches were found."
+    },
+
+    "loadingErrorMessageTitle": "An error occurred",
+    "@loadingErrorMessageTitle": {
+        "description": "The title of a text message indicating a loading error occurred."
+    },
+
+    "loadingErrorMessageTextLong": "Please check your Internet connection. If it is alright, it may be a problem on our end.\n\nYou can also try reloading the page or changing your search criteria.",
+    "@loadingErrorMessageTextLong": {
+        "description": "A long variation of the body of a text message indicating a loading error occurred."
+    },
+
+    "loadingErrorMessageTextShort": "An error occurred while loading data.\nPlease check your Internet connection.",
+    "@loadingErrorMessageTextShort": {
+        "description": "A short variation of the body of a text message indicating a loading error occurred."
+    },
+
+    "retryButtonLabel": "RETRY",
+    "@retryButtonLabel": {
+        "description": "Label for retry buttons."
+    },
+
+    "okButtonLabel": "OK",
+    "@okButtonLabel": {
+        "description": "Label for OK buttons."
+    },
+
+    "cancelButtonLabel": "CANCEL",
+    "@cancelButtonLabel": {
+        "description": "Label for cancel buttons."
+    },
+
+    "resetButtonLabel": "RESET",
+    "@resetButtonLabel": {
+        "description": "Label for reset buttons."
+    },
+
+    "flightNumberChipLabel": "Flight Number",
+    "@flightNumberChipLabel": {
+        "description": "Text shown in the flight number filtering chip."
+    },
+
+    "flightNumberDialogTitle": "Enter Flight Number",
+    "@flightNumberDialogTitle": {
+        "description": "The title of the flight number dialog."
+    },
+
+    "emptyFieldError": "This field must not be empty!",
+    "@emptyFieldError": {
+        "description": "An error message shown besides text field indicating it must not be empty."
+    },
+
+    "rocketChipLabel": "Rockets",
+    "@rocketChipLabel": {
+        "description": "Text shown in the rocket filtering chip."
+    },
+
+    "rocketSelectionDialogTitle": "Select Rockets",
+    "@rocketSelectionDialogTitle": {
+        "description": "The title of the rocket selection dialog."
+    },
+
+    "sortingOrderChipTooltip": "Sorting order",
+    "@sortingOrderChipTooltip": {
+        "description": "The tooltip of the sorting order chip."
+    },
+
+    "sortingChipLabel": "Sorting",
+    "@sortingChipLabel": {
+        "description": "Text shown in the sorting chip."
+    },
+
+    "dateSortingChipLabel": "Sorting by Date",
+    "@dateSortingChipLabel": {
+        "description": "Text shown in the sorting chip if sorting by date is selected."
+    },
+
+    "nameSortingChipLabel": "Sorting by Name",
+    "@nameSortingChipLabel": {
+        "description": "Text shown in the sorting chip if sorting by name is selected."
+    },
+
+    "flightNumberSortingChipLabel": "Sorting by Flight Number",
+    "@flightNumberSortingChipLabel": {
+        "description": "Text shown in the sorting chip if sorting by flight number is selected."
+    },
+
+    "sortingSelectionDialogTitle": "Select Sorting",
+    "@sortingSelectionDialogTitle": {
+        "description": "The title of the sorting selection dialog."
+    },
+
+    "dateOptionLabel": "Date",
+    "@dateOptionLabel": {
+        "description": "Label of an option representing date."
+    },
+
+    "nameOptionLabel": "Name",
+    "@nameOptionLabel": {
+        "description": "Label of an option representing name."
+    },
+
+    "flightNumberOptionLabel": "Flight Number",
+    "@flightNumberOptionLabel": {
+        "description": "Label of an option representing flight number."
+    },
+
+    "upcomingTimeChipLabel": "Upcoming",
+    "@upcomingTimeChipLabel": {
+        "description": "Text shown in the time chip if upcoming entities are selected."
+    },
+
+    "pastTimeChipLabel": "Past",
+    "@pastTimeChipLabel": {
+        "description": "Text shown in the time chip if past entities are selected."
+    },
+
+    "yearRangeChipLabel": "Year Range",
+    "@yearRangeChipLabel": {
+        "description": "Text shown in the year range chip."
+    },
+
+    "successfulnessChipLabel": "Successfulness",
+    "@successfulnessChipLabel": {
+        "description": "Text shown in the successfulness chip."
+    },
+
+    "successSuccessfulnessChipLabel": "Success",
+    "@successSuccessfulnessChipLabel": {
+        "description": "Text shown in the successfulness chip if successful entities are selected."
+    },
+
+    "failureSuccessfulnessChipLabel": "Failure",
+    "@failureSuccessfulnessChipLabel": {
+        "description": "Text shown in the successfulness chip if failed entities are selected."
+    },
+
+    "successfulnessSelectionDialogTitle": "Select Successfulness",
+    "@successfulnessSelectionDialogTitle": {
+        "description": "The title of the successfulness selection dialog."
+    },
+
+    "anyOptionLabel": "Any",
+    "@anyOptionLabel": {
+        "description": "Label of an option representing any filtering parameter."
+    },
+
+    "successOptionLabel": "Success",
+    "@successOptionLabel": {
+        "description": "Label of an option representing success."
+    },
+
+    "failureOptionLabel": "Failure",
+    "@failureOptionLabel": {
+        "description": "Label of an option representing failure."
+    },
+
+    "launchDetailsAppBarTitle": "LAUNCH DETAILS",
+    "@launchDetailsAppBarTitle": {
+        "description": "Text title of the app bar of the launch details page."
+    },
+
+    "noLaunchDetailsAvailableSectionBody": "No details available.",
+    "@noLaunchDetailsAvailableSectionBody": {
+        "description": "Text shown in the launch details section of the launch details page if there are no details available for a launch."
+    },
+
+    "launchTimeUtcSectionTitle": "LAUNCH TIME (UTC)",
+    "@launchTimeUtcSectionTitle": {
+        "description": "The title of the launch time section of the launch details page."
+    },
+
+    "redditLinksSectionTitle": "JOIN THE DISCUSSION",
+    "@redditLinksSectionTitle": {
+        "description": "The title of the launch reddit links section of the launch details page."
+    },
+
+    "redditLinksSectionBody": "Check out Reddit threads associated with this launch:",
+    "@redditLinksSectionBody": {
+        "description": "The body of the launch reddit links section of the launch details page."
+    },
+
+    "campaignRedditLaunchThread": "Campaign Thread",
+    "@campaignRedditLaunchThread": {
+        "description": "A link label for the campaign Reddit launch thread shown in the bulleted list of the the launch reddit links section of the launch details page."
+    },
+
+    "discussionRedditLaunchThread": "Discussion and Updates Thread",
+    "@discussionRedditLaunchThread": {
+        "description": "A link label for the discussion and updates Reddit launch thread shown in the bulleted list of the the launch reddit links section of the launch details page."
+    },
+
+    "mediaRedditLaunchThread": "Media Thread",
+    "@mediaRedditLaunchThread": {
+        "description": "A link label for the media Reddit launch thread shown in the bulleted list of the the launch reddit links section of the launch details page."
+    },
+
+    "recoveryRedditLaunchThread": "Recovery Thread",
+    "@recoveryRedditLaunchThread": {
+        "description": "A link label for the recovery Reddit launch thread shown in the bulleted list of the the launch reddit links section of the launch details page."
+    },
+
+    "noImagesAvailableImageGalleryMessage": "No images available.",
+    "@noImagesAvailableImageGalleryMessage": {
+        "description": "A message that is shown in the image gallery widget when there are no provided image links."
+    },
+
+    "unnamedRocketTitle": "UNNAMED ROCKED",
+    "@unnamedRocketTitle": {
+        "description": "Text shown in the title of the rocket page if it has no name."
+    },
+
+    "activeRocketSectionTitle": "ACTIVE",
+    "@activeRocketSectionTitle": {
+        "description": "The title of the activeness section of the rocket page."
+    },
+
+    "activeRocketSectionBodyYes": "Yes",
+    "@activeRocketSectionBodyYes": {
+        "description": "The body of the activeness section of the rocket page if the rocket is active."
+    },
+
+    "activeRocketSectionBodyNo": "No",
+    "@activeRocketSectionBodyNo": {
+        "description": "The body of the activeness section of the rocket page if the rocket is not active."
+    },
+
+    "stagesRocketSectionTitle": "STAGES",
+    "@stagesRocketSectionTitle": {
+        "description": "The title of the stages section of the rocket page."
+    },
+
+    "boostersRocketSectionTitle": "BOOSTERS",
+    "@boostersRocketSectionTitle": {
+        "description": "The title of the boosters section of the rocket page."
+    },
+
+    "costPerLaunchRocketSectionTitle": "COST PER LAUNCH",
+    "@costPerLaunchRocketSectionTitle": {
+        "description": "The title of the cost per launch section of the rocket page."
+    },
+
+    "costPerLaunchRocketSectionBody": "US ${cost}", 
+    "@costPerLaunchRocketSectionBody": {
+        "description": "The body of the cost per launch section of the rocket page.",
+        "placeholders": {
+            "cost": {
+                "type": "int",
+                "example": "7000000"
+            }
+        }
+    },
+
+    "successRateRocketSectionTitle": "SUCCESS RATE",
+    "@successRateRocketSectionTitle": {
+        "description": "The title of the success rate section of the rocket page."
+    },
+
+    "successRateRocketSectionBody": "{percent}%", 
+    "@successRateRocketSectionBody": {
+        "description": "The body of the success rate section of the rocket page.",
+        "placeholders": {
+            "percent": {
+                "type": "int",
+                "example": "95"
+            }
+        }
+    },
+
+    "firstFlightRocketSectionTitle": "FIRST FLIGHT",
+    "@firstFlightRocketSectionTitle": {
+        "description": "The title of the first flight section of the rocket page."
+    },
+
+    "firstFlightRocketSectionBody": "{date}\n{country}",
+    "@firstFlightRocketSectionBody": {
+        "description": "The body of the first flight section of the rocket page.",
+        "placeholders": {
+            "date": {
+                "type": "String",
+                "example": "July 26, 2022"
+            },
+            "country": {
+                "type": "String",
+                "example": "Unites States of America"
+            }
+        }
+    },
+
+    "heightRocketSectionTitle": "HEIGHT",
+    "@heightRocketSectionTitle": {
+        "description": "The title of the height section of the rocket page."
+    },
+
+    "heightRocketSectionBodyMeters": "{height} m", 
+    "@heightRocketSectionBodyMeters": {
+        "description": "The body of the height section of the rocket page if meters are preferred.",
+        "placeholders": {
+            "height": {
+                "type": "double",
+                "format": "decimalPattern",
+                "example": "25.2"
+            }
+        }
+    },
+
+    "diameterRocketSectionTitle": "DIAMETER",
+    "@diameterRocketSectionTitle": {
+        "description": "The title of the diameter section of the rocket page."
+    },
+
+    "diameterRocketSectionBodyMeters": "{diameter} m", 
+    "@diameterRocketSectionBodyMeters": {
+        "description": "The body of the diameter section of the rocket page if meters are preferred.",
+        "placeholders": {
+            "diameter": {
+                "type": "double",
+                "format": "decimalPattern",
+                "example": "5.3"
+            }
+        }
+    },
+
+    "massRocketSectionTitle": "MASS",
+    "@massRocketSectionTitle": {
+        "description": "The title of the mass section of the rocket page."
+    },
+
+    "massRocketSectionBodyKilograms": "{mass} kg", 
+    "@massRocketSectionBodyKilograms": {
+        "description": "The body of the mass section of the rocket page if kilograms are preferred.",
+        "placeholders": {
+            "mass": {
+                "type": "int",
+                "example": "53489"
+            }
+        }
+    },
+
+    "filterSaveChipLabel": "Save filters",
+    "@filterSaveChipLabel": {
+        "description": "The label of the filter save chip."
+    },
+
+    "filterSaveFailureMessage": "Failed to save filters.",
+    "@filterSaveFailureMessage": {
+        "description": "Message shown when there was a failure to save filters."
+    },
+
+    "filterSaveSuccessMessage": "Filters have been saved.",
+    "@filterSaveSuccessMessage": {
+        "description": "Message shown when filters have been saved."
+    },
+
+    "filterLoadFailureMessage": "Failed to load filters.",
+    "@filterLoadFailureMessage": {
+        "description": "Message shown when there was a failure to load filters."
     }
 }

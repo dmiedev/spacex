@@ -1,0 +1,18 @@
+name: local_settings_api
+description: Simple local settings API using SharedPreferences
+version: 1.0.0+1
+publish_to: none
+
+environment:
+  sdk: ">=2.17.0 <3.0.0"
+
+dependencies: 
+  shared_preferences: ^2.0.15
+
+dev_dependencies:
+  equatable: ^2.0.3
+  flutter_test:
+    sdk: flutter
+  mocktail: ^0.3.0
+  very_good_analysis: ^3.0.1
+

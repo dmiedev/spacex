@@ -1,27 +1,44 @@
 name: spacex
-description: A SpaceX app
-version: 0.1.0+1
+description: A SpaceX app.
+version: 1.0.0+2
 publish_to: none
 
 environment:
   sdk: ">=2.17.0 <3.0.0"
 
 dependencies:
+  auto_size_text: ^3.0.0
   bloc: ^8.0.3
+  equatable: ^2.0.3
   flutter:
     sdk: flutter
   flutter_bloc: ^8.0.1
   flutter_localizations:
     sdk: flutter
   intl: ^0.17.0
+  launch_repository:
+    path: packages/launch_repository
+  local_settings_api:
+    path: packages/local_settings_api
+  meta: ^1.7.0
+  rocket_repository:
+    path: packages/rocket_repository
+  spacex_api:
+    path: packages/spacex_api
+  spacex_ui:
+    path: packages/spacex_ui
+  url_launcher: ^6.1.5
 
 dev_dependencies:
   bloc_test: ^9.0.3
   flutter_test:
     sdk: flutter
+  mockingjay: ^0.3.0
   mocktail: ^0.3.0
   very_good_analysis: ^3.0.1
 
 flutter:
   uses-material-design: true
   generate: true
+  assets:
+    - assets/

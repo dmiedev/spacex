@@ -1,4 +1,11 @@
 include: package:very_good_analysis/analysis_options.3.0.1.yaml
 linter:
   rules:
-    public_member_api_docs: false
+    no_leading_underscores_for_library_prefixes: true
+    no_leading_underscores_for_local_identifiers: true
+    depend_on_referenced_packages: true
+    no_default_cases: false
+
+analyzer:
+  exclude:
+    - '**.g.dart'
