@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+// TODO(dmiedev): l10n
+
 /// A widget that displays a scrollable row of provided [Image]s or just the
 /// first [Image] if the screen is not really wide.
 class ImageGallery extends StatelessWidget {
